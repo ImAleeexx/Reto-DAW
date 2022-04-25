@@ -37,7 +37,7 @@
 <!-- SOBRE EL PROYECTO -->
 ## Sobre el proyecto
 
-Descripcion del proyecto va aqui
+Reto final en el cual hay que hacer una aplicacion que gestiona un liga de E-Sports. 
 
 <p align="right">(<a href="#top">Volver arriba</a>)</p>
 
