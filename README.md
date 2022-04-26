@@ -58,8 +58,8 @@ Reto final en el cual hay que hacer una aplicacion que gestiona un liga de E-Spo
 ## Hoja de ruta
 
 - [ ] Fase 1
-    - [ ] Modelo entidad relacion
-    - [ ] Modelo relacional
+    - [x] Modelo entidad relacion
+    - [x] Modelo relacional
     - [x] Diagrama de clases
 - [ ] Fase 2
 - [ ] Fase 3
