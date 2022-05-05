@@ -1,4 +1,4 @@
-package com.imaleex.esportapp.Models;
+package com.imaleex.esportapp.Models.Personas;
 
 /**
  * @author Alex Cortes
