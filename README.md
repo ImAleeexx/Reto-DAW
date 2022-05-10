@@ -61,7 +61,9 @@ Reto final en el cual hay que hacer una aplicacion que gestiona un liga de E-Spo
     - [x] Modelo entidad relacion
     - [x] Modelo relacional
     - [x] Diagrama de clases
-- [ ] Fase 2
+- [x] Fase 2
+    - [x] Diagrama Caso de Uso
+    - [x] Diagramas de Secuencias
 - [x] Fase 3 
     - [x] Codificación de clases sobre el modelo
 - [ ] Fase 4
