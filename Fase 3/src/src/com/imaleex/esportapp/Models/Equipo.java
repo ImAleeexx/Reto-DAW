@@ -41,4 +41,40 @@ public class Equipo {
         this.nombre = nombre;
     }
 
+    public Entrenador getEntrenador() {
+        return entrenador;
+    }
+
+    public void setEntrenador(Entrenador entrenador) {
+        this.entrenador = entrenador;
+    }
+
+    public Entrenador getEntrenadorAsistente() {
+        return entrenadorAsistente;
+    }
+
+    public void setEntrenadorAsistente(Entrenador entrenadorAsistente) {
+        this.entrenadorAsistente = entrenadorAsistente;
+    }
+
+    public Dueno getDueno() {
+        return dueno;
+    }
+
+    public void setDueno(Dueno dueno) {
+        this.dueno = dueno;
+    }
+
+    public ArrayList<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void setJugadores(ArrayList<Jugador> jugadores) {
+        this.jugadores = jugadores;
+    }
+
+    //add jugador to arraylist
+    public void addJugador(Jugador jugador) {
+        this.jugadores.add(jugador);
+    }
 }
