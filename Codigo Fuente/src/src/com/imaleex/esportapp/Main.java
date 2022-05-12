@@ -9,6 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         initDbConnection();
+        startLoginProcess();
 
     }
     private static void initDbConnection() {
@@ -18,6 +19,7 @@ public class Main {
             System.out.println("Conectado");
         } catch (DbException e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
     }
