@@ -6,13 +6,13 @@ package com.imaleex.esportapp.Models.Personas;
 public abstract class Persona {
     private String dni;
     private String nombre;
-    private String telfono;
+    private String telefono;
 
 
-    public Persona(String dni, String nombre, String telfono) {
+    public Persona(String dni, String nombre, String telefono) {
         this.dni = dni;
         this.nombre = nombre;
-        this.telfono = telfono;
+        this.telefono = telefono;
     }
 
     public String getDni() {
@@ -31,11 +31,11 @@ public abstract class Persona {
         this.nombre = nombre;
     }
 
-    public String getTelfono() {
-        return telfono;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setTelfono(String telfono) {
-        this.telfono = telfono;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

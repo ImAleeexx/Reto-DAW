@@ -6,8 +6,8 @@ package com.imaleex.esportapp.Models.Personas;
 public class Dueno extends Persona{
     private String email;
 
-    public Dueno(String dni, String nombre, String telfono, String email) {
-        super(dni, nombre, telfono);
+    public Dueno(String dni, String nombre, String telefono, String email) {
+        super(dni, nombre, telefono);
         this.email = email;
     }
 

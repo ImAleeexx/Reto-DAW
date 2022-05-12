@@ -1,6 +1,7 @@
 package com.imaleex.esportapp.Models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * @author Alex Cortes
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 public class Jornada {
     private int id;
     private LocalDate fecha;
+    private ArrayList<Partido> listaPartidos;
 
     public Jornada(int id, LocalDate fecha) {
         this.id = id;

@@ -6,8 +6,8 @@ package com.imaleex.esportapp.Models.Personas;
 public class Entrenador extends Persona {
     private double sueldo;
 
-    public Entrenador(String dni, String nombre, String telfono, double sueldo) {
-        super(dni, nombre, telfono);
+    public Entrenador(String dni, String nombre, String telefono, double sueldo) {
+        super(dni, nombre, telefono);
         this.sueldo = sueldo;
     }
 
