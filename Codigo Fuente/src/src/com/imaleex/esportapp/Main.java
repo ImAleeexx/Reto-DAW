@@ -15,6 +15,7 @@ public class Main {
         try {
         Db.setDbParams("esports", "ijG4ZHcn81QlxfOA", "esports", "server.imaleex.com");
         db = Db.getInstance(1);
+            System.out.println("Conectado");
         } catch (DbException e) {
             e.printStackTrace();
         }
