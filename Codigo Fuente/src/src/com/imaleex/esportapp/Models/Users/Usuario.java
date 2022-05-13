@@ -4,18 +4,20 @@ package com.imaleex.esportapp.Models.Users;
  * @author Alex Cortes
  */
 public class Usuario {
-    private int id;
-    private String nombre;
-    private String clave;
+    protected int id;
+    protected String nombre;
+    protected String clave;
+    protected int type;
 
 
     public Usuario() {
     }
 
-    public Usuario(int id, String nombre, String clave) {
+    public Usuario(int id, String nombre, String clave, int type) {
         this.id = id;
         this.nombre = nombre;
         this.clave = clave;
+        this.type = type;
     }
 
 
@@ -34,4 +36,17 @@ public class Usuario {
     public String getClave() {
         return clave;
     }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
 }

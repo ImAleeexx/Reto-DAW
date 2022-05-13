@@ -35,6 +35,12 @@ public class Main {
     }
 
 
+    private static void generateAdmin() {
+        Usuario usuario = new Usuario();
+        usuario.setNombre("admin");
+        usuario.setClave(CryptoUtils.hashFunc("admin"));
+
+    }
 
 
 

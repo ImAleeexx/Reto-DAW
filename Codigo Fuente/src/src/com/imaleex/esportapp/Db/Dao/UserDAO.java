@@ -32,7 +32,7 @@ public class UserDAO {
             if (rs.next()) {
                 //checkeamos si el usuario existe
                 if (rs.getString("username").equals(username)) {
-                    user = new Usuario(rs.getInt("id"), rs.getString("nombre"), rs.getString("password"));
+                    user = new Usuario(rs.getInt("id"), rs.getString("nombre"), rs.getString("password"), rs.getInt("type"));
                 }
             } else {
                 throw new UserNotFoundException("El usuario no existe");
@@ -49,13 +49,15 @@ public class UserDAO {
     //Editar el usuario
 
     public static void editUser(Usuario user) throws DbException {
-        String sql = "UPDATE usuarios SET nombre = ?, password = ? WHERE id = ?";
+        String sql = "UPDATE usuarios SET nombre = ?, password = ?, type = ? WHERE id = ?";
         try {
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, user.getNombre());
             stmt.setString(2, user.getClave());
-            stmt.setInt(3, user.getId());
+            stmt.setInt(3, user.getType());
+            stmt.setInt(4, user.getId());
+
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new DbException("Error al editar el usuario");
@@ -80,7 +82,7 @@ public class UserDAO {
     //Crear el usuario
 
     public static void createUser(Usuario user) throws DbException {
-        String sql = "INSERT INTO usuarios (nombre, password) VALUES (?, ?)";
+        String sql = "INSERT INTO usuarios (nombre, password, type) VALUES (?, ?, ? )";
         try {
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
