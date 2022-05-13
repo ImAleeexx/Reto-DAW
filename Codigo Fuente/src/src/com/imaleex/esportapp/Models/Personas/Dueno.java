@@ -11,6 +11,10 @@ public class Dueno extends Persona{
         this.email = email;
     }
 
+    public Dueno() {
+
+    }
+
     public String getEmail() {
         return email;
     }

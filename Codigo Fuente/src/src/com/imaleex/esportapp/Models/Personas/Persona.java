@@ -4,7 +4,7 @@ package com.imaleex.esportapp.Models.Personas;
  * @author Alex Cortes
  */
 public abstract class Persona {
-    private final int id;
+    private int id;
     private String dni;
     private String nombre;
     private String telefono;
@@ -16,6 +16,8 @@ public abstract class Persona {
         this.nombre = nombre;
         this.telefono = telefono;
     }
+
+    public Persona(){}
 
     public String getDni() {
         return dni;
@@ -43,6 +45,10 @@ public abstract class Persona {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }
