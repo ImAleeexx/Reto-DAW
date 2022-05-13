@@ -1,5 +1,9 @@
-package com.imaleex.esportapp.Exceptions;/**
+package com.imaleex.esportapp.Exceptions;
+
+/**
  * @author Alex Cortes
  */
-public class UserNotFoundException {
+public class UserNotFoundException extends Throwable {
+    public UserNotFoundException(String msg) {
+    }
 }

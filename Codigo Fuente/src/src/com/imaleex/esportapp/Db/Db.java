@@ -88,6 +88,10 @@ public class Db {
         }
     }
 
+    public static Connection getConnection(int dbType) throws DbException {
+        return getInstance(dbType).getConnection();
+    }
+
     public static int getRowCount(ResultSet resultSet) {
         if (resultSet == null){
             return 0;
