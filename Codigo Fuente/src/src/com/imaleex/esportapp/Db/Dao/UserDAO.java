@@ -88,8 +88,10 @@ public class UserDAO {
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, user.getNombre());
             stmt.setString(2, user.getClave());
+            stmt.setInt(3, user.getType());
             stmt.executeUpdate();
         }   catch (SQLException e) {
+            e.printStackTrace();
             throw new DbException("Error al crear el usuario");
         }
     }
