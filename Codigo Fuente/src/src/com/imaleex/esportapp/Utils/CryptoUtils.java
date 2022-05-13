@@ -30,9 +30,7 @@ public class CryptoUtils {
             SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 
             return iterations+":"+salt+":"+Base64.getEncoder().withoutPadding().encodeToString(f.generateSecret(spec).getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
         return  null;
@@ -70,9 +68,7 @@ public class CryptoUtils {
         } catch (NumberFormatException e) {
             showErrorMessage("Error validando contraseña");
             return false;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
         return false;
