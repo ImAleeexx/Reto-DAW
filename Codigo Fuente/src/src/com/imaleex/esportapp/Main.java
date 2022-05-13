@@ -27,7 +27,18 @@ public class Main {
         }
 
     }
-    private static void login(){
+
+
+
+
+
+
+    /*---------------------------------------------------------------------------------------------------------------------*/
+    /* Login */
+    public static void login() {
+        displayLoginModal();
+    }
+    private static void displayLoginModal(){
         login = new JFrame("Login");
         login.setContentPane(new Login().getJPanel());
         login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
