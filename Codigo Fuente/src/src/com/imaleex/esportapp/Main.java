@@ -1,5 +1,6 @@
 package com.imaleex.esportapp;
 
+import com.imaleex.esportapp.Db.Dao.UserDAO;
 import com.imaleex.esportapp.Db.Db;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
@@ -35,12 +36,7 @@ public class Main {
     }
 
 
-    private static void generateAdmin() {
-        Usuario usuario = new Usuario();
-        usuario.setNombre("admin");
-        usuario.setClave(CryptoUtils.hashFunc("admin"));
 
-    }
 
 
 
