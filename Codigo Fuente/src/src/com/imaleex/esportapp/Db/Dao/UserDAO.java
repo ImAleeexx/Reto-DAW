@@ -16,7 +16,7 @@ public class UserDAO {
 
     public static Usuario searchUsername(String username) throws UserNotFoundException {
 
-        String sql = "SELECT * FROM usuarios WHERE username = ?";
+        String sql = "SELECT * FROM usuarios WHERE nombre = ?";
         Usuario user = null;
 
         try {
