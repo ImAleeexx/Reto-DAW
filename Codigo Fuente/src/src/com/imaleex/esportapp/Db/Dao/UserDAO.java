@@ -43,4 +43,53 @@ public class UserDAO {
         }
         return user;
     }
+
+
+
+    //Editar el usuario
+
+    public static void editUser(Usuario user) throws DbException {
+        String sql = "UPDATE usuarios SET nombre = ?, password = ? WHERE id = ?";
+        try {
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, user.getNombre());
+            stmt.setString(2, user.getClave());
+            stmt.setInt(3, user.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException("Error al editar el usuario");
+        }
+    }
+
+
+    //Borrar el usuario
+
+    public static void deleteUser(Usuario user) throws DbException {
+        String sql = "DELETE FROM usuarios WHERE id = ?";
+        try {
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, user.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException("Error al borrar el usuario");
+        }
+    }
+
+    //Crear el usuario
+
+    public static void createUser(Usuario user) throws DbException {
+        String sql = "INSERT INTO usuarios (nombre, password) VALUES (?, ?)";
+        try {
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, user.getNombre());
+            stmt.setString(2, user.getClave());
+            stmt.executeUpdate();
+        }   catch (SQLException e) {
+            throw new DbException("Error al crear el usuario");
+        }
+    }
+
 }
