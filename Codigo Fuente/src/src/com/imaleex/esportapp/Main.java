@@ -2,6 +2,7 @@ package com.imaleex.esportapp;
 
 import com.imaleex.esportapp.Db.Db;
 import com.imaleex.esportapp.Exceptions.DbException;
+import com.imaleex.esportapp.Utils.CryptoUtils;
 
 public class Main {
 
@@ -9,8 +10,6 @@ public class Main {
 
     public static void main(String[] args) {
         initDbConnection();
-        startLoginProcess();
-
     }
     private static void initDbConnection() {
         try {
