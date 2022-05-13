@@ -12,8 +12,8 @@ public class Jugador extends Persona{
     private Equipo equipo;
 
 
-    public Jugador(String dni, String nombre, String telefono, String nickname, Rol rol, double sueldo, Equipo equipo) {
-        super(dni, nombre, telefono);
+    public Jugador(int id, String dni, String nombre, String telefono, String nickname, Rol rol, double sueldo, Equipo equipo) {
+        super(id, dni, nombre, telefono);
         this.nickname = nickname;
         this.rol = rol;
         this.sueldo = sueldo;

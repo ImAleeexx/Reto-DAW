@@ -4,12 +4,14 @@ package com.imaleex.esportapp.Models.Personas;
  * @author Alex Cortes
  */
 public abstract class Persona {
+    private final int id;
     private String dni;
     private String nombre;
     private String telefono;
 
 
-    public Persona(String dni, String nombre, String telefono) {
+    public Persona(int id,String dni, String nombre, String telefono) {
+        this.id = id;
         this.dni = dni;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -38,4 +40,9 @@ public abstract class Persona {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    public int getId() {
+        return id;
+    }
+
 }
