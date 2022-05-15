@@ -42,7 +42,12 @@ public class Login {
     }
     public void comprobaciones(String username, String password){
         if (!username.isEmpty() && !password.isEmpty()){
-            Main.login(username,password);
+            if(Main.login(username,password)){
+             WindowUtils.showInfoMessage("Login correcto");
+             Main.mostrarVentana();
+            }
+            else {
+                WindowUtils.showErrorMessage("Login invalido");}
         }else {
             WindowUtils.showErrorMessage("Algun campo esta vacio.");
         }

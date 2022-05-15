@@ -49,4 +49,8 @@ public class Usuario {
         this.type = type;
     }
 
+    public boolean checkAdmin(){
+       return this.type ==1;
+    }
+
 }

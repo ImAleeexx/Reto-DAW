@@ -31,7 +31,7 @@ public class UserDAO {
             //Recorremos el resultado
             if (rs.next()) {
                 //checkeamos si el usuario existe
-                if (rs.getString("username").equals(username)) {
+                if (rs.getString("nombre").equals(username)) {
                     user = new Usuario(rs.getInt("id"), rs.getString("nombre"), rs.getString("password"), rs.getInt("type"));
                 }
             } else {

