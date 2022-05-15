@@ -20,6 +20,10 @@ public class Jugador extends Persona{
         this.equipo = equipo;
     }
 
+    public Jugador() {
+        super();
+    }
+
     public String getNickname() {
         return nickname;
     }
