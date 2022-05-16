@@ -79,6 +79,17 @@ public class UserDAO {
         }
     }
 
+    public static  void deleteUserByName(String name) throws DbException {
+        String sql = "DELETE FROM usuarios WHERE nombre = ?";
+        try {
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, name);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException("Error al borrar el usuario");
+        }
+    }
     //Crear el usuario
 
     public static Usuario createUser(Usuario user) throws DbException {

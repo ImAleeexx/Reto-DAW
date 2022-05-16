@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 /**
  * @author Alex Cortes
+ * @author Aritz Castillo
  */
 public class DaoUtils {
 

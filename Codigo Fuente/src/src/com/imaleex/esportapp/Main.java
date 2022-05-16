@@ -58,8 +58,7 @@ public class Main {
                 } else {
                     throw new UserNotFoundException("El usuario no existe");
                 }
-            } catch (UserNotFoundException e) {
-                WindowUtils.showErrorMessage(e.getMessage());
+            } catch (UserNotFoundException ignored) {
             }
         return false;
     }
@@ -83,7 +82,14 @@ public class Main {
         login.dispose();
     }
 
-
+    public static Usuario buscarUsuario(String username) throws UserNotFoundException {
+        try {
+            return UserDAO.searchUsername(username);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
 }
