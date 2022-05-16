@@ -18,7 +18,7 @@
           <editable value="false"/>
         </properties>
       </component>
-      <grid id="8108a" class="javax.swing.JMenuBar" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="8108a" class="javax.swing.JMenuBar" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
@@ -26,7 +26,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="cffbf" class="javax.swing.JMenu" binding="jmUltimaJornada">
+          <component id="f6ea7" class="javax.swing.JMenuItem" binding="jmUltimaJornada">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -34,14 +34,57 @@
               <text value="Ultima Jornada"/>
             </properties>
           </component>
-          <component id="a28e8" class="javax.swing.JMenu" binding="jmClasificacion">
+          <component id="74555" class="javax.swing.JMenuItem" binding="jmClasificacion">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Clasificacion"/>
+              <text value="Clasificación"/>
             </properties>
           </component>
+          <component id="f5e8c" class="javax.swing.JMenuItem" binding="jmSalir">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Cerrar Sesión"/>
+            </properties>
+          </component>
+          <grid id="de6fd" class="javax.swing.JMenu" binding="jmGestion" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Gestion"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="5164f" class="javax.swing.JMenuItem" binding="jmiJugador">
+                <constraints/>
+                <properties>
+                  <text value="Jugadores"/>
+                </properties>
+              </component>
+              <component id="2a3fc" class="javax.swing.JMenuItem" binding="jmiEquipo">
+                <constraints/>
+                <properties>
+                  <text value="Equipos"/>
+                </properties>
+              </component>
+              <component id="4fba5" class="javax.swing.JMenuItem" binding="jmiDueno">
+                <constraints/>
+                <properties>
+                  <text value="Dueños"/>
+                </properties>
+              </component>
+              <component id="6ec48" class="javax.swing.JMenuItem" binding="jmiUsuario">
+                <constraints/>
+                <properties>
+                  <text value="Usuarios"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
         </children>
       </grid>
       <vspacer id="e8ec6">

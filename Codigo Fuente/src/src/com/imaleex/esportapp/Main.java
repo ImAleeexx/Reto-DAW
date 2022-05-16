@@ -9,6 +9,7 @@ import com.imaleex.esportapp.Utils.CryptoUtils;
 import com.imaleex.esportapp.Utils.WindowUtils;
 import com.imaleex.esportapp.Views.AdminView;
 import com.imaleex.esportapp.Views.Login;
+import com.imaleex.esportapp.Views.UserView;
 import sun.misc.MessageUtils;
 
 import javax.swing.*;
@@ -66,9 +67,10 @@ public class Main {
         if (user.checkAdmin()){
             AdminView.main();
         }else{
-            //mostrarUsuario(user);
+            UserView.main();
         }
     }
+
     private static void displayLoginModal(){
         login = new JFrame("Login");
         login.setContentPane(new Login().getJPanel());
