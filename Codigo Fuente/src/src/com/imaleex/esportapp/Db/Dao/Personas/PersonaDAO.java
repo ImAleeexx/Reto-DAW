@@ -1,11 +1,8 @@
-package com.imaleex.esportapp.Db.Dao;
+package com.imaleex.esportapp.Db.Dao.Personas;
 
 import com.imaleex.esportapp.Db.Db;
-import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
-import com.imaleex.esportapp.Exceptions.UserNotFoundException;
 import com.imaleex.esportapp.Models.Personas.Persona;
-import com.imaleex.esportapp.Models.Users.Usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,20 +15,24 @@ public class PersonaDAO {
 
 
     //Crea una persona en la base de datos
-    public static void createPersona(Persona persona) throws DbException {
+    public static Persona createPersona(Persona persona) throws DbException {
 
         String sql = "INSERT INTO personas (nombre, dni, telefono) VALUES (?, ?, ?)";
 
         try {
             //Instanciamos la conexion y creamos el statement
             Connection con = Db.getConnection(1);
-            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, persona.getNombre());
             stmt.setString(2, persona.getDni());
             stmt.setString(3, persona.getTelefono());
-
-        } catch (DbException | SQLException e) {
+            // ejecutamos la consulta y guardamos el id en una variable
+            int insertedId = stmt.executeUpdate();
+            persona.setId(insertedId);
+            return persona;
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw new DbException("Error al crear la persona");
         }
     }
 
@@ -48,8 +49,9 @@ public class PersonaDAO {
             stmt.setString(2, persona.getDni());
             stmt.setString(3, persona.getTelefono());
             stmt.setInt(4, persona.getId());
-        } catch (DbException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw new DbException("Error al actualizar la persona");
         }
     }
 
@@ -63,8 +65,9 @@ public class PersonaDAO {
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, persona.getId());
-        } catch (DbException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw new DbException("Error al borrar la persona");
         }
     }
 

@@ -53,4 +53,7 @@ public class Usuario {
        return this.type ==1;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }

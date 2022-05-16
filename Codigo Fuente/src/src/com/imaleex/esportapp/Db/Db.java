@@ -92,24 +92,6 @@ public class Db {
         return getInstance(dbType).getConnection();
     }
 
-    public static int getRowCount(ResultSet resultSet) {
-        if (resultSet == null){
-            return 0;
-        }
-        try {
-            resultSet.last();
-            return resultSet.getRow();
-        } catch (SQLException exp) {
-            exp.printStackTrace();
-        } finally {
-            try {
-                resultSet.beforeFirst();
-            } catch (SQLException exp) {
-                exp.printStackTrace();
-            }
-        }
 
-        return 0;
-    }
 
 }

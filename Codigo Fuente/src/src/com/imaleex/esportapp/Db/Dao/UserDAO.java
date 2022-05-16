@@ -81,15 +81,17 @@ public class UserDAO {
 
     //Crear el usuario
 
-    public static void createUser(Usuario user) throws DbException {
+    public static Usuario createUser(Usuario user) throws DbException {
         String sql = "INSERT INTO usuarios (nombre, password, type) VALUES (?, ?, ? )";
         try {
             Connection con = Db.getConnection(1);
-            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, user.getNombre());
             stmt.setString(2, user.getClave());
             stmt.setInt(3, user.getType());
-            stmt.executeUpdate();
+            int id = stmt.executeUpdate();
+            user.setId(id);
+            return user;
         }   catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al crear el usuario");

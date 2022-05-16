@@ -10,6 +10,13 @@ public class Entrenador extends Persona {
         super(id, dni, nombre, telefono);
         this.sueldo = sueldo;
     }
+    public Entrenador(){
+        super();
+    }
+
+    public Entrenador(int id) {
+        super(id);
+    }
 
     public double getSueldo() {
         return sueldo;

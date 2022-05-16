@@ -12,7 +12,11 @@ public class Dueno extends Persona{
     }
 
     public Dueno() {
+        super();
+    }
 
+    public Dueno(int id){
+        super(id);
     }
 
     public String getEmail() {

@@ -24,6 +24,10 @@ public class Jugador extends Persona{
         super();
     }
 
+    public Jugador(int id){
+        super(id);
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -48,4 +52,11 @@ public class Jugador extends Persona{
         this.sueldo = sueldo;
     }
 
+    public Equipo getEquipo() {
+        return equipo;
+    }
+
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
+    }
 }

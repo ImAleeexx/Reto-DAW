@@ -17,7 +17,17 @@ public abstract class Persona {
         this.telefono = telefono;
     }
 
+    public Persona(String dni, String nombre, String telefono) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.telefono = telefono;
+    }
+
     public Persona(){}
+
+    public Persona(int id) {
+        this.id = id;
+    }
 
     public String getDni() {
         return dni;
