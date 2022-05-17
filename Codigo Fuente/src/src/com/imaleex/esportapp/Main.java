@@ -18,6 +18,7 @@ import sun.misc.MessageUtils;
 import javax.swing.*;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -37,14 +38,27 @@ public class Main {
     }
     private static void initDbConnection() {
         try {
-        Db.setDbParams("esports", "ijG4ZHcn81QlxfOA", "esports", "server.imaleex.com");
-        db = Db.getInstance(1);
+            //Get password from enviroment variables
+            String password = System.getenv("DB_PASSWORD");
+            if (password == null ) {
+                throw new DbException("No se encontró la contraseña de la base de datos en la variable de entorno DB_PASSWORD");
+            }
+            Db.setDbParams("esports", password, "esports", "server.imaleex.com");
+            db = Db.getInstance(1);
             System.out.println("Conectado");
         } catch (DbException e) {
             e.printStackTrace();
             System.exit(1);
         }
 
+    }
+
+    private static String readMaskedPassword() {
+        //Create a console object
+        Console console = System.console();
+        //Read password from console
+        char[] password = console.readPassword("Introduce la contraseña de la DB: ");
+        return new String(password);
     }
 
     /*---------------------------------------------------------------------------------------------------------------------*/
