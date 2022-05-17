@@ -1,9 +1,12 @@
 package com.imaleex.esportapp;
 
+import com.imaleex.esportapp.Db.Dao.Personas.DuenoDAO;
 import com.imaleex.esportapp.Db.Dao.UserDAO;
 import com.imaleex.esportapp.Db.Db;
+import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
+import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Users.Usuario;
 import com.imaleex.esportapp.Utils.CryptoUtils;
 import com.imaleex.esportapp.Utils.WindowUtils;
@@ -83,13 +86,11 @@ public class Main {
     }
 
     public static Usuario buscarUsuario(String username) throws UserNotFoundException {
-        try {
-            return UserDAO.searchUsername(username);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return UserDAO.searchUsername(username);
     }
 
+    public static Dueno buscarDueno(String dni) throws DataNotFoundException {
+            return DuenoDAO.searchDueno(dni);
+    }
 
 }

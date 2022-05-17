@@ -34,6 +34,12 @@ public class AdminView{
                GestionUsuario.main();
             }
         });
+        jmiDueno.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GestionDueno.main();
+            }
+        });
     }
 
 
@@ -49,4 +55,6 @@ public class AdminView{
 
 
     }
+
+
 }
