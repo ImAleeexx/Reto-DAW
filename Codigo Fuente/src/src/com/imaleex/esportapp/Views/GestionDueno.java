@@ -73,14 +73,33 @@ public class GestionDueno {
         bEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (checkDni(tfDNI.getText())) {
                 try {
                     Dueno dueno = Main.buscarDueno(tfDNI.getText());
                     DuenoDAO.deleteDueno(dueno);
                 } catch (DbException | DataNotFoundException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
                 }
-            }
-        });
+            }else{
+                    WindowUtils.showErrorMessage("DNI no valido");
+                }
+        }});
+        bModificar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkDni(tfDNI.getText())) {
+                    try {
+                        Dueno dueno = Main.buscarDueno(tfDNI.getText());
+                        dueno.setNombre(tfUsuario.getText());
+                        dueno.setEmail(tfEmail.getText());
+                        dueno.setTelefono(tfTelefono.getText());
+                        System.out.println(dueno);
+                        DuenoDAO.updateDueno(dueno);
+                    } catch (DataNotFoundException | DbException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+        }});
     }
 
 
