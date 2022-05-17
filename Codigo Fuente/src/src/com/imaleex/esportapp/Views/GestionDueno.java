@@ -77,6 +77,14 @@ public class GestionDueno {
                 try {
                     Dueno dueno = Main.buscarDueno(tfDNI.getText());
                     DuenoDAO.deleteDueno(dueno);
+                    WindowUtils.showErrorMessage("Dueno eliminado");
+                    tfDNI.setText("");
+                    tfDueno.setText("");
+                    tfEmail.setText("");
+                    tfTelefono.setText("");
+                    jpEscondido.setVisible(false);
+                    bAnadir.setVisible(true);
+                    tfDNI.setBackground(Color.white);
                 } catch (DbException | DataNotFoundException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
                 }
@@ -90,7 +98,7 @@ public class GestionDueno {
                 if (checkDni(tfDNI.getText())) {
                     try {
                         Dueno dueno = Main.buscarDueno(tfDNI.getText());
-                        dueno.setNombre(tfUsuario.getText());
+                        dueno.setNombre(tfDueno.getText());
                         dueno.setEmail(tfEmail.getText());
                         dueno.setTelefono(tfTelefono.getText());
                         System.out.println(dueno);

@@ -49,6 +49,7 @@ public class PersonaDAO {
             stmt.setString(2, persona.getDni());
             stmt.setString(3, persona.getTelefono());
             stmt.setInt(4, persona.getId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al actualizar la persona");
@@ -65,6 +66,7 @@ public class PersonaDAO {
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, persona.getId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al borrar la persona");
