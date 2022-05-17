@@ -1,5 +1,8 @@
 package com.imaleex.esportapp.Models;
 
+import com.imaleex.esportapp.Controllers.AdminController;
+import com.imaleex.esportapp.Exceptions.DataNotFoundException;
+import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
 import com.imaleex.esportapp.Models.Personas.Jugador;
@@ -42,6 +45,14 @@ public class Equipo {
     }
 
     public Entrenador getEntrenador() {
+        if (entrenador.getNombre() == null) {
+            try {
+                setEntrenador(AdminController.buscarEntrenadorId(entrenador.getId()));
+            } catch (DbException | DataNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
         return entrenador;
     }
 
@@ -50,6 +61,14 @@ public class Equipo {
     }
 
     public Entrenador getEntrenadorAsistente() {
+        if (entrenadorAsistente.getNombre() == null) {
+            try {
+                setEntrenadorAsistente(AdminController.buscarEntrenadorId(entrenadorAsistente.getId()));
+            } catch (DbException | DataNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
         return entrenadorAsistente;
     }
 
@@ -58,6 +77,14 @@ public class Equipo {
     }
 
     public Dueno getDueno() {
+        if (dueno.getNombre() == null) {
+            try {
+                setDueno(AdminController.buscarDuenoId(dueno.getId()));
+            } catch (DataNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
         return dueno;
     }
 
@@ -66,6 +93,9 @@ public class Equipo {
     }
 
     public ArrayList<Jugador> getJugadores() {
+        if (jugadores == null){
+            AdminController.loadJugadoresToEquipo(this);
+        }
         return jugadores;
     }
 

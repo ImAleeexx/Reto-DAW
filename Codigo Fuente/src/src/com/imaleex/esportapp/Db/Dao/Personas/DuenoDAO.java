@@ -6,6 +6,7 @@ import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Personas.Dueno;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -30,15 +31,7 @@ public class DuenoDAO {
             java.sql.ResultSet rs = stmt.executeQuery();
 
             //Recorremos el resultado
-            if (rs.next()) {
-                persona.setId(rs.getInt("id"));
-                persona.setDni(rs.getString("dni"));
-                persona.setNombre(rs.getString("nombre"));
-                persona.setTelefono(rs.getString("telefono"));
-                persona.setEmail(rs.getString("email"));
-            } else {
-                throw new DataNotFoundException("El dueño no existe");
-            }
+            loadElement(persona, rs);
 
         } catch (DbException | SQLException e) {
             e.printStackTrace();
@@ -46,6 +39,41 @@ public class DuenoDAO {
         return persona;
     }
 
+
+    public static Dueno searchDuenoById(int id) throws DataNotFoundException {
+
+        String sql = "SELECT p.dni, p.nombre, p.telefono, d.* FROM duenos d, personas p  WHERE p.id = ? AND p.id = d.id";
+        Dueno persona = new Dueno();
+
+        try {
+            //Instanciamos la conexion y creamos el statement
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            //Ejecutamos el statement
+            java.sql.ResultSet rs = stmt.executeQuery();
+
+            //Recorremos el resultado
+            loadElement(persona, rs);
+
+        } catch (DbException | SQLException e) {
+            e.printStackTrace();
+        }
+        return persona;
+    }
+
+    private static void loadElement(Dueno persona, ResultSet rs) throws SQLException, DataNotFoundException {
+        if (rs.next()) {
+            persona.setId(rs.getInt("id"));
+            persona.setDni(rs.getString("dni"));
+            persona.setNombre(rs.getString("nombre"));
+            persona.setTelefono(rs.getString("telefono"));
+            persona.setEmail(rs.getString("email"));
+        } else {
+            throw new DataNotFoundException("El dueño no existe");
+        }
+    }
 
     public static void insertDueno(Dueno dueno) throws DbException {
         String sql = "INSERT INTO duenos (id, email) VALUES (?, ?)";

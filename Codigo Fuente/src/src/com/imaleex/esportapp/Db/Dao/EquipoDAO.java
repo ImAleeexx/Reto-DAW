@@ -6,10 +6,14 @@ import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
+import com.imaleex.esportapp.Models.Personas.Jugador;
+import com.imaleex.esportapp.Models.Personas.Rol;
 import com.imaleex.esportapp.Utils.DaoUtils;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * @author Alex Cortes
@@ -115,4 +119,37 @@ public class EquipoDAO {
             throw new DbException("Error al borrar el equipo");
         }
     }
+
+
+    public static void getJugadoresByEquipo(Equipo equipo) throws DbException {
+        String sql = "SELECT p.dni, p.nombre, p.telefono, j.* FROM jugadores j, personas p  WHERE j.id_equipo = ? AND p.id = j.id";
+        try {
+            //Instanciamos la conexion y creamos el statement
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, equipo.getId());
+            //Ejecutamos el statement
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                equipo.setJugadores(new ArrayList<Jugador>());
+                do {
+                    Jugador jugador = new Jugador();
+                    jugador.setId(rs.getInt("id"));
+                    jugador.setNombre(rs.getString("nombre"));
+                    jugador.setDni(rs.getString("dni"));
+                    jugador.setTelefono(rs.getString("telefono"));
+                    jugador.setNickname(rs.getString("nickname"));
+                    jugador.setEquipo(new Equipo());
+                    jugador.getEquipo().setId(rs.getInt("id_equipo"));
+                    jugador.setRol(Rol.valueOf(rs.getString("rol")));
+                    equipo.addJugador(jugador);
+                } while (rs.next());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DbException("Error al obtener los jugadores del equipo");
+        }
+    }
+
 }

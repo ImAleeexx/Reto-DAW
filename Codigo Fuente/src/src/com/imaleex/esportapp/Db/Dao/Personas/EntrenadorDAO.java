@@ -15,16 +15,16 @@ import java.sql.SQLException;
 public class EntrenadorDAO {
 
     //Buscar un entrenador por su dni
-    public static Entrenador searchEntrenador(String dni) throws DataNotFoundException {
+    public static Entrenador searchEntrenador(int id) throws DataNotFoundException {
 
-        String sql = "SELECT p.dni, p.nombre, p.telefono, e.* FROM entrenadores e, personas p  WHERE p.dni = ? AND p.id = e.id";
+        String sql = "SELECT p.dni, p.nombre, p.telefono, e.* FROM entrenadores e, personas p  WHERE p.id = ? AND p.id = e.id";
         Entrenador persona = new Entrenador();
 
         try {
             //Instanciamos la conexion y creamos el statement
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, dni);
+            stmt.setInt(1, id);
 
             //Ejecutamos el statement
             java.sql.ResultSet rs = stmt.executeQuery();

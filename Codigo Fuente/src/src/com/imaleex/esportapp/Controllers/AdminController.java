@@ -11,6 +11,7 @@ import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
+import com.imaleex.esportapp.Models.Personas.Jugador;
 import com.imaleex.esportapp.Models.Users.Usuario;
 
 /**
@@ -23,6 +24,11 @@ public class AdminController {
         return DuenoDAO.searchDueno(dni);
     }
 
+    public static Dueno buscarDuenoId(int id) throws DataNotFoundException {
+        assert Main.user.getType() == 1;
+        return DuenoDAO.searchDuenoById(id);
+    }
+
     public static Usuario buscarUsuario(String username) throws UserNotFoundException {
         assert Main.user.getType() == 1;
         return UserDAO.searchUsername(username);
@@ -33,8 +39,23 @@ public class AdminController {
         return EntrenadorDAO.searchEntrendorByNombre(nombre);
     }
 
+    public static Entrenador buscarEntrenadorId(int id) throws DbException, DataNotFoundException {
+        assert Main.user.getType() == 1;
+        return EntrenadorDAO.searchEntrenador(id);
+    }
+
+
     public static Equipo buscarEquipo(String equipo) throws  DataNotFoundException {
         assert Main.user.getType() == 1;
         return EquipoDAO.searchEquipo(equipo);
     }
+    public static void loadJugadoresToEquipo (Equipo equipo) {
+        assert Main.user.getType() == 1;
+        try {
+            EquipoDAO.getJugadoresByEquipo(equipo);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
