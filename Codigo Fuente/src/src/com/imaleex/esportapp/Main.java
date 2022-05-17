@@ -99,12 +99,4 @@ public class Main {
         login.dispose();
     }
 
-    public static Usuario buscarUsuario(String username) throws UserNotFoundException {
-        return UserDAO.searchUsername(username);
-    }
-
-    public static Dueno buscarDueno(String dni) throws DataNotFoundException {
-            return DuenoDAO.searchDueno(dni);
-    }
-
 }

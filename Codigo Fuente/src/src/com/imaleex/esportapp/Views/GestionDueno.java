@@ -1,16 +1,21 @@
 package com.imaleex.esportapp.Views;
 
+import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Db.Dao.Personas.DuenoDAO;
+import com.imaleex.esportapp.Db.Dao.Personas.PersonaDAO;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Personas.Dueno;
+import com.imaleex.esportapp.Utils.Faker;
 import com.imaleex.esportapp.Utils.WindowUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import static com.imaleex.esportapp.Utils.Validator.checkDni;
 
@@ -52,7 +57,7 @@ public class GestionDueno {
                 bAnadir.setVisible(false);
                 try {
                     if (checkDni(tfDNI.getText())) {
-                    Dueno dueno = Main.buscarDueno(tfDNI.getText());
+                    Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
 
                     tfDNI.setBackground(Color.GREEN);
                     tfDueno.setText(dueno.getNombre());
@@ -75,9 +80,9 @@ public class GestionDueno {
             public void actionPerformed(ActionEvent e) {
                 if (checkDni(tfDNI.getText())) {
                 try {
-                    Dueno dueno = Main.buscarDueno(tfDNI.getText());
+                    Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
                     DuenoDAO.deleteDueno(dueno);
-                    WindowUtils.showErrorMessage("Dueno eliminado");
+                    WindowUtils.showInfoMessage("Dueno eliminado");
                     tfDNI.setText("");
                     tfDueno.setText("");
                     tfEmail.setText("");
@@ -97,7 +102,7 @@ public class GestionDueno {
             public void actionPerformed(ActionEvent e) {
                 if (checkDni(tfDNI.getText())) {
                     try {
-                        Dueno dueno = Main.buscarDueno(tfDNI.getText());
+                        Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
                         dueno.setNombre(tfDueno.getText());
                         dueno.setEmail(tfEmail.getText());
                         dueno.setTelefono(tfTelefono.getText());
@@ -108,6 +113,51 @@ public class GestionDueno {
                     }
                 }
         }});
+
+        bAnadir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkDni(tfDNI.getText())) {
+                    try {
+                        Dueno dueno = new Dueno();
+                        dueno.setDni(tfDNI.getText());
+                        dueno.setNombre(tfDueno.getText());
+                        dueno.setEmail(tfEmail.getText());
+                        dueno.setTelefono(tfTelefono.getText());
+                        dueno = (Dueno) PersonaDAO.createPersona(dueno);
+                        System.out.println(dueno.getId());
+                        DuenoDAO.insertDueno(dueno);
+                        WindowUtils.showInfoMessage("Dueno añadido");
+                        tfDNI.setText("");
+                        tfDueno.setText("");
+                        tfEmail.setText("");
+                        tfTelefono.setText("");
+                        jpEscondido.setVisible(false);
+                        bAnadir.setVisible(true);
+                        tfDNI.setBackground(Color.white);
+                    } catch (DbException ex) {
+                        WindowUtils.showErrorMessage(ex.getMessage());
+                    }
+                }else{
+                    WindowUtils.showErrorMessage("DNI no valido");
+                }
+            }
+        });
+        tfDNI.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (tfDNI.getText().equals("generar")) {
+                    tfDNI.setText(Faker.getDni());
+                    tfDueno.setText(Faker.firstName());
+                    tfEmail.setText(Faker.firstName() + "@" + Faker.lastName() + ".com");
+                    tfTelefono.setText(Faker.getPhoneNumber());
+                }
+
+
+
+            }
+        });
     }
 
 

@@ -5,6 +5,7 @@ import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Personas.Persona;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -28,7 +29,10 @@ public class PersonaDAO {
             stmt.setString(3, persona.getTelefono());
             // ejecutamos la consulta y guardamos el id en una variable
             int insertedId = stmt.executeUpdate();
-            persona.setId(insertedId);
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                persona.setId(rs.getInt(1));
+            }
             return persona;
         } catch (SQLException e) {
             e.printStackTrace();

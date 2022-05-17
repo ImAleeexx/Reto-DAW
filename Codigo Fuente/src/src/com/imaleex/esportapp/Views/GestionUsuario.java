@@ -1,5 +1,6 @@
 package com.imaleex.esportapp.Views;
 
+import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Db.Dao.UserDAO;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
@@ -56,7 +57,7 @@ public class GestionUsuario{
                jpEscondido.setVisible(true);
                bAnadir.setVisible(false);
                 try {
-                    Usuario usuario = Main.buscarUsuario(tfUsuario.getText());
+                    Usuario usuario = AdminController.buscarUsuario(tfUsuario.getText());
 
                     assert usuario != null;
                    //Set tfUsuario with green background
@@ -88,7 +89,7 @@ public class GestionUsuario{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Usuario usuario = Main.buscarUsuario(tfUsuario.getText());
+                    Usuario usuario = AdminController.buscarUsuario(tfUsuario.getText());
                     assert usuario != null;
                     usuario.setNombre(tfUsuario.getText());
                     usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));

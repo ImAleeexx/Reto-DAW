@@ -99,13 +99,13 @@ public class EquipoDAO {
         }
     }
 
-    public static void deleteEquipo(int id) throws DbException {
+    public static void deleteEquipo(Equipo equipo) throws DbException {
         String sql = "DELETE FROM equipos WHERE id = ?";
         try {
             //Instanciamos la conexion y creamos el statement
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setInt(1, equipo.getId());
             //Ejecutamos el statement
             stmt.executeUpdate();
             //Actualizamos la persona
