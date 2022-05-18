@@ -40,6 +40,12 @@ public class AdminView{
                 GestionDueno.main();
             }
         });
+        jmiEquipo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GestionEquipo.main();
+            }
+        });
     }
 
 
