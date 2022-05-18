@@ -45,13 +45,15 @@ public class Equipo {
     }
 
     public Entrenador getEntrenador() {
-        if (entrenador.getNombre() == null) {
-            try {
-                setEntrenador(AdminController.buscarEntrenadorId(entrenador.getId()));
-            } catch (DbException | DataNotFoundException e) {
-                throw new RuntimeException(e);
+        try {
+            Integer id = this.entrenador.getId();
+            if (entrenador.getNombre() == null && !id.equals(0)) {
+                setEntrenador(AdminController.buscarEntrenadorId(id));
             }
-
+        } catch (DbException | DataNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            return null;
         }
         return entrenador;
     }
@@ -61,13 +63,15 @@ public class Equipo {
     }
 
     public Entrenador getEntrenadorAsistente() {
-        if (entrenadorAsistente.getNombre() == null) {
-            try {
-                setEntrenadorAsistente(AdminController.buscarEntrenadorId(entrenadorAsistente.getId()));
-            } catch (DbException | DataNotFoundException e) {
-                throw new RuntimeException(e);
+        try {
+            Integer id = this.entrenadorAsistente.getId();
+            if (entrenadorAsistente.getNombre() == null && !id.equals(0)) {
+                setEntrenadorAsistente(AdminController.buscarEntrenadorId(id));
             }
-
+        } catch (DbException | DataNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            return null;
         }
         return entrenadorAsistente;
     }
@@ -93,7 +97,7 @@ public class Equipo {
     }
 
     public ArrayList<Jugador> getJugadores() {
-        if (jugadores == null){
+        if (jugadores == null) {
             AdminController.loadJugadoresToEquipo(this);
         }
         return jugadores;

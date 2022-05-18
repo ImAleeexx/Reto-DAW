@@ -15,12 +15,15 @@ import com.imaleex.esportapp.Models.Users.Usuario;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Alex Cortes
  */
 public class AdminController {
 
+
+    //Dueños
     public static Dueno buscarDueno(String dni) throws DataNotFoundException {
         assert Main.user.getType() == 1;
         return DuenoDAO.searchDueno(dni);
@@ -31,15 +34,21 @@ public class AdminController {
         return DuenoDAO.searchDuenoById(id);
     }
 
+    public static ArrayList<Dueno> listDuenos() throws DbException {
+        assert Main.user.getType() == 1;
+        return DuenoDAO.listDuenos();
+    }
+
+
+    //Usuarios
+
     public static Usuario buscarUsuario(String username) throws UserNotFoundException {
         assert Main.user.getType() == 1;
         return UserDAO.searchUsername(username);
     }
 
-    public static Entrenador buscarEntrenador(String nombre) throws DataNotFoundException, DbException {
-        assert Main.user.getType() == 1;
-        return EntrenadorDAO.searchEntrendorByNombre(nombre);
-    }
+
+    //Entrenadores
 
     public static Entrenador buscarEntrenadorDni(String dni) throws DataNotFoundException, DbException {
         assert Main.user.getType() == 1;
@@ -50,6 +59,13 @@ public class AdminController {
         return EntrenadorDAO.searchEntrenador(id);
     }
 
+    public static ArrayList<Entrenador> listaEntrenadores() throws DbException {
+        assert Main.user.getType() == 1;
+        return EntrenadorDAO.listEntrenadores();
+    }
+
+
+    //Equpos
 
     public static Equipo buscarEquipo(String equipo) throws  DataNotFoundException {
         assert Main.user.getType() == 1;
@@ -63,6 +79,10 @@ public class AdminController {
             throw new RuntimeException(e);
         }
     }
+
+
+
+
 
 
     public static void generateMatches(){

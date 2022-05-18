@@ -26,8 +26,4 @@ public class Entrenador extends Persona {
         this.sueldo = sueldo;
     }
 
-    @Override
-    public String toString() {
-        return getNombre() + "  " + getDni();
-    }
 }

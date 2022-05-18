@@ -6,12 +6,14 @@ import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Equipo;
+import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
 import com.imaleex.esportapp.Utils.WindowUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class GestionEquipo {
     private JTextField tfUsuario;
@@ -34,12 +36,19 @@ public class GestionEquipo {
     private JButton bEliminar;
     private JButton bModificar;
     private JPanel jpEquipo;
-    private JComboBox cbEntrenador;
-    private JComboBox cbEntrenadorAsistente;
-    private JComboBox cbDueno;
+    private JComboBox<Entrenador> cbEntrenador;
+    private JComboBox<Entrenador> cbEntrenadorAsistente;
+    private JComboBox<Dueno> cbDueno;
+
+    private ArrayList<Entrenador> entrenadores;
 
     public GestionEquipo() {
         tfUsuario.setText(Main.user.getNombre());
+        try {
+            llenarCB();
+        } catch (DataNotFoundException | DbException e) {
+            WindowUtils.showErrorMessage(e.getMessage());
+        }
 
 
         bBuscar.addActionListener(new ActionListener() {
@@ -52,16 +61,17 @@ public class GestionEquipo {
                     try {
                         Equipo equipo = AdminController.buscarEquipo(tfEquipo.getText());
                         tfEquipo.setText(equipo.getNombre());
-                        llenarCB();
-                        Entrenador entrendor = (Entrenador) cbEntrenador.getSelectedItem();
-                        System.out.println(entrendor.getNombre());
-                        //tfAsistente.setText(equipo.getEntrenadorAsistente().getNombre());
-                        //tfDueno.setText(equipo.getDueno().getNombre());
-
+                        cbEntrenador.setSelectedIndex(0);
+                        cbEntrenadorAsistente.setSelectedIndex(0);
+                        cbDueno.setSelectedIndex(0);
+                        if (equipo.getEntrenador() != null) {
+                            cbEntrenador.setSelectedItem(searchEntrenadorOnList(equipo.getEntrenador().getId()));
+                        }
+                        if (equipo.getEntrenadorAsistente() != null) {
+                            cbEntrenadorAsistente.setSelectedItem(searchEntrenadorOnList(equipo.getEntrenadorAsistente().getId()));
+                        }
                     } catch (DataNotFoundException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
-                    } catch (DbException ex) {
-                        throw new RuntimeException(ex);
                     }
                 }
             }
@@ -97,6 +107,7 @@ public class GestionEquipo {
                         throw new RuntimeException(ex);
                     }
                 }}});
+
     }
 
     public static void main() {
@@ -108,11 +119,34 @@ public class GestionEquipo {
     }
 
     private  void  llenarCB() throws DataNotFoundException, DbException {
-        try {
-            Entrenador entrenador = AdminController.buscarEntrenadorId(6);
+
+        //Llenar comboBox de entrenadores y asistentes
+        cbEntrenador.removeAllItems();
+        cbEntrenadorAsistente.removeAllItems();
+        entrenadores = AdminController.listaEntrenadores();
+        cbEntrenador.addItem(new Entrenador());
+        cbEntrenadorAsistente.addItem(new Entrenador());
+        for (Entrenador entrenador : entrenadores) {
             cbEntrenador.addItem(entrenador);
-        }catch (DataNotFoundException ex){
-            throw new DataNotFoundException("No se encontro el entrenador");
+            cbEntrenadorAsistente.addItem(entrenador);
         }
+
+        //LLenar comboBox de duenos
+        cbDueno.removeAllItems();
+        ArrayList<Dueno> duenos = AdminController.listDuenos();
+        cbDueno.addItem(new Dueno());
+        for (Dueno dueno : duenos) {
+            cbDueno.addItem(dueno);
+        }
+
+    }
+
+    private Entrenador searchEntrenadorOnList(int id){
+        for(Entrenador entrenador : entrenadores){
+            if(entrenador.getId() == id){
+                return entrenador;
+            }
+        }
+        return null;
     }
 }

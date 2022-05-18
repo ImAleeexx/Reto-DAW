@@ -4,10 +4,12 @@ import com.imaleex.esportapp.Db.Db;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Personas.Dueno;
+import com.imaleex.esportapp.Models.Personas.Entrenador;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 /**
@@ -38,6 +40,37 @@ public class DuenoDAO {
         }
         return persona;
     }
+
+    public static ArrayList<Dueno> listDuenos() throws DbException {
+        String sql = "SELECT p.dni, p.nombre, p.telefono, d.* FROM duenos d, personas p  WHERE p.id = d.id";
+        ArrayList<Dueno> duenos = new ArrayList<>();
+
+        try {
+            //Instanciamos la conexion y creamos el statement
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+
+            //Ejecutamos el statement
+            java.sql.ResultSet rs = stmt.executeQuery();
+
+            //Recorremos el resultado
+            while (rs.next()) {
+                Dueno dueno = new Dueno();
+                dueno.setId(rs.getInt("id"));
+                dueno.setDni(rs.getString("dni"));
+                dueno.setNombre(rs.getString("nombre"));
+                dueno.setTelefono(rs.getString("telefono"));
+                dueno.setEmail(rs.getString("email"));
+                duenos.add(dueno);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return duenos;
+    }
+
+
 
 
     public static Dueno searchDuenoById(int id) throws DataNotFoundException {

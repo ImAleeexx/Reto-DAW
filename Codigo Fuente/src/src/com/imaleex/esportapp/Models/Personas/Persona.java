@@ -61,4 +61,12 @@ public abstract class Persona {
         this.id = id;
     }
 
+    public String toString(){
+        if(getNombre() == null){
+            return "";
+        } else{
+            return getNombre() + " " + getDni();
+        }
+    }
+
 }

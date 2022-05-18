@@ -7,6 +7,7 @@ import com.imaleex.esportapp.Models.Personas.Entrenador;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 /**
@@ -44,6 +45,38 @@ public class EntrenadorDAO {
             e.printStackTrace();
         }
         return persona;
+    }
+
+    //Lista de entrenadores
+    public static ArrayList<Entrenador> listEntrenadores() throws DbException {
+
+        String sql = "SELECT p.id, p.dni, p.nombre, p.telefono, e.* FROM entrenadores e, personas p  WHERE p.id = e.id";
+        ArrayList<Entrenador> entrenadores = new ArrayList<>();
+
+        try {
+            //Instanciamos la conexion y creamos el statement
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+
+            //Ejecutamos el statement
+            java.sql.ResultSet rs = stmt.executeQuery();
+
+            //Recorremos el resultado
+            while (rs.next()) {
+                Entrenador entrenador = new Entrenador();
+                entrenador.setId(rs.getInt("id"));
+                entrenador.setDni(rs.getString("dni"));
+                entrenador.setNombre(rs.getString("nombre"));
+                entrenador.setTelefono(rs.getString("telefono"));
+                entrenador.setSueldo(rs.getDouble("sueldo"));
+                entrenadores.add(entrenador);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DbException("Error al buscar entrenadores");
+        }
+        return entrenadores;
     }
 
 

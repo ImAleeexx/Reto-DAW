@@ -11,7 +11,7 @@ public class DaoUtils {
 
     public static boolean checkNullableInteger(ResultSet rs, String strColName) throws SQLException {
         int nValue = rs.getInt(strColName);
-        return rs.wasNull();
+        return !rs.wasNull();
     }
 
     public static int getRowCount(ResultSet resultSet) {
