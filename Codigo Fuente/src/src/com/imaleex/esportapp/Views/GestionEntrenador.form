@@ -74,6 +74,12 @@
                   <text value="Usuarios"/>
                 </properties>
               </component>
+              <component id="dd4f0" class="javax.swing.JMenuItem" binding="jmiEntrenador">
+                <constraints/>
+                <properties>
+                  <text value="Entrenadores"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <component id="708de" class="javax.swing.JMenuItem" binding="jmUltimaJornada">

@@ -17,6 +17,7 @@ public class AdminView{
     private JMenuItem jmiEquipo;
     private JMenuItem jmiDueno;
     private JMenuItem jmiUsuario;
+    private JMenuItem jmiEntrenador;
 
 
     public AdminView() {
@@ -44,6 +45,12 @@ public class AdminView{
             @Override
             public void actionPerformed(ActionEvent e) {
                 GestionEquipo.main();
+            }
+        });
+        jmiEntrenador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GestionEntrenador.main();
             }
         });
     }

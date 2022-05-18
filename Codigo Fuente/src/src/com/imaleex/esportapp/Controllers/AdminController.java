@@ -41,6 +41,10 @@ public class AdminController {
         return EntrenadorDAO.searchEntrendorByNombre(nombre);
     }
 
+    public static Entrenador buscarEntrenadorDni(String dni) throws DataNotFoundException, DbException {
+        assert Main.user.getType() == 1;
+        return EntrenadorDAO.searchEntrenadorByDni(dni);
+    }
     public static Entrenador buscarEntrenadorId(int id) throws DbException, DataNotFoundException {
         assert Main.user.getType() == 1;
         return EntrenadorDAO.searchEntrenador(id);
