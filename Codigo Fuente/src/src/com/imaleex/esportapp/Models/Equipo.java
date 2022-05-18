@@ -81,13 +81,15 @@ public class Equipo {
     }
 
     public Dueno getDueno() {
-        if (dueno.getNombre() == null) {
-            try {
-                setDueno(AdminController.buscarDuenoId(dueno.getId()));
-            } catch (DataNotFoundException e) {
-                throw new RuntimeException(e);
+        try {
+            Integer id = this.dueno.getId();
+            if (dueno.getNombre() == null && !id.equals(0)) {
+                setDueno(AdminController.buscarDuenoId(id));
             }
-
+        } catch (DataNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            return null;
         }
         return dueno;
     }
@@ -110,5 +112,11 @@ public class Equipo {
     //add jugador to arraylist
     public void addJugador(Jugador jugador) {
         this.jugadores.add(jugador);
+    }
+
+
+    @Override
+    public String toString() {
+        return this.nombre;
     }
 }

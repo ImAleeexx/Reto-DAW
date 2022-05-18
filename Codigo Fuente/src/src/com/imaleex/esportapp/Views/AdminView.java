@@ -11,7 +11,7 @@ public class AdminView{
     private JPanel jpAdmin;
     private JMenuItem jmUltimaJornada;
     private JMenuItem jmClasificacion;
-    private JMenuItem jmSalir;
+    private JMenu jmSalir;
     private JMenu jmGestion;
     private JMenuItem jmiJugador;
     private JMenuItem jmiEquipo;
@@ -51,6 +51,13 @@ public class AdminView{
             @Override
             public void actionPerformed(ActionEvent e) {
                 GestionEntrenador.main();
+            }
+        });
+
+        jmiJugador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GestionJugador.main();
             }
         });
     }

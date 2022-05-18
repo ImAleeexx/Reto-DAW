@@ -1,5 +1,7 @@
 package com.imaleex.esportapp.Models.Personas;
 
+import com.imaleex.esportapp.Controllers.AdminController;
+import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Models.Equipo;
 
 /**
@@ -53,6 +55,16 @@ public class Jugador extends Persona{
     }
 
     public Equipo getEquipo() {
+        try {
+            Integer id = this.equipo.getId();
+            if (equipo.getNombre() == null && !id.equals(0)) {
+                setEquipo(AdminController.buscarEquipoId(id));
+            }
+        } catch (DataNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            return null;
+        }
         return equipo;
     }
 

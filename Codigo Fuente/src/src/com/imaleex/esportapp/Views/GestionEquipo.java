@@ -8,6 +8,7 @@ import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
+import com.imaleex.esportapp.Utils.Validator;
 import com.imaleex.esportapp.Utils.WindowUtils;
 
 import javax.swing.*;
@@ -40,7 +41,9 @@ public class GestionEquipo {
     private JComboBox<Entrenador> cbEntrenadorAsistente;
     private JComboBox<Dueno> cbDueno;
 
+    private Equipo equipo;
     private ArrayList<Entrenador> entrenadores;
+    private ArrayList<Dueno> duenos;
 
     public GestionEquipo() {
         tfUsuario.setText(Main.user.getNombre());
@@ -67,9 +70,15 @@ public class GestionEquipo {
                         if (equipo.getEntrenador() != null) {
                             cbEntrenador.setSelectedItem(searchEntrenadorOnList(equipo.getEntrenador().getId()));
                         }
+
                         if (equipo.getEntrenadorAsistente() != null) {
                             cbEntrenadorAsistente.setSelectedItem(searchEntrenadorOnList(equipo.getEntrenadorAsistente().getId()));
                         }
+                        if (equipo.getDueno() != null) {
+                            cbDueno.setSelectedItem(searchDuenoOnList(equipo.getDueno().getId()));
+                        }
+
+
                     } catch (DataNotFoundException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
                     }
@@ -86,8 +95,9 @@ public class GestionEquipo {
                         EquipoDAO.deleteEquipo(equipo);
                         WindowUtils.showInfoMessage("Equipo eliminado");
                         tfEquipo.setText("");
-
-
+                        cbEntrenador.setSelectedIndex(0);
+                        cbEntrenadorAsistente.setSelectedIndex(0);
+                        cbDueno.setSelectedIndex(0);
                     } catch (DataNotFoundException | DbException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
                     }
@@ -100,14 +110,72 @@ public class GestionEquipo {
                 if (!tfEquipo.getText().isEmpty()) {
                     try {
                         Equipo equipo = AdminController.buscarEquipo(tfEquipo.getText());
-                        equipo.setNombre(tfEquipo.getText());
-                        //equipo.setEntrenador(AdminController.buscarEntrenador(tfEntrenador.getText()));
 
-            } catch (DataNotFoundException ex) {
-                        throw new RuntimeException(ex);
+                        if (Validator.checkName(tfEquipo.getText())) {
+                            equipo.setNombre(tfEquipo.getText());
+                        }
+
+                        if (cbEntrenador.getSelectedIndex() != 0) {
+                            equipo.setEntrenador((Entrenador) cbEntrenador.getSelectedItem());
+                        } else equipo.setEntrenador(null);
+
+
+                        if (cbEntrenadorAsistente.getSelectedIndex() != 0) {
+                            equipo.setEntrenadorAsistente((Entrenador) cbEntrenadorAsistente.getSelectedItem());
+                        } else equipo.setEntrenadorAsistente(null);
+
+                        if (!(cbEntrenador.getSelectedIndex() == 0 && cbEntrenadorAsistente.getSelectedIndex() == 0) && cbEntrenadorAsistente.getSelectedIndex() == cbEntrenador.getSelectedIndex()) {
+                            throw new DataNotFoundException("No puede ser el mismo entrenador");
+                        }
+
+                        if (cbDueno.getSelectedIndex() != 0) {
+                            equipo.setDueno((Dueno) cbDueno.getSelectedItem());
+                        } else equipo.setDueno(null);
+
+                        EquipoDAO.updateEquipo(equipo);
+                        WindowUtils.showInfoMessage("Equipo modificado");
+
+                    } catch (DataNotFoundException | DbException ex) {
+                        WindowUtils.showErrorMessage(ex.getMessage());
                     }
-                }}});
+                }
+            }
+        });
 
+        bAnadir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (!tfEquipo.getText().isEmpty()) {
+                    try {
+                        Equipo equipo = new Equipo();
+                        if (Validator.checkName(tfEquipo.getText())) {
+                            equipo.setNombre(tfEquipo.getText());
+                        }
+                        if (cbEntrenador.getSelectedIndex() != 0) {
+                            equipo.setEntrenador((Entrenador) cbEntrenador.getSelectedItem());
+                        }
+                        if (!(cbEntrenador.getSelectedIndex() == 0 && cbEntrenadorAsistente.getSelectedIndex() == 0) && cbEntrenadorAsistente.getSelectedIndex() == cbEntrenador.getSelectedIndex()) {
+                            throw new DataNotFoundException("No puede ser el mismo entrenador");
+                        }
+                        if (cbEntrenadorAsistente.getSelectedIndex() != 0) {
+                            equipo.setEntrenadorAsistente((Entrenador) cbEntrenadorAsistente.getSelectedItem());
+                        }
+                        if (cbDueno.getSelectedIndex() != 0) {
+                            equipo.setDueno((Dueno) cbDueno.getSelectedItem());
+                        }
+                        EquipoDAO.insertEquipo(equipo);
+                        WindowUtils.showInfoMessage("Equipo añadido");
+                        tfEquipo.setText("");
+                        cbEntrenador.setSelectedIndex(0);
+                        cbEntrenadorAsistente.setSelectedIndex(0);
+                        cbDueno.setSelectedIndex(0);
+                    } catch (DbException | DataNotFoundException ex) {
+                        WindowUtils.showErrorMessage(ex.getMessage());
+                    }
+                }
+            }
+        });
     }
 
     public static void main() {
@@ -118,7 +186,7 @@ public class GestionEquipo {
         frame.setVisible(true);
     }
 
-    private  void  llenarCB() throws DataNotFoundException, DbException {
+    private void llenarCB() throws DataNotFoundException, DbException {
 
         //Llenar comboBox de entrenadores y asistentes
         cbEntrenador.removeAllItems();
@@ -133,18 +201,28 @@ public class GestionEquipo {
 
         //LLenar comboBox de duenos
         cbDueno.removeAllItems();
-        ArrayList<Dueno> duenos = AdminController.listDuenos();
+        duenos = AdminController.listDuenos();
         cbDueno.addItem(new Dueno());
         for (Dueno dueno : duenos) {
             cbDueno.addItem(dueno);
         }
 
+
     }
 
-    private Entrenador searchEntrenadorOnList(int id){
-        for(Entrenador entrenador : entrenadores){
-            if(entrenador.getId() == id){
+    private Entrenador searchEntrenadorOnList(int id) {
+        for (Entrenador entrenador : entrenadores) {
+            if (entrenador.getId() == id) {
                 return entrenador;
+            }
+        }
+        return null;
+    }
+
+    private Dueno searchDuenoOnList(int id) {
+        for (Dueno dueno : duenos) {
+            if (dueno.getId() == id) {
+                return dueno;
             }
         }
         return null;

@@ -46,13 +46,8 @@ public class Main {
 
     }
 
-    private static String readMaskedPassword() {
-        //Create a console object
-        Console console = System.console();
-        //Read password from console
-        char[] password = console.readPassword("Introduce la contraseña de la DB: ");
-        return new String(password);
-    }
+
+
 
     /*---------------------------------------------------------------------------------------------------------------------*/
     /* Login */

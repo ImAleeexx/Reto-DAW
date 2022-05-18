@@ -3,7 +3,9 @@ package com.imaleex.esportapp.Db.Dao.Personas;
 import com.imaleex.esportapp.Db.Db;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
+import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Personas.Jugador;
+import com.imaleex.esportapp.Models.Personas.Rol;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -35,6 +37,10 @@ public class JugadorDAO {
                 persona.setNickname(rs.getString("nickname"));
                 persona.setSueldo(rs.getDouble("sueldo"));
                 //TODO Falta meter datos de equipo y rol
+                Equipo equipo = new Equipo();
+                equipo.setId(rs.getInt("id_equipo"));
+                persona.setEquipo(equipo);
+                persona.setRol(Rol.valueOf(rs.getString("rol")));
             } else {
                 throw new DataNotFoundException("El jugador no existe");
             }
