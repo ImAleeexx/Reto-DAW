@@ -78,7 +78,7 @@ public class AdminView {
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
-                verJornada.main();
+                VerJornada.main();
             }
         });
         bClasificacion.addActionListener(new ActionListener() {
@@ -86,7 +86,7 @@ public class AdminView {
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
-                verClasificacion.main();
+                VerClasificacion.main();
             }
         });
     }

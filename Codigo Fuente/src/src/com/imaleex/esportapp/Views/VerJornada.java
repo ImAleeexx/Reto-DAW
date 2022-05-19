@@ -8,14 +8,13 @@ import com.imaleex.esportapp.Models.Partido;
 import com.imaleex.esportapp.Utils.WindowUtils;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class verJornada extends JFrame {
+public class VerJornada extends JFrame {
 
     // versión
     private static final long serialVersionUID = 1L;
@@ -29,7 +28,7 @@ public class verJornada extends JFrame {
     private int[] idPartidos;
 
     // constructor del frame que contruye toda la ventana...
-    public verJornada() {
+    public VerJornada() {
         //título
         setTitle("Jornada");
         // cuando cerramos la ventana se cierra la aplicación por completo
@@ -145,7 +144,7 @@ public class verJornada extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    verJornada frame = new verJornada();
+                    VerJornada frame = new VerJornada();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();

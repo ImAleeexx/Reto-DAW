@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class verClasificacion extends JFrame {
+public class VerClasificacion extends JFrame {
 
     // versión
     private static final long serialVersionUID = 1L;
@@ -26,7 +26,7 @@ public class verClasificacion extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    verClasificacion frame = new verClasificacion();
+                    VerClasificacion frame = new VerClasificacion();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -36,7 +36,7 @@ public class verClasificacion extends JFrame {
     }
 
     // constructor del frame que contruye toda la ventana...
-    public verClasificacion() {
+    public VerClasificacion() {
         //título
         setTitle("Jornada");
         // cuando cerramos la ventana se cierra la aplicación por completo
