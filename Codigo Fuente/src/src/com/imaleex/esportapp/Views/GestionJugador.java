@@ -159,8 +159,11 @@ public class GestionJugador {
                     if (cbEquipo.getSelectedIndex() != 0) {
                         jugador.setEquipo((Equipo) cbEquipo.getSelectedItem());
                     }
-                    AdminController.insertjugador(jugador);
-                    WindowUtils.showInfoMessage("Jugador añadido correctamente");
+                    jugador = (Jugador) AdminController.insertPersona(jugador);
+                    if (jugador != null) {
+                        AdminController.insertjugador(jugador);
+                        WindowUtils.showInfoMessage("Jugador añadido correctamente");
+                    }
                 } catch (DataNotFoundException | DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
                 }

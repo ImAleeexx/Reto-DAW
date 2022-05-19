@@ -37,10 +37,14 @@ public class JugadorDAO {
                 persona.setNickname(rs.getString("nickname"));
                 persona.setSueldo(rs.getDouble("sueldo"));
                 //TODO Falta meter datos de equipo y rol
+                try {
                 Equipo equipo = new Equipo();
                 equipo.setId(rs.getInt("id_equipo"));
                 persona.setEquipo(equipo);
+                } catch (NullPointerException ignored) {  }   //Si no tiene equipo, no hace nada
+                try {
                 persona.setRol(Rol.valueOf(rs.getString("rol")));
+                } catch (NullPointerException ignored) {  }   //Si no tiene rol, no hace nada
             } else {
                 throw new DataNotFoundException("El jugador no existe");
             }
@@ -60,8 +64,16 @@ public class JugadorDAO {
             stmt.setInt(1, jugador.getId());
             stmt.setString(2, jugador.getNickname());
             stmt.setDouble(3, jugador.getSueldo());
-            stmt.setInt(4, jugador.getEquipo().getId());
+            try {
+            stmt.setObject(4, jugador.getEquipo().getId(), java.sql.Types.INTEGER);
+            } catch (NullPointerException e) {
+                stmt.setNull(4, java.sql.Types.INTEGER);
+            }
+            try {
             stmt.setString(5, jugador.getRol().name());
+            } catch (NullPointerException e) {
+                stmt.setNull(5, java.sql.Types.VARCHAR);
+            }
 
             //Ejecutamos el statement
             stmt.executeUpdate();
@@ -82,10 +94,21 @@ public class JugadorDAO {
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, jugador.getNickname());
             stmt.setDouble(2, jugador.getSueldo());
+            try {
             stmt.setInt(3, jugador.getEquipo().getId());
+            } catch (NullPointerException e) {
+                stmt.setNull(3, java.sql.Types.INTEGER);
+            }
+            try {
             stmt.setInt(5, jugador.getId());
+            } catch (NullPointerException e) {
+                stmt.setNull(5, java.sql.Types.INTEGER);
+            }
+            try {
             stmt.setString(4, jugador.getRol().name());
-            System.out.println(jugador.getRol().name());
+            } catch (NullPointerException e) {
+                stmt.setNull(4, java.sql.Types.VARCHAR);
+            }
             //Ejecutamos el statement
             int rows = stmt.executeUpdate();
             if (rows > 0) {
