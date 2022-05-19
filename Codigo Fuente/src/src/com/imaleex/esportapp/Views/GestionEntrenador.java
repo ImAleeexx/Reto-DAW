@@ -192,6 +192,7 @@ public class GestionEntrenador {
         JFrame frame = new JFrame("GestionEntrenador");
         frame.setContentPane(new GestionEntrenador().jpEntrenador);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
     }

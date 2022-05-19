@@ -220,6 +220,7 @@ public class GestionEquipo {
         JFrame frame = new JFrame("GestionEquipo");
         frame.setContentPane(new GestionEquipo().jpEquipo);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
     }

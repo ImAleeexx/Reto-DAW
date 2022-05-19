@@ -54,6 +54,45 @@ public class GestionJugador {
         tfUsuario.setText(Main.user.getNombre());
         llenarCb();
 
+        jmSalir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(1);
+            }
+        });
+        jmiUsuario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpJugador);
+                frame.dispose();
+                GestionUsuario.main();
+            }
+        });
+        jmiDueno.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpJugador);
+                frame.dispose();
+                GestionDueno.main();
+            }
+        });
+        jmiEquipo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpJugador);
+                frame.dispose();
+                GestionEquipo.main();
+            }
+        });
+        jmiEntrenador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpJugador);
+                frame.dispose();
+                GestionEntrenador.main();
+            }
+        });
+
         bBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -189,6 +228,7 @@ public class GestionJugador {
         JFrame frame = new JFrame("GestionJugador");
         frame.setContentPane(new GestionJugador().jpJugador);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
     }
