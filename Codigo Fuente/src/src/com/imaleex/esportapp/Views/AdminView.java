@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AdminView{
+public class AdminView {
     private JTextField tfUserName;
     private JPanel jpAdmin;
     private JMenuItem jmUltimaJornada;
@@ -18,7 +18,8 @@ public class AdminView{
     private JMenuItem jmiDueno;
     private JMenuItem jmiUsuario;
     private JMenuItem jmiEntrenador;
-    private JButton button1;
+    private JButton bJornada;
+    private JButton bClasificacion;
 
 
     public AdminView() {
@@ -33,15 +34,15 @@ public class AdminView{
         jmiUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
-               GestionUsuario.main();
+                GestionUsuario.main();
             }
         });
         jmiDueno.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 GestionDueno.main();
             }
@@ -49,7 +50,7 @@ public class AdminView{
         jmiEquipo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 GestionEquipo.main();
             }
@@ -57,7 +58,7 @@ public class AdminView{
         jmiEntrenador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 GestionEntrenador.main();
             }
@@ -66,21 +67,28 @@ public class AdminView{
         jmiJugador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 GestionJugador.main();
             }
         });
 
-        button1.addActionListener(new ActionListener() {
+        bJornada.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 verJornada.main();
             }
-        }
-        );
+        });
+        bClasificacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
+                verClasificacion.main();
+            }
+        });
     }
 
 
@@ -92,7 +100,6 @@ public class AdminView{
         frame.pack();
         Main.closeLogin();
         frame.setVisible(true);
-
 
 
     }
