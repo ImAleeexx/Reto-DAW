@@ -173,6 +173,62 @@ public class AdminController {
     }
     //Equipos
 
+    //Persona
+
+    public static Persona insertarPersona(Persona persona) throws DbException {
+        assert Main.user.getType() == 1;
+        PersonaDAO.createPersona(persona);
+        return persona;
+    }
+
+    public static void generateMatches() {
+
+        ArrayList<String> listaEquipos = new ArrayList<>();
+        ArrayList<String> listaEquipos1 = new ArrayList<>();
+        ArrayList<String> listaEquipos2 = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            listaEquipos.add("Equipo" + i);
+        }
+
+        Collections.shuffle(listaEquipos);
+
+        for (int i = 0; i < listaEquipos.size(); i++) {
+            if (i <= 4) {
+                listaEquipos1.add(listaEquipos.get(i));
+            } else {
+                listaEquipos2.add(listaEquipos.get(i));
+            }
+        }
+        //Reverseamos la lista 2
+        Collections.reverse(listaEquipos2);
+        int numJornadas = (listaEquipos.size() - 1);
+        int numPartidos = listaEquipos.size() / 2;
+        StringBuilder sb = new StringBuilder();
+        //Loop por cada jornada
+        for (int i = 0; i < numJornadas; i++) {
+            sb.append("Jornada " + (i + 1) + "\n");
+            //Loop por cada partido de la jornada
+            for (int j = 0; j < numPartidos; j++) {
+                String equipo1 = listaEquipos1.get(j);
+                String equipo2 = listaEquipos2.get(j);
+                sb.append(equipo1 + " vs " + equipo2 + "\n");
+            }
+            sb.append("\n");
+            String equipoMoverLista1 = listaEquipos1.get(listaEquipos1.size() - 1);
+            String equipoMoverLista2 = listaEquipos2.get(0);
+
+            //Rotamos con orientacion de agujas del reloj
+            listaEquipos1.remove(listaEquipos1.size() - 1);
+            listaEquipos2.add(equipoMoverLista1);
+
+            listaEquipos2.remove(0);
+            listaEquipos1.add(1, equipoMoverLista2);
+        }
+        System.out.println(sb);
+        //Todo make vuelta partidos
+    }
+
+
     public static ArrayList<Equipo> listaEquipos() {
         assert Main.user.getType() == 1;
         return EquipoDAO.listEquipos();
