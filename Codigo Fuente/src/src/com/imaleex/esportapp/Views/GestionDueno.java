@@ -124,7 +124,7 @@ public class GestionDueno {
                 if (checkDni(tfDNI.getText())) {
                 try {
                     Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
-                    DuenoDAO.deleteDueno(dueno);
+                    AdminController.eliminarDueno(dueno);
                     WindowUtils.showInfoMessage("Dueno eliminado");
                     tfDNI.setText("");
                     tfDueno.setText("");
@@ -150,7 +150,8 @@ public class GestionDueno {
                         dueno.setEmail(tfEmail.getText());
                         dueno.setTelefono(tfTelefono.getText());
                         System.out.println(dueno);
-                        DuenoDAO.updateDueno(dueno);
+                        AdminController.updateDueno(dueno);
+                        WindowUtils.showInfoMessage("Dueno modificado");
                     } catch (DataNotFoundException | DbException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -167,9 +168,9 @@ public class GestionDueno {
                         dueno.setNombre(tfDueno.getText());
                         dueno.setEmail(tfEmail.getText());
                         dueno.setTelefono(tfTelefono.getText());
-                        dueno = (Dueno) PersonaDAO.createPersona(dueno);
+                        dueno = (Dueno) AdminController.insertarPersona(dueno);
                         System.out.println(dueno.getId());
-                        DuenoDAO.insertDueno(dueno);
+                        AdminController.insertarDueno(dueno);
                         WindowUtils.showInfoMessage("Dueno añadido");
                         tfDNI.setText("");
                         tfDueno.setText("");

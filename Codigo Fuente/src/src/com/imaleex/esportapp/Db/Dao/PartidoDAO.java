@@ -26,18 +26,18 @@ public class PartidoDAO {
             if(rs.next()){
                 partido.setId(rs.getInt("id"));
                 Equipo equipo1 = new Equipo();
-                equipo1.setId(rs.getInt("equipo1"));
+                equipo1.setId(rs.getInt("id_local"));
                 Equipo equipo2 = new Equipo();
-                equipo2.setId(rs.getInt("equipo2"));
+                equipo2.setId(rs.getInt("id_visitante"));
                 partido.setLocal(equipo1);
                 partido.setVisitante(equipo2);
                 try {
-                    partido.setMarcadorLocal(rs.getInt("golesLocal"));
+                    partido.setMarcadorLocal(rs.getInt("resultado_local"));
                 }catch (NullPointerException e){
                     partido.setMarcadorLocal(0);
                 }
                 try {
-                    partido.setMarcadorVisitante(rs.getInt("golesVisitante"));
+                    partido.setMarcadorVisitante(rs.getInt("resultado_visitante"));
                 }catch (NullPointerException e){
                     partido.setMarcadorVisitante(0);
                 }

@@ -113,7 +113,8 @@ public class GestionUsuario{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    UserDAO.deleteUserByName(tfUsuario.getText());
+                    AdminController.deleteUserByName(tfUsuario.getText());
+                    WindowUtils.showInfoMessage("Usuario eliminado correctamente");
                 } catch ( DbException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -129,7 +130,8 @@ public class GestionUsuario{
                     usuario.setNombre(tfUsuario.getText());
                     usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
                     usuario.setType(cbTipoUsuario.getSelectedIndex()-1);
-                    UserDAO.editUser(usuario);
+                    AdminController.editUser(usuario);
+                    WindowUtils.showInfoMessage("Usuario modificado correctamente");
                 } catch (UserNotFoundException ex) {
                     throw new RuntimeException(ex);
                 } catch (DbException ex) {
@@ -145,7 +147,8 @@ public class GestionUsuario{
                     usuario.setNombre(tfUsuario.getText());
                     usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
                     usuario.setType(cbTipoUsuario.getSelectedIndex()-1);
-                    UserDAO.createUser(usuario);
+                    AdminController.createUser(usuario);
+                    WindowUtils.showInfoMessage("Usuario creado correctamente");
                 } catch (DbException ex) {
                     throw new RuntimeException(ex);
                 }

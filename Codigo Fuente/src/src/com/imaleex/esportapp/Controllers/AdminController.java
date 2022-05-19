@@ -5,6 +5,7 @@ import com.imaleex.esportapp.Db.Dao.PartidoDAO;
 import com.imaleex.esportapp.Db.Dao.Personas.DuenoDAO;
 import com.imaleex.esportapp.Db.Dao.Personas.EntrenadorDAO;
 import com.imaleex.esportapp.Db.Dao.Personas.JugadorDAO;
+import com.imaleex.esportapp.Db.Dao.Personas.PersonaDAO;
 import com.imaleex.esportapp.Db.Dao.UserDAO;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
@@ -15,11 +16,11 @@ import com.imaleex.esportapp.Models.Partido;
 import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
 import com.imaleex.esportapp.Models.Personas.Jugador;
+import com.imaleex.esportapp.Models.Personas.Persona;
 import com.imaleex.esportapp.Models.Users.Usuario;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Alex Cortes
@@ -42,7 +43,19 @@ public class AdminController {
         assert Main.user.getType() == 1;
         return DuenoDAO.listDuenos();
     }
+    public static void updateDueno(Dueno dueno) throws DbException {
+        assert Main.user.getType() == 1;
+         DuenoDAO.updateDueno(dueno);
+    }
 
+    public static void insertarDueno(Dueno dueno) throws DbException {
+        assert Main.user.getType() == 1;
+        DuenoDAO.insertDueno(dueno);
+    }
+    public static void eliminarDueno(Dueno dueno) throws DbException {
+        assert Main.user.getType() == 1;
+        DuenoDAO.deleteDueno(dueno);
+    }
 
     //Usuarios
 
@@ -51,13 +64,27 @@ public class AdminController {
         return UserDAO.searchUsername(username);
     }
 
+    public static void deleteUserByName(String username) throws DbException {
+        assert Main.user.getType() == 1;
+         UserDAO.deleteUserByName(username);
+    }
 
+    public static void editUser(Usuario user) throws DbException {
+        assert Main.user.getType() == 1;
+        UserDAO.editUser(user);
+    }
+
+    public static void createUser(Usuario user) throws DbException {
+        assert Main.user.getType() == 1;
+        UserDAO.createUser(user);
+    }
     //Entrenadores
 
     public static Entrenador buscarEntrenadorDni(String dni) throws DataNotFoundException, DbException {
         assert Main.user.getType() == 1;
         return EntrenadorDAO.searchEntrenadorByDni(dni);
     }
+
     public static Entrenador buscarEntrenadorId(int id) throws DbException, DataNotFoundException {
         assert Main.user.getType() == 1;
         return EntrenadorDAO.searchEntrenador(id);
@@ -68,14 +95,28 @@ public class AdminController {
         return EntrenadorDAO.listEntrenadores();
     }
 
+    public static void updateEntrenador(Entrenador entrenador) throws DbException {
+        assert Main.user.getType() == 1;
+        EntrenadorDAO.updateEntrenador(entrenador);
+    }
+    public  static  void  insertEntrenador(Entrenador entrenador) throws DbException {
+        assert Main.user.getType() == 1;
+        EntrenadorDAO.insertEntrenador(entrenador);
+    }
+
+    public static void deleteEntrenador(Entrenador entrenador) throws DbException {
+        assert Main.user.getType() == 1;
+        EntrenadorDAO.deleteEntrenador(entrenador);
+    }
 
     //Equpos
 
-    public static Equipo buscarEquipo(String equipo) throws  DataNotFoundException {
+    public static Equipo buscarEquipo(String equipo) throws DataNotFoundException {
         assert Main.user.getType() == 1;
         return EquipoDAO.searchEquipo(equipo);
     }
-    public static void loadJugadoresToEquipo (Equipo equipo) {
+
+    public static void loadJugadoresToEquipo(Equipo equipo) {
         assert Main.user.getType() == 1;
         try {
             EquipoDAO.getJugadoresByEquipo(equipo);
@@ -84,12 +125,15 @@ public class AdminController {
         }
     }
 
+    //Persona
 
+    public static Persona insertarPersona(Persona persona) throws DbException {
+        assert Main.user.getType() == 1;
+        PersonaDAO.createPersona(persona);
+        return persona;
+    }
 
-
-
-
-    public static void generateMatches(){
+    public static void generateMatches() {
 
         ArrayList<String> listaEquipos = new ArrayList<>();
         ArrayList<String> listaEquipos1 = new ArrayList<>();
@@ -109,7 +153,7 @@ public class AdminController {
         }
         //Reverseamos la lista 2
         Collections.reverse(listaEquipos2);
-        int numJornadas = (listaEquipos.size() -1);
+        int numJornadas = (listaEquipos.size() - 1);
         int numPartidos = listaEquipos.size() / 2;
         StringBuilder sb = new StringBuilder();
         //Loop por cada jornada
@@ -132,7 +176,7 @@ public class AdminController {
             listaEquipos2.remove(0);
             listaEquipos1.add(1, equipoMoverLista2);
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
         //Todo make vuelta partidos
     }
 
@@ -147,7 +191,7 @@ public class AdminController {
         return JugadorDAO.searchJugador(dni);
     }
 
-    public static Equipo buscarEquipoId(Integer id)  throws DataNotFoundException  {
+    public static Equipo buscarEquipoId(Integer id) throws DataNotFoundException {
         assert Main.user.getType() == 1;
         return EquipoDAO.searchEquipoById(id);
     }
@@ -171,4 +215,10 @@ public class AdminController {
         assert Main.user.getType() == 1;
         return PartidoDAO.searchPartido(idPartido);
     }
+
+    public static void actualizarMarcador(Partido nuevoPartido) throws DbException {
+        assert Main.user.getType() == 1;
+        PartidoDAO.updatePartido(nuevoPartido);
+    }
+
 }

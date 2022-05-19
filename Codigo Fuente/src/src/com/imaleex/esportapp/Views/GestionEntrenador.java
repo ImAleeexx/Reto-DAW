@@ -124,7 +124,7 @@ public class GestionEntrenador {
                 if (checkDni(tfDNI.getText())) {
                     try {
                         Entrenador entrenador = AdminController.buscarEntrenadorDni(tfDNI.getText());
-                        EntrenadorDAO.deleteEntrenador(entrenador);
+                        AdminController.deleteEntrenador(entrenador);
                         WindowUtils.showInfoMessage("Entrenador eliminado");
                         tfDNI.setText("");
                         tfEntrenador.setText("");
@@ -151,7 +151,7 @@ public class GestionEntrenador {
                         entrenador.setSueldo(Double.parseDouble(tfSueldo.getText()));
                         entrenador.setTelefono(tfTelefono.getText());
                         System.out.println(entrenador);
-                        EntrenadorDAO.updateEntrenador(entrenador);
+                        AdminController.updateEntrenador(entrenador);
                         WindowUtils.showInfoMessage("Entrenador modificado");
                     } catch (DataNotFoundException | DbException ex) {
                         throw new RuntimeException(ex);
@@ -168,9 +168,9 @@ public class GestionEntrenador {
                         entrenador.setNombre(tfEntrenador.getText());
                         entrenador.setSueldo(Double.parseDouble(tfSueldo.getText()));
                         entrenador.setTelefono(tfTelefono.getText());
-                        entrenador = (Entrenador) PersonaDAO.createPersona(entrenador);
+                        entrenador = (Entrenador) AdminController.insertarPersona(entrenador);
                         System.out.println(entrenador.getId());
-                        EntrenadorDAO.insertEntrenador(entrenador);
+                        AdminController.insertEntrenador(entrenador);
                         WindowUtils.showInfoMessage("Entrenador añadido");
                         tfDNI.setText("");
                         tfEntrenador.setText("");

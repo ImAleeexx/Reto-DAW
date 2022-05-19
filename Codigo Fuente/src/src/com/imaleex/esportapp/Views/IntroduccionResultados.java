@@ -1,7 +1,6 @@
 package com.imaleex.esportapp.Views;
 
 import com.imaleex.esportapp.Controllers.AdminController;
-import com.imaleex.esportapp.Db.Dao.PartidoDAO;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Partido;
 import com.imaleex.esportapp.Utils.WindowUtils;
@@ -13,18 +12,25 @@ public class IntroduccionResultados extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextField tfMarcadorLocal;
+    private JTextField tfMarcadorVisitante;
+    private JLabel lLocal;
+    private JLabel lVisitante;
     private Partido partido;
-    public IntroduccionResultados(int idPartido) {
+    private VerJornada vj;
+    public IntroduccionResultados(int idPartido, VerJornada vj) {
         try {
             partido = AdminController.buscarPartidoId(idPartido);
         } catch (DbException e) {
             WindowUtils.showErrorMessage(e.getMessage());
             dispose();
         }
+        this.vj = vj;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-
+        lLocal.setText(partido.getLocal().getNombre());
+        lVisitante.setText(partido.getVisitante().getNombre());
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -54,7 +60,16 @@ public class IntroduccionResultados extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        try {
+            partido.setMarcadorLocal(Integer.parseInt(tfMarcadorLocal.getText()));
+            partido.setMarcadorVisitante(Integer.parseInt(tfMarcadorVisitante.getText()));
+            AdminController.actualizarMarcador(partido);
+        }catch (NumberFormatException e){
+            WindowUtils.showErrorMessage("Los marcadores deben ser números");
+        } catch (DbException e) {
+           WindowUtils.showErrorMessage(e.getMessage());
+        }
+        vj.cargarJornada();
         dispose();
     }
 
@@ -63,9 +78,10 @@ public class IntroduccionResultados extends JDialog {
         dispose();
     }
 
-    public static void main(int idPartido) {
-        IntroduccionResultados dialog = new IntroduccionResultados(idPartido);
+    public static void main(int idPartido, VerJornada vj) {
+        IntroduccionResultados dialog = new IntroduccionResultados(idPartido, vj);
         dialog.pack();
         dialog.setVisible(true);
+
     }
 }

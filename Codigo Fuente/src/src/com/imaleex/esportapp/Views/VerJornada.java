@@ -22,11 +22,12 @@ public class VerJornada extends JFrame {
     // la tabla
     private final JTable table;
 
+    private VerJornada verJornada;
     // el modelo de tabla, aquí van a estar los datos.
     private final DefaultTableModel model;
 
     private int[] idPartidos;
-
+    private  TextField tfJornada;
     // constructor del frame que contruye toda la ventana...
     public VerJornada() {
         //título
@@ -37,7 +38,7 @@ public class VerJornada extends JFrame {
         setBounds(100, 100, 596, 331);
         // establece una capa absoluta para posicionar los elementos donde queramos
         getContentPane().setLayout(null);
-
+        verJornada = this;
         // el panel con barras de scroll automáticas
         JScrollPane scrollPane = new JScrollPane();
         // dimensiones y posición del panel de scroll
@@ -75,7 +76,7 @@ public class VerJornada extends JFrame {
 
         // código del botón
         JButton buscar = new JButton("Buscar Jornada");
-        TextField tfJornada = new TextField();
+        tfJornada = new TextField();
         tfJornada.setBounds(200, 249, 50, 23);
         buscar.setBounds(10, 249, 150, 23);
         getContentPane().add(tfJornada);
@@ -124,19 +125,38 @@ public class VerJornada extends JFrame {
         boton_Guardar.setVisible(false);
         boton_Modificar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                System.out.println(idPartidos[table.getSelectedRow()]);
-
+                IntroduccionResultados.main(idPartidos[table.getSelectedRow()],  verJornada);
             }
         });
+    }
+    public void  cargarJornada( ){
+        model.setRowCount(0);
 
-        boton_Guardar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                table.setEnabled(false);
-                Partido partido = new Partido();
-                Jornada jornada = new Jornada();
+        ArrayList<Partido> partidos = new ArrayList<Partido>();
+        Jornada jornada = new Jornada();
+        try {
+            jornada.setId(Integer.parseInt(tfJornada.getText()));
+        } catch (NumberFormatException e) {
+            WindowUtils.showErrorMessage("Introduzca un número");
+        }
+        try {
+            partidos = PartidoDAO.listaPartidosByJornada(jornada);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+        idPartidos = new int[partidos.size()];
+        for (int i = 0; i < partidos.size(); i++) {
 
-            }
-        });
+            Partido partido = partidos.get(i);
+            Equipo equipoLocal = partido.getLocal();
+            Equipo equipoVisitante = partido.getVisitante();
+            String marcadorLocal = String.valueOf(partido.getMarcadorLocal()).equals("null") ? "-" : String.valueOf(partido.getMarcadorLocal());
+            String marcadorVisitante = String.valueOf(partido.getMarcadorVisitante()).equals("null") ? "-" : String.valueOf(partido.getMarcadorVisitante());
+            Object[] aux = new Object[]{equipoLocal.getNombre(),marcadorLocal, marcadorVisitante, equipoVisitante.getNombre()};
+            idPartidos[i] = partido.getId();
+            model.addRow(aux);
+
+        }
     }
 
     // función principal
@@ -146,6 +166,7 @@ public class VerJornada extends JFrame {
                 try {
                     VerJornada frame = new VerJornada();
                     frame.setVisible(true);
+                    frame.setLocationRelativeTo(null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
