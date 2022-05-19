@@ -32,6 +32,8 @@ public class AdminView{
         jmiUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
                GestionUsuario.main();
             }
         });
