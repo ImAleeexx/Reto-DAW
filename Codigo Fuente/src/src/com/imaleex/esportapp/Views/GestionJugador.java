@@ -127,6 +127,21 @@ public class GestionJugador {
                 }
             }
         });
+        bEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (!Validator.checkDni(tfDNI.getText())) {
+                        throw new DataNotFoundException("DNI incorrecto");
+                    }
+                    Jugador jugador = AdminController.buscarJugador(tfDNI.getText());
+                    AdminController.deleteJugador(jugador);
+                    WindowUtils.showInfoMessage("Jugador eliminado correctamente");
+                } catch (DataNotFoundException | DbException ex) {
+                    WindowUtils.showErrorMessage(ex.getMessage());
+                }
+            }
+        });
 
         bModificar.addActionListener(new ActionListener() {
             @Override

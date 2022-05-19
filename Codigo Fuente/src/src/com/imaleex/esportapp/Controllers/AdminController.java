@@ -159,4 +159,9 @@ public class AdminController {
         assert Main.user.getType() == 1;
         JugadorDAO.updateJugador(jugador);
     }
+
+    public static void deleteJugador(Jugador jugador) throws DbException {
+        assert Main.user.getType() == 1;
+        JugadorDAO.deleteJugador(jugador);
+    }
 }

@@ -110,8 +110,12 @@ public class JugadorDAO {
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, jugador.getId());
             //Borramos la persona asociada a la id
-            stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
             PersonaDAO.deletePersona(jugador);
+            } else {
+                throw new DbException("No se ha podido borrar el jugador");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al borrar el jugador");
