@@ -168,7 +168,7 @@ public class GestionDueno {
                         dueno.setNombre(tfDueno.getText());
                         dueno.setEmail(tfEmail.getText());
                         dueno.setTelefono(tfTelefono.getText());
-                        dueno = (Dueno) AdminController.insertarPersona(dueno);
+                        dueno = (Dueno) AdminController.insertPersona(dueno);
                         System.out.println(dueno.getId());
                         AdminController.insertarDueno(dueno);
                         WindowUtils.showInfoMessage("Dueno añadido");

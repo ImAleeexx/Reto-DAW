@@ -168,7 +168,7 @@ public class GestionEntrenador {
                         entrenador.setNombre(tfEntrenador.getText());
                         entrenador.setSueldo(Double.parseDouble(tfSueldo.getText()));
                         entrenador.setTelefono(tfTelefono.getText());
-                        entrenador = (Entrenador) AdminController.insertarPersona(entrenador);
+                        entrenador = (Entrenador) AdminController.insertPersona(entrenador);
                         System.out.println(entrenador.getId());
                         AdminController.insertEntrenador(entrenador);
                         WindowUtils.showInfoMessage("Entrenador añadido");
