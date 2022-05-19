@@ -40,6 +40,7 @@ public class GestionEquipo {
     private JComboBox<Entrenador> cbEntrenador;
     private JComboBox<Entrenador> cbEntrenadorAsistente;
     private JComboBox<Dueno> cbDueno;
+    private JMenuItem jmiEntrenador;
 
     private Equipo equipo;
     private ArrayList<Entrenador> entrenadores;
@@ -52,7 +53,44 @@ public class GestionEquipo {
         } catch (DataNotFoundException | DbException e) {
             WindowUtils.showErrorMessage(e.getMessage());
         }
-
+        jmSalir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(1);
+            }
+        });
+        jmiUsuario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEquipo);
+                frame.dispose();
+                GestionUsuario.main();
+            }
+        });
+        jmiDueno.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEquipo);
+                frame.dispose();
+                GestionDueno.main();
+            }
+        });
+        jmiEntrenador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEquipo);
+                frame.dispose();
+                GestionEntrenador.main();
+            }
+        });
+        jmiJugador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEquipo);
+                frame.dispose();
+                GestionJugador.main();
+            }
+        });
 
         bBuscar.addActionListener(new ActionListener() {
             @Override

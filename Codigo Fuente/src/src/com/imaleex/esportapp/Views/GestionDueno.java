@@ -45,11 +45,54 @@ public class GestionDueno {
     private JLabel lDNI;
     private JLabel lTelefono;
     private JTextField tfTelefono;
+    private JMenuItem jmiEntrenador;
 
 
     public GestionDueno() {
         tfUsuario.setText(Main.user.getNombre());
         jpEscondido.setVisible(false);
+
+        jmSalir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(1);
+            }
+        });
+        jmiUsuario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpDueno);
+                frame.dispose();
+                GestionUsuario.main();
+            }
+        });
+        jmiEquipo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpDueno);
+                frame.dispose();
+                GestionEquipo.main();
+            }
+        });
+        jmiEntrenador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpDueno);
+                frame.dispose();
+                GestionEntrenador.main();
+            }
+        });
+
+        jmiJugador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpDueno);
+                frame.dispose();
+                GestionJugador.main();
+            }
+        });
+
+
         bBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

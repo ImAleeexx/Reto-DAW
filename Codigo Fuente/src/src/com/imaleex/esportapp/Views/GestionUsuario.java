@@ -37,6 +37,7 @@ public class GestionUsuario{
     private JButton bAnadir;
     private JButton bBuscar;
     private JPanel jpEscondido;
+    private JMenuItem jmiEntrenador;
 
 
     public GestionUsuario() {
@@ -45,6 +46,40 @@ public class GestionUsuario{
         cbTipoUsuario.addItem("Normal");
         cbTipoUsuario.addItem("Administrador");
         jpEscondido.setVisible(false);
+
+        jmiDueno.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
+                GestionDueno.main();
+            }
+        });
+        jmiEquipo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
+                GestionEquipo.main();
+            }
+        });
+        jmiEntrenador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
+                GestionEntrenador.main();
+            }
+        });
+
+        jmiJugador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
+                GestionJugador.main();
+            }
+        });
         jmSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

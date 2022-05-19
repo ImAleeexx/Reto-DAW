@@ -40,18 +40,24 @@ public class AdminView{
         jmiDueno.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
                 GestionDueno.main();
             }
         });
         jmiEquipo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
                 GestionEquipo.main();
             }
         });
         jmiEntrenador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
                 GestionEntrenador.main();
             }
         });
@@ -59,6 +65,8 @@ public class AdminView{
         jmiJugador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
                 GestionJugador.main();
             }
         });
@@ -77,6 +85,5 @@ public class AdminView{
 
 
     }
-
 
 }

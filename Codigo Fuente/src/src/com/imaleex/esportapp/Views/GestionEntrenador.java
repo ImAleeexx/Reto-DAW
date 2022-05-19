@@ -52,6 +52,47 @@ public class GestionEntrenador {
         tfUsuario.setText(Main.user.getNombre());
         jpEscondido.setVisible(false);
 
+        jmSalir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(1);
+            }
+        });
+
+        jmiUsuario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEntrenador);
+                frame.dispose();
+                GestionUsuario.main();
+            }
+        });
+        jmiDueno.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEntrenador);
+                frame.dispose();
+                GestionDueno.main();
+            }
+        });
+        jmiEquipo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEntrenador);
+                frame.dispose();
+                GestionEquipo.main();
+            }
+        });
+
+        jmiJugador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEntrenador);
+                frame.dispose();
+                GestionJugador.main();
+            }
+        });
+
         bBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
