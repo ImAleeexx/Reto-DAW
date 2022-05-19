@@ -18,6 +18,7 @@ public class AdminView{
     private JMenuItem jmiDueno;
     private JMenuItem jmiUsuario;
     private JMenuItem jmiEntrenador;
+    private JButton button1;
 
 
     public AdminView() {
@@ -70,6 +71,16 @@ public class AdminView{
                 GestionJugador.main();
             }
         });
+
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                frame.dispose();
+                verJornada.main();
+            }
+        }
+        );
     }
 
 

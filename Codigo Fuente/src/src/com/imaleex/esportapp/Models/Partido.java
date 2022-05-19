@@ -1,5 +1,10 @@
 package com.imaleex.esportapp.Models;
 
+import com.imaleex.esportapp.Controllers.AdminController;
+import com.imaleex.esportapp.Exceptions.DataNotFoundException;
+import com.imaleex.esportapp.Exceptions.DbException;
+import com.imaleex.esportapp.Models.Personas.Entrenador;
+
 import java.time.LocalTime;
 
 /**
@@ -34,6 +39,9 @@ public class Partido {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
     public LocalTime getHora() {
         return hora;
     }
@@ -59,6 +67,16 @@ public class Partido {
     }
 
     public Equipo getLocal() {
+        try {
+            Integer id = this.local.getId();
+            if (local.getNombre() == null && !id.equals(0)) {
+                setLocal(AdminController.buscarEquipoId(id));
+            }
+        } catch ( DataNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            return null;
+        }
         return local;
     }
 
@@ -67,6 +85,16 @@ public class Partido {
     }
 
     public Equipo getVisitante() {
+        try {
+            Integer id = this.visitante.getId();
+            if (visitante.getNombre() == null && !id.equals(0)) {
+                setVisitante(AdminController.buscarEquipoId(id));
+            }
+        } catch ( DataNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            return null;
+        }
         return visitante;
     }
 
@@ -81,4 +109,6 @@ public class Partido {
     public void setJornada(Jornada jornada) {
         this.jornada = jornada;
     }
+
+
 }

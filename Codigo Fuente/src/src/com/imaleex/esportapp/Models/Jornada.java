@@ -16,6 +16,10 @@ public class Jornada {
         this.fecha = fecha;
     }
 
+    public Jornada(){
+
+    }
+
 
     public int getId() {
         return id;
