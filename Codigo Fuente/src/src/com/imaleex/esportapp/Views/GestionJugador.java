@@ -2,6 +2,7 @@ package com.imaleex.esportapp.Views;
 
 import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
+import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Personas.Jugador;
@@ -83,6 +84,86 @@ public class GestionJugador {
                     } catch (DataNotFoundException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
                     }
+                }
+            }
+        });
+
+        bAnadir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (!Validator.checkDni(tfDNI.getText())) {
+                        throw new DataNotFoundException("DNI incorrecto");
+                    }
+                    if (!Validator.checkName(tfJugador.getText())) {
+                        throw new DataNotFoundException("Nombre incorrecto");
+                    }
+                    if (!Validator.checkTel(tfTelefono.getText())) {
+                        throw new DataNotFoundException("Telefono incorrecto");
+                    }
+                    if (!Validator.checkRegex("^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$" ,tfNickname.getText())) {
+                        throw new DataNotFoundException("Nickname incorrecto");
+                    }
+                    if (!Validator.checkDouble(tfSueldo.getText())) {
+                        throw new DataNotFoundException("Sueldo incorrecto");
+                    }
+
+                    Jugador jugador = new Jugador();
+                    jugador.setDni(tfDNI.getText());
+                    jugador.setNombre(tfJugador.getText());
+                    jugador.setTelefono(tfTelefono.getText());
+                    jugador.setNickname(tfNickname.getText());
+                    jugador.setSueldo(Double.parseDouble(tfSueldo.getText()));
+                    if (cbRol.getSelectedIndex() != 0) {
+                        jugador.setRol(Rol.getRol(cbRol.getSelectedItem().toString()));
+                    }
+                    if (cbEquipo.getSelectedIndex() != 0) {
+                        jugador.setEquipo((Equipo) cbEquipo.getSelectedItem());
+                    }
+                    AdminController.insertjugador(jugador);
+                    WindowUtils.showInfoMessage("Jugador añadido correctamente");
+                } catch (DataNotFoundException | DbException ex) {
+                    WindowUtils.showErrorMessage(ex.getMessage());
+                }
+            }
+        });
+
+        bModificar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Jugador jugador = AdminController.buscarJugador(tfDNI.getText());
+                    if (!Validator.checkDni(tfDNI.getText())) {
+                        throw new DataNotFoundException("DNI incorrecto");
+                    }
+                    if (!Validator.checkName(tfJugador.getText())) {
+                        throw new DataNotFoundException("Nombre incorrecto");
+                    }
+                    if (!Validator.checkTel(tfTelefono.getText())) {
+                        throw new DataNotFoundException("Telefono incorrecto");
+                    }
+                    if (!Validator.checkRegex("^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$" ,tfNickname.getText())) {
+                        throw new DataNotFoundException("Nickname incorrecto");
+                    }
+                    if (!Validator.checkDouble(tfSueldo.getText())) {
+                        throw new DataNotFoundException("Sueldo incorrecto");
+                    }
+
+                    jugador.setDni(tfDNI.getText());
+                    jugador.setNombre(tfJugador.getText());
+                    jugador.setTelefono(tfTelefono.getText());
+                    jugador.setNickname(tfNickname.getText());
+                    jugador.setSueldo(Double.parseDouble(tfSueldo.getText()));
+                    if (cbRol.getSelectedIndex() != 0) {
+                        jugador.setRol(Rol.getRol((String) cbRol.getSelectedItem()));
+                    }
+                    if (cbEquipo.getSelectedIndex() != 0) {
+                        jugador.setEquipo((Equipo) cbEquipo.getSelectedItem());
+                    }
+                    AdminController.updatejugador(jugador);
+                    WindowUtils.showInfoMessage("Jugador modificado correctamente");
+                } catch (DataNotFoundException | DbException ex) {
+                    WindowUtils.showErrorMessage(ex.getMessage());
                 }
             }
         });

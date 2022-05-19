@@ -149,4 +149,14 @@ public class AdminController {
         assert Main.user.getType() == 1;
         return EquipoDAO.searchEquipoById(id);
     }
+
+    public static void insertjugador(Jugador jugador) throws DbException {
+        assert Main.user.getType() == 1;
+        JugadorDAO.insertJugador(jugador);
+    }
+
+    public static void updatejugador(Jugador jugador) throws DbException {
+        assert Main.user.getType() == 1;
+        JugadorDAO.updateJugador(jugador);
+    }
 }

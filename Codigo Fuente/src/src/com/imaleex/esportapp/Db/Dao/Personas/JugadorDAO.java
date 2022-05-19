@@ -52,7 +52,7 @@ public class JugadorDAO {
     }
 
     public static void insertJugador(Jugador jugador) throws DbException {
-        String sql = "INSERT INTO jugadores (id, nickname, sueldo, id_equipo) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO jugadores (id, nickname, sueldo, id_equipo, rol) VALUES (?, ?, ?, ?, ?)";
         try {
             //Instanciamos la conexion y creamos el statement
             Connection con = Db.getConnection(1);
@@ -61,6 +61,8 @@ public class JugadorDAO {
             stmt.setString(2, jugador.getNickname());
             stmt.setDouble(3, jugador.getSueldo());
             stmt.setInt(4, jugador.getEquipo().getId());
+            stmt.setString(5, jugador.getRol().name());
+
             //Ejecutamos el statement
             stmt.executeUpdate();
             //Actualizamos la persona
@@ -72,19 +74,26 @@ public class JugadorDAO {
     }
 
     public static void updateJugador(Jugador jugador) throws DbException {
-        String sql = "UPDATE jugadores SET nickname = ?, sueldo = ?, id_equipo = ? WHERE id = ?";
+        String sql = "UPDATE jugadores SET nickname = ?, sueldo = ?, id_equipo = ?, rol = ? WHERE id = ?";
         try {
             //Instanciamos la conexion y creamos el statement
+            //TODO Valores nulos en insert y update
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, jugador.getNickname());
             stmt.setDouble(2, jugador.getSueldo());
             stmt.setInt(3, jugador.getEquipo().getId());
-            stmt.setInt(4, jugador.getId());
+            stmt.setInt(5, jugador.getId());
+            stmt.setString(4, jugador.getRol().name());
+            System.out.println(jugador.getRol().name());
             //Ejecutamos el statement
-            stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
             //Actualizamos la persona
             PersonaDAO.updatePersona(jugador);
+            } else {
+                throw new DbException("No se ha podido actualizar el jugador");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();

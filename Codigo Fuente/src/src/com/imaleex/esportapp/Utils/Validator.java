@@ -14,6 +14,15 @@ public class Validator {
         return m.find();
     }
 
+    public static boolean checkDouble(String doubleString){
+        try{
+            Double.parseDouble(doubleString);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static boolean checkEmail(String email){
         String regex = "\"\\\\b[\\\\w.%-]+@[-.\\\\w]+\\\\.[A-Za-z]{2,4}\\\\b\"";
         return checkRegex(regex, email);

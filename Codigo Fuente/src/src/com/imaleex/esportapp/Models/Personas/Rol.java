@@ -16,6 +16,15 @@ public enum Rol {
         this.nombre = nombre;
     }
 
+    public static Rol getRol(String nombre) {
+        for (Rol rol : Rol.values()) {
+            if (rol.getNombre().equals(nombre)) {
+                return rol;
+            }
+        }
+        return null;
+    }
+
 
     public String getNombre() {
         return nombre;

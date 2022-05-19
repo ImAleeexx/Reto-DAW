@@ -30,7 +30,7 @@ public class PersonaDAO {
             // ejecutamos la consulta y guardamos el id en una variable
             int insertedId = stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
+            if (rs.next() ) {
                 persona.setId(rs.getInt(1));
             }
             return persona;
@@ -53,7 +53,10 @@ public class PersonaDAO {
             stmt.setString(2, persona.getDni());
             stmt.setString(3, persona.getTelefono());
             stmt.setInt(4, persona.getId());
-            stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
+            if (rows == 0) {
+                throw new DbException("No se ha actualizado ninguna persona");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al actualizar la persona");
@@ -70,7 +73,10 @@ public class PersonaDAO {
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, persona.getId());
-            stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
+            if (rows == 0) {
+                throw new DbException("No se ha borrado ninguna persona");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al borrar la persona");
