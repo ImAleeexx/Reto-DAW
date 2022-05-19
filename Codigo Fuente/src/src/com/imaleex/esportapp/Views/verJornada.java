@@ -1,22 +1,19 @@
 package com.imaleex.esportapp.Views;
 
-import com.imaleex.esportapp.Db.Dao.EquipoDAO;
 import com.imaleex.esportapp.Db.Dao.PartidoDAO;
-import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Jornada;
 import com.imaleex.esportapp.Models.Partido;
 import com.imaleex.esportapp.Utils.WindowUtils;
 
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 public class verJornada extends JFrame {
 
@@ -24,24 +21,12 @@ public class verJornada extends JFrame {
     private static final long serialVersionUID = 1L;
 
     // la tabla
-    private JTable table;
+    private final JTable table;
 
     // el modelo de tabla, aquí van a estar los datos.
-    private DefaultTableModel model;
+    private final DefaultTableModel model;
 
-    // función principal
-    public static void main() {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    verJornada frame = new verJornada();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    private int[] idPartidos;
 
     // constructor del frame que contruye toda la ventana...
     public verJornada() {
@@ -63,16 +48,23 @@ public class verJornada extends JFrame {
         getContentPane().add(scrollPane);
 
         // nombre de las columnas
-        String[] columnNames = { "Equipo Local", "Marcador Local", "Marcador Visitante", "Equipo Visitante" };
+        String[] columnNames = {"Equipo Local", "Marcador Local", "Marcador Visitante", "Equipo Visitante"};
 
         // creo un modelo de datos, sin datos por eso 'null' y establezco los
         // nombres de columna
         model = new DefaultTableModel(null, columnNames);
         // creo la tabla con el modelo de datos creado
-        table = new JTable(model);
-        // Not edit table
-        table.setEnabled(false);
+        table = new JTable(model){
+            // para que no se pueda editar la tabla
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
+        //modelo de la selección
+        ListSelectionModel listModel = table.getSelectionModel();
+        listModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 
         table.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -89,6 +81,7 @@ public class verJornada extends JFrame {
         buscar.setBounds(10, 249, 150, 23);
         getContentPane().add(tfJornada);
         getContentPane().add(buscar);
+
         buscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 //Search in the database jornada 1
@@ -98,7 +91,7 @@ public class verJornada extends JFrame {
                 Jornada jornada = new Jornada();
                 try {
                     jornada.setId(Integer.parseInt(tfJornada.getText()));
-                }catch(NumberFormatException e){
+                } catch (NumberFormatException e) {
                     WindowUtils.showErrorMessage("Introduzca un número");
                 }
                 try {
@@ -106,18 +99,19 @@ public class verJornada extends JFrame {
                 } catch (DbException e) {
                     throw new RuntimeException(e);
                 }
+                idPartidos = new int[partidos.size()];
                 for (int i = 0; i < partidos.size(); i++) {
 
-                    Object[] aux = new Object[0];
                     Partido partido = partidos.get(i);
                     Equipo equipoLocal = partido.getLocal();
                     Equipo equipoVisitante = partido.getVisitante();
-
-                    aux = new Object[]{equipoLocal.getNombre(), partido.getMarcadorLocal(), partido.getMarcadorLocal(), equipoVisitante.getNombre(), partido.getId()};
-
+                    String marcadorLocal = String.valueOf(partido.getMarcadorLocal()).equals("null") ? "-" : String.valueOf(partido.getMarcadorLocal());
+                    String marcadorVisitante = String.valueOf(partido.getMarcadorVisitante()).equals("null") ? "-" : String.valueOf(partido.getMarcadorVisitante());
+                    Object[] aux = new Object[]{equipoLocal.getNombre(),marcadorLocal, marcadorVisitante, equipoVisitante.getNombre()};
+                    idPartidos[i] = partido.getId();
                     model.addRow(aux);
 
-            }
+                }
             }
         });
 
@@ -131,8 +125,8 @@ public class verJornada extends JFrame {
         boton_Guardar.setVisible(false);
         boton_Modificar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                table.setEnabled(true);
-                boton_Guardar.setVisible(true);
+                System.out.println(idPartidos[table.getSelectedRow()]);
+
             }
         });
 
@@ -142,6 +136,20 @@ public class verJornada extends JFrame {
                 Partido partido = new Partido();
                 Jornada jornada = new Jornada();
 
+            }
+        });
+    }
+
+    // función principal
+    public static void main() {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    verJornada frame = new verJornada();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

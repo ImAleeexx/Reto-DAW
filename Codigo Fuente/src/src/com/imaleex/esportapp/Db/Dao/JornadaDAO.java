@@ -6,9 +6,6 @@ import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Jornada;
 import com.imaleex.esportapp.Models.Partido;
-import com.imaleex.esportapp.Models.Personas.Dueno;
-import com.imaleex.esportapp.Models.Personas.Entrenador;
-import com.imaleex.esportapp.Utils.DaoUtils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -178,6 +175,8 @@ public class JornadaDAO {
                 Partido partido = new Partido();
                 partido.setLocal(equipo1);
                 partido.setVisitante(equipo2);
+                partido.setMarcadorLocal(-1);
+                partido.setMarcadorVisitante(-1);
                 partido.setJornada(jornada);
                 partido.setHora(time);
                 listaPartidos.add(partido);

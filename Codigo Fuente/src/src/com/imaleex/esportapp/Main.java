@@ -28,8 +28,8 @@ public class Main {
     public static void main(String[] args) {
         initDbConnection();
         displayLoginModal();
-        /*
-        JornadaDAO.generateMatchCalendar();*/
+
+        //JornadaDAO.generateMatchCalendar();
 
     }
 

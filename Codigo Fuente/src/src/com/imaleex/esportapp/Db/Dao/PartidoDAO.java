@@ -5,6 +5,7 @@ import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Jornada;
 import com.imaleex.esportapp.Models.Partido;
+import com.imaleex.esportapp.Utils.DaoUtils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -58,22 +59,12 @@ public class PartidoDAO {
             java.sql.PreparedStatement stmt = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, partido.getLocal().getId());
             stmt.setInt(2, partido.getVisitante().getId());
-            try {
             stmt.setTime(3, java.sql.Time.valueOf(partido.getHora()));
-            }catch (NullPointerException e){
-                stmt.setTime(3, null);
-            }
-            try {
-            stmt.setInt(4, partido.getMarcadorLocal());
-            }catch (NullPointerException e){
-                stmt.setNull(4, java.sql.Types.INTEGER);
-            }
-            try {
-            stmt.setInt(5, partido.getMarcadorVisitante());
-            }catch (NullPointerException e){
-                stmt.setNull(5, java.sql.Types.INTEGER);
-            }
-            stmt.setInt(6, partido.getJornada().getId());
+            System.out.println(partido.getMarcadorLocal());
+            System.out.println(partido.getMarcadorVisitante());
+            stmt.setObject(4, partido.getMarcadorLocal(), java.sql.Types.INTEGER);
+            stmt.setObject(5, partido.getMarcadorVisitante(), java.sql.Types.INTEGER);
+            stmt.setObject(6, partido.getJornada().getId(), java.sql.Types.INTEGER);
             if (stmt.executeUpdate() != 1) {
                 throw new DbException("Error al insertar el partido");
             }
@@ -139,8 +130,12 @@ public class PartidoDAO {
                 visitante.setId(rs.getInt("id_visitante"));
                 partido.setVisitante(visitante);
                 partido.setHora(rs.getTime("hora").toLocalTime());
-                partido.setMarcadorLocal(rs.getInt("resultado_local"));
-                partido.setMarcadorVisitante(rs.getInt("resultado_visitante"));
+                if (DaoUtils.checkNullableInteger(rs, "resultado_local")) {
+                    partido.setMarcadorLocal(rs.getInt("resultado_local"));
+                }
+                if (DaoUtils.checkNullableInteger(rs, "resultado_visitante")) {
+                    partido.setMarcadorVisitante(rs.getInt("resultado_visitante"));
+                }
                 Jornada jornada2 = new Jornada();
                 jornada2.setId(rs.getInt("id_jornada"));
                 partido.setJornada(jornada2);

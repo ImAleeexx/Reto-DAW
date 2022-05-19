@@ -1,6 +1,7 @@
 package com.imaleex.esportapp.Controllers;
 
 import com.imaleex.esportapp.Db.Dao.EquipoDAO;
+import com.imaleex.esportapp.Db.Dao.PartidoDAO;
 import com.imaleex.esportapp.Db.Dao.Personas.DuenoDAO;
 import com.imaleex.esportapp.Db.Dao.Personas.EntrenadorDAO;
 import com.imaleex.esportapp.Db.Dao.Personas.JugadorDAO;
@@ -10,6 +11,7 @@ import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
 import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Equipo;
+import com.imaleex.esportapp.Models.Partido;
 import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
 import com.imaleex.esportapp.Models.Personas.Jugador;
@@ -163,5 +165,10 @@ public class AdminController {
     public static void deleteJugador(Jugador jugador) throws DbException {
         assert Main.user.getType() == 1;
         JugadorDAO.deleteJugador(jugador);
+    }
+
+    public static Partido buscarPartidoId(int idPartido) throws DbException {
+        assert Main.user.getType() == 1;
+        return PartidoDAO.searchPartido(idPartido);
     }
 }
