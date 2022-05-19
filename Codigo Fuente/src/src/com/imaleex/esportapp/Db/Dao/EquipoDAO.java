@@ -9,6 +9,7 @@ import com.imaleex.esportapp.Models.Personas.Entrenador;
 import com.imaleex.esportapp.Models.Personas.Jugador;
 import com.imaleex.esportapp.Models.Personas.Rol;
 import com.imaleex.esportapp.Utils.DaoUtils;
+import com.imaleex.esportapp.Utils.Faker;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -68,13 +69,31 @@ public class EquipoDAO {
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, equipo.getNombre());
+            try {
             stmt.setInt(2, equipo.getEntrenador().getId());
+            } catch (NullPointerException e) {
+                stmt.setNull(2, java.sql.Types.INTEGER);
+            }
+            try {
             stmt.setInt(3, equipo.getEntrenadorAsistente().getId());
+            } catch (NullPointerException e) {
+                stmt.setNull(3, java.sql.Types.INTEGER);
+            }
+            try {
             stmt.setInt(4, equipo.getDueno().getId());
+            } catch (NullPointerException e) {
+                stmt.setNull(4, java.sql.Types.INTEGER);
+            }
             //Ejecutamos el statement
-            int id = stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
+            if (rows != 1) {
+                throw new DbException("No se pudo insertar el equipo");
+            }
             //Actualizamos id
-            equipo.setId(id);
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next() ) {
+                equipo.setId(rs.getInt(1));
+            }
             return equipo;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -225,4 +244,21 @@ public class EquipoDAO {
             equipo.setDueno(new Dueno(rs.getInt("dueno")));
         }
     }
+
+
+    public static void generateRandomTeams(int numEquipos){
+        for (int i = 0; i < numEquipos; i++) {
+            Equipo equipo = new Equipo();
+            equipo.setId(i);
+            equipo.setNombre("Equipo "  + Faker.streetName());
+            try {
+                insertEquipo(equipo);
+            } catch (DbException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+
 }

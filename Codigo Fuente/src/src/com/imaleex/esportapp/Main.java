@@ -1,6 +1,8 @@
 package com.imaleex.esportapp;
 
 import com.imaleex.esportapp.Controllers.AdminController;
+import com.imaleex.esportapp.Db.Dao.EquipoDAO;
+import com.imaleex.esportapp.Db.Dao.JornadaDAO;
 import com.imaleex.esportapp.Db.Db;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
@@ -26,7 +28,8 @@ public class Main {
     public static void main(String[] args) {
         initDbConnection();
         displayLoginModal();
-        AdminController.generateMatches();
+        JornadaDAO.generateMatchCalendar();
+
     }
 
     private static void initDbConnection() {
