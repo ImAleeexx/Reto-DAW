@@ -243,6 +243,12 @@ public class AdminController extends UserController {
             for (int j = 0; j < numPartidos; j++) {
                 Equipo equipo1 = listaEquipos1.get(j);
                 Equipo equipo2 = listaEquipos2.get(j);
+                if (equipo1.getJugadores().size() <= 2 ) {
+                    throw new RuntimeException("Error en la generacion de partidos, el equipo " + equipo1.getNombre() + " no tiene suficientes jugadores");
+                }
+                if (equipo2.getJugadores().size() <= 2 ) {
+                    throw new RuntimeException("Error en la generacion de partidos, el equipo " + equipo2.getNombre() + " no tiene suficientes jugadores");
+                }
                 LocalTime time = LocalTime.of((16) + j, 0);
                 Partido partido = new Partido();
                 partido.setLocal(equipo1);

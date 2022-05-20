@@ -38,13 +38,15 @@ public class JugadorDAO {
                 persona.setSueldo(rs.getDouble("sueldo"));
                 //TODO Falta meter datos de equipo y rol
                 try {
-                Equipo equipo = new Equipo();
-                equipo.setId(rs.getInt("id_equipo"));
-                persona.setEquipo(equipo);
-                } catch (NullPointerException ignored) {  }   //Si no tiene equipo, no hace nada
+                    Equipo equipo = new Equipo();
+                    equipo.setId(rs.getInt("id_equipo"));
+                    persona.setEquipo(equipo);
+                } catch (NullPointerException ignored) {
+                }   //Si no tiene equipo, no hace nada
                 try {
-                persona.setRol(Rol.valueOf(rs.getString("rol")));
-                } catch (NullPointerException ignored) {  }   //Si no tiene rol, no hace nada
+                    persona.setRol(Rol.valueOf(rs.getString("rol")));
+                } catch (NullPointerException ignored) {
+                }   //Si no tiene rol, no hace nada
             } else {
                 throw new DataNotFoundException("El jugador no existe");
             }
@@ -65,12 +67,17 @@ public class JugadorDAO {
             stmt.setString(2, jugador.getNickname());
             stmt.setDouble(3, jugador.getSueldo());
             try {
-            stmt.setObject(4, jugador.getEquipo().getId(), java.sql.Types.INTEGER);
+
+                if (jugador.getEquipo().getJugadores().size() >= 6) {
+                    stmt.setObject(4, jugador.getEquipo().getId(), java.sql.Types.INTEGER);
+                } else {
+                    throw new DbException("El equipo tiene demasiados jugadores");
+                }
             } catch (NullPointerException e) {
                 stmt.setNull(4, java.sql.Types.INTEGER);
             }
             try {
-            stmt.setString(5, jugador.getRol().name());
+                stmt.setString(5, jugador.getRol().name());
             } catch (NullPointerException e) {
                 stmt.setNull(5, java.sql.Types.VARCHAR);
             }
@@ -79,7 +86,7 @@ public class JugadorDAO {
             stmt.executeUpdate();
             //Actualizamos la persona
 
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al insertar el jugador");
         }
@@ -95,25 +102,29 @@ public class JugadorDAO {
             stmt.setString(1, jugador.getNickname());
             stmt.setDouble(2, jugador.getSueldo());
             try {
-            stmt.setInt(3, jugador.getEquipo().getId());
+                if (jugador.getEquipo().getJugadores().size() >= 6) {
+                    stmt.setObject(4, jugador.getEquipo().getId(), java.sql.Types.INTEGER);
+                } else {
+                    throw new DbException("El equipo tiene demasiados jugadores");
+                }
             } catch (NullPointerException e) {
                 stmt.setNull(3, java.sql.Types.INTEGER);
             }
             try {
-            stmt.setInt(5, jugador.getId());
+                stmt.setInt(5, jugador.getId());
             } catch (NullPointerException e) {
                 stmt.setNull(5, java.sql.Types.INTEGER);
             }
             try {
-            stmt.setString(4, jugador.getRol().name());
+                stmt.setString(4, jugador.getRol().name());
             } catch (NullPointerException e) {
                 stmt.setNull(4, java.sql.Types.VARCHAR);
             }
             //Ejecutamos el statement
             int rows = stmt.executeUpdate();
             if (rows > 0) {
-            //Actualizamos la persona
-            PersonaDAO.updatePersona(jugador);
+                //Actualizamos la persona
+                PersonaDAO.updatePersona(jugador);
             } else {
                 throw new DbException("No se ha podido actualizar el jugador");
             }
@@ -135,7 +146,7 @@ public class JugadorDAO {
             //Borramos la persona asociada a la id
             int rows = stmt.executeUpdate();
             if (rows > 0) {
-            PersonaDAO.deletePersona(jugador);
+                PersonaDAO.deletePersona(jugador);
             } else {
                 throw new DbException("No se ha podido borrar el jugador");
             }
