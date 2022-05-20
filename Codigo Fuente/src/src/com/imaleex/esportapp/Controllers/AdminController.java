@@ -63,11 +63,17 @@ public class AdminController extends UserController {
 
     public static void insertjugador(Jugador jugador) throws DbException {
         assert Main.user.getType() == 1;
+        if (sueldoTotalJugadores() + jugador.getSueldo() > 2000000) {
+            throw new DbException("No se puede insertar el jugador porque sobrepasaría el sueldo máximo");
+        }
         JugadorDAO.insertJugador(jugador);
     }
 
     public static void updatejugador(Jugador jugador) throws DbException {
         assert Main.user.getType() == 1;
+        if (sueldoTotalJugadores() + jugador.getSueldo() > 2000000) {
+            throw new DbException("No se puede modificar el jugador porque sobrepasaría el sueldo máximo");
+        }
         JugadorDAO.updateJugador(jugador);
     }
 
@@ -79,6 +85,16 @@ public class AdminController extends UserController {
     public static Partido buscarPartidoId(int idPartido) throws DbException {
         assert Main.user.getType() == 1;
         return PartidoDAO.searchPartido(idPartido);
+    }
+
+    public static Double sueldoTotalJugadores() throws DbException {
+        assert Main.user.getType() == 1;
+        ArrayList<Jugador> jugadores = listaJugadores();
+        Double sueldoTotal = 0.0;
+        for (Jugador jugador : jugadores) {
+            sueldoTotal += jugador.getSueldo();
+        }
+        return sueldoTotal;
     }
 
     //Dueños
@@ -188,12 +204,26 @@ public class AdminController extends UserController {
 
     public static void insertEquipo(Equipo equipo) throws DbException {
         assert Main.user.getType() == 1;
+        checkDuplicatesEquipo(equipo);
         EquipoDAO.insertEquipo(equipo);
     }
 
     public static void updateEquipo(Equipo equipo) throws DbException {
         assert Main.user.getType() == 1;
+        checkDuplicatesEquipo(equipo);
         EquipoDAO.updateEquipo(equipo);
+    }
+
+    private static void checkDuplicatesEquipo(Equipo equipo) throws DbException {
+        if (EquipoDAO.searchEquipoByDueno(equipo.getDueno()) != null) {
+            throw new DbException("Ya existe un equipo con ese dueno");
+        }
+        if (EquipoDAO.searchEquipoByEntrenador(equipo.getEntrenador()) != null) {
+            throw new DbException("Ya existe un equipo con ese entrenador");
+        }
+        if (EquipoDAO.searchEquipoByEntrenador(equipo.getEntrenadorAsistente()) != null) {
+            throw new DbException("Ya existe un equipo con ese entrenador asistente");
+        }
     }
 
     public static ArrayList<Equipo> listaEquipos() throws DbException {

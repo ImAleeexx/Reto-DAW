@@ -62,6 +62,79 @@ public class EquipoDAO {
         return equipo;
     }
 
+    public static Equipo searchEquipoByDueno(Dueno dueno) throws DbException {
+        String sql = "SELECT * FROM equipos  WHERE dueno = ? LIMIT 1";
+        Equipo equipo = new Equipo();
+
+        try {
+            //Instanciamos la conexion y creamos el statement
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, dueno.getId());
+
+            //Ejecutamos el statement
+            java.sql.ResultSet rs = stmt.executeQuery();
+
+            //Recorremos el resultado
+            if (rs.next()) {
+                equipo.setId(rs.getInt("id"));
+                equipo.setNombre(rs.getString("nombre"));
+                if (DaoUtils.checkNullableInteger(rs, "entrenador")) {
+                    equipo.setEntrenador(new Entrenador(rs.getInt("entrenador")));
+                }
+                if (DaoUtils.checkNullableInteger(rs, "asistente")) {
+                    equipo.setEntrenadorAsistente(new Entrenador(rs.getInt("asistente")));
+                }
+                if (DaoUtils.checkNullableInteger(rs, "dueno")) {
+                    equipo.setDueno(new Dueno(rs.getInt("dueno")));
+                }
+
+            } else {
+                return null;
+            }
+    } catch ( SQLException e) {
+            throw new DbException("Error al buscar el equipo");
+        }
+        return equipo;
+    }
+
+    public static Equipo searchEquipoByEntrenador(Entrenador entrenador) throws DbException {
+        String sql = "SELECT * FROM equipos  WHERE entrenador = ? OR asistente = ? LIMIT 1";
+        Equipo equipo = new Equipo();
+
+        try {
+            //Instanciamos la conexion y creamos el statement
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, entrenador.getId());
+            stmt.setInt(2, entrenador.getId());
+
+            //Ejecutamos el statement
+            java.sql.ResultSet rs = stmt.executeQuery();
+
+            //Recorremos el resultado
+            if (rs.next()) {
+                equipo.setId(rs.getInt("id"));
+                equipo.setNombre(rs.getString("nombre"));
+                if (DaoUtils.checkNullableInteger(rs, "entrenador")) {
+                    equipo.setEntrenador(new Entrenador(rs.getInt("entrenador")));
+                }
+                if (DaoUtils.checkNullableInteger(rs, "asistente")) {
+                    equipo.setEntrenadorAsistente(new Entrenador(rs.getInt("asistente")));
+                }
+                if (DaoUtils.checkNullableInteger(rs, "entrenador")) {
+                    equipo.setDueno(new Dueno(rs.getInt("entrenador")));
+                }
+
+            } else {
+                return null;
+            }
+        } catch ( SQLException e) {
+            throw new DbException("Error al buscar el equipo");
+        }
+        return equipo;
+    }
+
     public static Equipo insertEquipo(Equipo equipo) throws DbException {
         String sql = "INSERT INTO equipos (nombre, entrenador, asistente, dueno) VALUES (?, ?, ?, ?)";
         try {
@@ -120,6 +193,7 @@ public class EquipoDAO {
                 stmt.setNull(3, java.sql.Types.INTEGER);
             }
             try {
+
                 stmt.setInt(4, equipo.getDueno().getId());
             } catch (NullPointerException e) {
                 stmt.setNull(4, java.sql.Types.INTEGER);
