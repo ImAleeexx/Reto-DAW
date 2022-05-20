@@ -171,7 +171,7 @@ public class GestionEntrenador {
                             loadSearchCb();
                         }
                     } catch (DataNotFoundException | DbException ex) {
-                        throw new RuntimeException(ex);
+                        WindowUtils.showErrorMessage(ex.getMessage());
                     }
                 }
             }
