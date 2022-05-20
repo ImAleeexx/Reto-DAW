@@ -7,6 +7,7 @@ import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Partido;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * @author Alex Cortes
@@ -28,7 +29,6 @@ public class UserController {
            //Puntos
            clasificacion[i][4] = 0;
        }
-
        for (int i = 0; i < listaPartidos.size(); i++) {
            for (int j = 0; j < listaEquipos.size(); j++) {
                if (listaPartidos.get(i).getGanador().getNombre().equals(clasificacion[j][0])) {
@@ -41,7 +41,16 @@ public class UserController {
                }
            }
        }
-
+        final Comparator<Object[]> arrayComparator = new Comparator<Object[]>() {
+            @Override
+            public int compare(Object[] o1, Object[] o2) {
+                Integer puntos1 = (Integer) o1[4];
+                Integer puntos2 = (Integer) o2[4];
+                return puntos2.compareTo(puntos1);
+            }
+        };
+        //Ordenamos la clasificacion
+        java.util.Arrays.sort(clasificacion, arrayComparator);
 
         return clasificacion;
     }

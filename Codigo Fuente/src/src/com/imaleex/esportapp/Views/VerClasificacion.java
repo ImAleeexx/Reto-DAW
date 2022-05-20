@@ -1,14 +1,15 @@
 package com.imaleex.esportapp.Views;
 
-import java.awt.EventQueue;
+import com.imaleex.esportapp.Controllers.UserController;
+import com.imaleex.esportapp.Exceptions.DbException;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class VerClasificacion extends JFrame {
 
@@ -16,24 +17,10 @@ public class VerClasificacion extends JFrame {
     private static final long serialVersionUID = 1L;
 
     // la tabla
-    private JTable table;
+    private final JTable table;
 
     // el modelo de tabla, aquí van a estar los datos.
-    private DefaultTableModel model;
-
-    // función principal
-    public static void main() {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    VerClasificacion frame = new VerClasificacion();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    private final DefaultTableModel model;
 
     // constructor del frame que contruye toda la ventana...
     public VerClasificacion() {
@@ -55,7 +42,7 @@ public class VerClasificacion extends JFrame {
         getContentPane().add(scrollPane);
 
         // nombre de las columnas
-        String[] columnNames = { "Posicion", "Equipo", "Puntos"};
+        String[] columnNames = {"Posicion", "Equipo", "Puntos", "Partidos Jugados", "Partidos Ganados", "Partidos Perdidos"};
 
         // creo un modelo de datos, sin datos por eso 'null' y establezco los
         // nombres de columna
@@ -68,16 +55,43 @@ public class VerClasificacion extends JFrame {
 
         // código del botón
         JButton btnAadirLnea = new JButton("Meter contenido");
+
         btnAadirLnea.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Object[][] partidos;
+                try {
+                    partidos = UserController.generateClasificacion();
+                } catch (DbException e) {
+                    throw new RuntimeException(e);
+                }
 
+                for (int i = 0; i < partidos.length; i++) {
+                    Object[] aux = new Object[]{i+1, partidos[i][0], partidos[i][4], partidos[i][1],partidos[i][2],partidos[i][3]};
+                    model.addRow(aux);
 
+                }
             }
         });
+
+
         // dimensiones y posición del botón
         btnAadirLnea.setBounds(10, 249, 267, 23);
         // pongo el botón en la ventana
         getContentPane().add(btnAadirLnea);
 
+    }
+
+    // función principal
+    public static void main() {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    VerClasificacion frame = new VerClasificacion();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
