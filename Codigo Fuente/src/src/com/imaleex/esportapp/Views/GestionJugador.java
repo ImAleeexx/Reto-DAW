@@ -97,6 +97,22 @@ public class GestionJugador {
                 GestionEntrenador.main();
             }
         });
+        jmUltimaJornada.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpJugador);
+                frame.dispose();
+                VerJornada.main();
+            }
+        });
+        jmClasificacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpJugador);
+                frame.dispose();
+                VerClasificacion.main();
+            }
+        });
 
         bBuscar.addActionListener(new ActionListener() {
             @Override

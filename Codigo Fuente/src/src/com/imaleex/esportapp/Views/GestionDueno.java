@@ -91,6 +91,22 @@ public class GestionDueno {
                 GestionJugador.main();
             }
         });
+        jmUltimaJornada.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpDueno);
+                frame.dispose();
+                VerJornada.main();
+            }
+        });
+        jmClasificacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpDueno);
+                frame.dispose();
+                VerClasificacion.main();
+            }
+        });
 
 
         bBuscar.addActionListener(new ActionListener() {

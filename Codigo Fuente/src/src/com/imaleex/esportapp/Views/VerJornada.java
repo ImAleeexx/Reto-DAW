@@ -152,6 +152,8 @@ public class VerJornada extends JFrame {
             partidos = UserController.listaPartidosByJornada(jornada);
         } catch (DbException e) {
             WindowUtils.showErrorMessage(e.getMessage());
+        } catch (NullPointerException e) {
+            //WindowUtils.showErrorMessage("No hay jornadas creadas");
         }
         loadValues(partidos);
     }
@@ -186,6 +188,10 @@ public class VerJornada extends JFrame {
 
 
     private Jornada getNearestJornada() {
+        if (jornadas.size() < 1) {
+            WindowUtils.showErrorMessage("No hay jornadas creadas");
+            return null;
+        }
         final long now = System.currentTimeMillis() /1000;
         ZoneId zoneId = ZoneId.systemDefault();
         Jornada nearestJornada = Collections.min(jornadas, new Comparator<Jornada>() {
