@@ -111,6 +111,19 @@ public class JornadaDAO {
         }
     }
 
+    public static void deleteAllJornadas() throws DbException {
+        String sql = "DELETE FROM jornadas";
+        try {
+            //Instanciamos la conexion y creamos el statement
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            //Ejecutamos el statement
+            int rows = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static ArrayList<Jornada> getJornadas() throws DbException {
         String sql = "SELECT * FROM jornadas";
         ArrayList<Jornada> jornadas = new ArrayList<>();

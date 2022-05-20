@@ -195,7 +195,6 @@ public class VerJornada extends JFrame {
                 return Long.compare(diff1, diff2);
             }
         });
-        System.out.println(nearestJornada.getFecha());
         return nearestJornada;
     }
 

@@ -42,7 +42,7 @@ public class Main {
             }
             Db.setDbParams("esports", password, "esports", "server.imaleex.com");
             db = Db.getInstance(1);
-            System.out.println("Conectado");
+            System.out.println("Conectado a la base de datos");
         } catch (DbException e) {
             e.printStackTrace();
             System.exit(1);

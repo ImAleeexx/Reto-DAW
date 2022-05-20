@@ -263,7 +263,7 @@ public class AdminController extends UserController {
         Collections.shuffle(listaEquipos);
 
         for (int i = 0; i < listaEquipos.size(); i++) {
-            if (i <= listaEquipos.size() - 1) {
+            if (i <= (listaEquipos.size() /2) - 1) {
                 listaEquipos1.add(listaEquipos.get(i));
             } else {
                 listaEquipos2.add(listaEquipos.get(i));
@@ -288,10 +288,14 @@ public class AdminController extends UserController {
                 Equipo equipo1 = listaEquipos1.get(j);
                 Equipo equipo2 = listaEquipos2.get(j);
                 if (equipo1.getJugadores().size() <= 2) {
-                    throw new RuntimeException("Error en la generacion de partidos, el equipo " + equipo1.getNombre() + " no tiene suficientes jugadores");
+                    JornadaDAO.deleteAllJornadas();
+                    PartidoDAO.deleteAllPartidos();
+                    throw new DbException("Error en la generacion de partidos, el equipo " + equipo1.getNombre() + " no tiene suficientes jugadores");
                 }
                 if (equipo2.getJugadores().size() <= 2) {
-                    throw new RuntimeException("Error en la generacion de partidos, el equipo " + equipo2.getNombre() + " no tiene suficientes jugadores");
+                    JornadaDAO.deleteAllJornadas();
+                    PartidoDAO.deleteAllPartidos();
+                    throw new DbException("Error en la generacion de partidos, el equipo " + equipo2.getNombre() + " no tiene suficientes jugadores");
                 }
                 LocalTime time = LocalTime.of((16) + j, 0);
                 Partido partido = new Partido();

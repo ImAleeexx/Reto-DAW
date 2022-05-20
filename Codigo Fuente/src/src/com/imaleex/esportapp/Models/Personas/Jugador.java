@@ -65,7 +65,7 @@ public class Jugador extends Persona{
         } catch (NullPointerException e) {
             return null;
         }
-        System.out.println("Equipo: " + equipo.getNombre());
+
         return equipo;
     }
 

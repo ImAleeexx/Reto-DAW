@@ -61,8 +61,6 @@ public class PartidoDAO {
             stmt.setInt(1, partido.getLocal().getId());
             stmt.setInt(2, partido.getVisitante().getId());
             stmt.setTime(3, java.sql.Time.valueOf(partido.getHora()));
-            System.out.println(partido.getMarcadorLocal());
-            System.out.println(partido.getMarcadorVisitante());
             stmt.setObject(4, partido.getMarcadorLocal(), java.sql.Types.INTEGER);
             stmt.setObject(5, partido.getMarcadorVisitante(), java.sql.Types.INTEGER);
             stmt.setObject(6, partido.getJornada().getId(), java.sql.Types.INTEGER);
@@ -108,6 +106,17 @@ public class PartidoDAO {
             if (stmt.executeUpdate() != 1) {
                 throw new DbException("Error al eliminar el partido");
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteAllPartidos() throws DbException {
+        String sql = "DELETE FROM partidos";
+        try {
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

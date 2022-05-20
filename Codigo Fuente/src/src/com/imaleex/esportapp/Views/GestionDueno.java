@@ -167,7 +167,6 @@ public class GestionDueno {
                             } else {
                                 throw new DbException("Telefono no valido");
                             }
-                            System.out.println(dueno);
                             AdminController.updateDueno(dueno);
                             WindowUtils.showInfoMessage("Dueno modificado");
                         }
@@ -205,7 +204,6 @@ public class GestionDueno {
                         throw new DbException("Telefono no valido");
                     }
                     dueno = (Dueno) AdminController.insertPersona(dueno);
-                    System.out.println(dueno.getId());
                     AdminController.insertarDueno(dueno);
                     WindowUtils.showInfoMessage("Dueno añadido");
                     tfDNI.setText("");

@@ -75,7 +75,6 @@ public class JugadorDAO {
                     throw new DbException("El equipo tiene demasiados jugadores");
                 }
             } catch (NullPointerException e) {
-                System.out.println("El jugador no tiene equipo");
                 stmt.setNull(4, java.sql.Types.INTEGER);
             }
             try {

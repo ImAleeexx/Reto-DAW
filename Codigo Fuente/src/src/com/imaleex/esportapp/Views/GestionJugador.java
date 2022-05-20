@@ -163,7 +163,6 @@ public class GestionJugador {
                     }
                     if (cbEquipo.getSelectedIndex() != 0) {
                         jugador.setEquipo((Equipo) cbEquipo.getSelectedItem());
-                        System.out.println("Siz " + jugador.getEquipo().getJugadores().size());
                     }
                     jugador = (Jugador) AdminController.insertPersona(jugador);
                     if (jugador != null) {

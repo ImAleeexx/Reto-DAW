@@ -165,7 +165,6 @@ public class EntrenadorDAO {
             //Instanciamos la conexion y creamos el statement
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
-            System.out.println(dni);
             stmt.setString(1, dni);
             //Ejecutamos el statement
             java.sql.ResultSet rs = stmt.executeQuery();
