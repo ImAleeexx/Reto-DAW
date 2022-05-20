@@ -49,6 +49,7 @@ public class GestionEntrenador {
         tfUsuario.setText(Main.user.getNombre());
         jpEscondido.setVisible(false);
         loadSearchCb();
+        phaseTwoDisables();
 
         jmSalir.addActionListener(new ActionListener() {
             @Override
@@ -237,6 +238,18 @@ public class GestionEntrenador {
             });
         } catch (DbException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void phaseTwoDisables(){
+        if (AdminController.checkLeagueStarted()){
+            bAnadir.setVisible(false);
+            bModificar.setVisible(false);
+            bEliminar.setVisible(false);
+
+            tfTelefono.setEditable(false);
+            tfEntrenador.setEditable(false);
+            tfSueldo.setEditable(false);
         }
     }
 

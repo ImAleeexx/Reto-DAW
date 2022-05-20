@@ -56,6 +56,7 @@ public class GestionEquipo {
         try {
             llenarCB();
             loadSearchCb();
+            phaseTwoDisables();
         } catch (DataNotFoundException | DbException e) {
             WindowUtils.showErrorMessage(e.getMessage());
         }
@@ -257,6 +258,17 @@ public class GestionEquipo {
         }
     }
 
+    private void phaseTwoDisables(){
+        if (AdminController.checkLeagueStarted()){
+            bAnadir.setVisible(false);
+            bModificar.setVisible(false);
+            bEliminar.setVisible(false);
+
+            cbEntrenador.setEnabled(false);
+            cbEntrenadorAsistente.setEnabled(false);
+            cbDueno.setEnabled(false);
+        }
+    }
     public static void main() {
         JFrame frame = new JFrame("GestionEquipo");
         frame.setContentPane(new GestionEquipo().jpEquipo);

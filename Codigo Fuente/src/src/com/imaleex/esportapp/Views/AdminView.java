@@ -1,5 +1,6 @@
 package com.imaleex.esportapp.Views;
 
+import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Main;
 
 import javax.swing.*;
@@ -27,6 +28,7 @@ public class AdminView {
 
     public AdminView() {
         tfUserName.setText(Main.user.getNombre());
+        phaseTwoDisables();
 
         jmSalir.addActionListener(new ActionListener() {
             @Override
@@ -94,6 +96,16 @@ public class AdminView {
         });
     }
 
+
+    private void phaseTwoDisables(){
+        if (AdminController.checkLeagueStarted()){
+            bGenerarCalendario.setVisible(false);
+            bGenerarJugadores.setVisible(false);
+            bGenerarEntrenadores.setVisible(false);
+            bGenerarDuenos.setVisible(false);
+            bGenerarEquipos.setVisible(false);
+        }
+    }
 
     public static void main() {
         JFrame frame = new JFrame("AdminView");

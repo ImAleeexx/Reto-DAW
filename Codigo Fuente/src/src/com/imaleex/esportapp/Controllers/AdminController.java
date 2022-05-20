@@ -226,6 +226,12 @@ public class AdminController extends UserController {
     //Generacion partidos
     public static void generateMatchCalendar() throws DbException {
         assert Main.user.getType() == 1;
+
+        if (!JornadaDAO.getJornadas().isEmpty()) {
+            throw new DbException("Ya existen jornadas");
+        }
+
+
         ArrayList<Equipo> listaEquipos = EquipoDAO.listEquipos();
         ArrayList<Equipo> listaEquipos1 = new ArrayList<Equipo>();
         ArrayList<Equipo> listaEquipos2 = new ArrayList<Equipo>();
@@ -297,6 +303,13 @@ public class AdminController extends UserController {
 
     }
 
+    public static boolean checkLeagueStarted(){
+        try {
+            return JornadaDAO.getJornadas().size() > 0;
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static ArrayList<Jugador> listaJugadores() throws DbException {
         assert Main.user.getType() == 1;

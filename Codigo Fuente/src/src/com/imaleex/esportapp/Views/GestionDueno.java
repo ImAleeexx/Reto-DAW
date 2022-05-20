@@ -50,6 +50,7 @@ public class GestionDueno {
         tfUsuario.setText(Main.user.getNombre());
         jpEscondido.setVisible(false);
         loadSearchCb();
+        phaseTwoDisables();
 
         jmSalir.addActionListener(new ActionListener() {
             @Override
@@ -258,6 +259,18 @@ public class GestionDueno {
         }
     }
 
+
+    private void phaseTwoDisables(){
+        if (AdminController.checkLeagueStarted()){
+            bAnadir.setVisible(false);
+            bModificar.setVisible(false);
+            bEliminar.setVisible(false);
+
+            tfEmail.setEditable(false);
+            tfTelefono.setEditable(false);
+            tfDueno.setEditable(false);
+        }
+    }
     public static void main() {
         JFrame frame = new JFrame("GestionDueno");
         frame.setContentPane(new GestionDueno().jpDueno);

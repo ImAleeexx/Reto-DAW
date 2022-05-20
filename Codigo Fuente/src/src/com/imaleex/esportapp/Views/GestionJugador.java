@@ -57,6 +57,7 @@ public class GestionJugador {
         tfUsuario.setText(Main.user.getNombre());
         llenarCb();
         loadSearchCb();
+        phaseTwoDisables();
 
         jmSalir.addActionListener(new ActionListener() {
             @Override
@@ -262,6 +263,22 @@ public class GestionJugador {
             throw new RuntimeException(e);
         }
     }
+
+    private void phaseTwoDisables(){
+        if (AdminController.checkLeagueStarted()){
+            bAnadir.setVisible(false);
+            bModificar.setVisible(false);
+            bEliminar.setVisible(false);
+
+            tfJugador.setEnabled(false);
+            tfTelefono.setEnabled(false);
+            tfNickname.setEnabled(false);
+            tfSueldo.setEnabled(false);
+            cbRol.setEnabled(false);
+            cbEquipo.setEnabled(false);
+        }
+    }
+
     public static void main() {
         JFrame frame = new JFrame("GestionJugador");
         frame.setContentPane(new GestionJugador().jpJugador);
