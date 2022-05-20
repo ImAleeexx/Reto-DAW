@@ -1,7 +1,6 @@
 package com.imaleex.esportapp.Views;
 
 import com.imaleex.esportapp.Controllers.AdminController;
-import com.imaleex.esportapp.Db.Dao.UserDAO;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
 import com.imaleex.esportapp.Main;
@@ -13,9 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
-public class GestionUsuario{
+import static com.imaleex.esportapp.Utils.Validator.checkRegex;
+
+public class GestionUsuario {
     private JTextField tfUserName;
     private JPanel jpAdmin;
     private JMenuItem jmUltimaJornada;
@@ -50,7 +50,7 @@ public class GestionUsuario{
         jmiDueno.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 GestionDueno.main();
             }
@@ -58,7 +58,7 @@ public class GestionUsuario{
         jmiEquipo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 GestionEquipo.main();
             }
@@ -66,7 +66,7 @@ public class GestionUsuario{
         jmiEntrenador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 GestionEntrenador.main();
             }
@@ -75,7 +75,7 @@ public class GestionUsuario{
         jmiJugador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpAdmin);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 GestionJugador.main();
             }
@@ -89,15 +89,15 @@ public class GestionUsuario{
         bBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               jpEscondido.setVisible(true);
-               bAnadir.setVisible(false);
+                jpEscondido.setVisible(true);
+                bAnadir.setVisible(false);
                 try {
                     Usuario usuario = AdminController.buscarUsuario(tfUsuario.getText());
 
                     assert usuario != null;
-                   //Set tfUsuario with green background
+                    //Set tfUsuario with green background
                     tfUsuario.setBackground(Color.GREEN);
-                    cbTipoUsuario.setSelectedIndex(usuario.getType()+1);
+                    cbTipoUsuario.setSelectedIndex(usuario.getType() + 1);
 
                 } catch (UserNotFoundException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
@@ -113,11 +113,11 @@ public class GestionUsuario{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if(WindowUtils.inputBoolean("¿Está seguro de que desea eliminar el usuario?")) {
+                    if (WindowUtils.inputBoolean("¿Está seguro de que desea eliminar el usuario?")) {
                         AdminController.deleteUserByName(tfUsuario.getText());
                         WindowUtils.showInfoMessage("Usuario eliminado correctamente");
                     }
-                } catch ( DbException ex) {
+                } catch (DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
                 }
             }
@@ -130,11 +130,22 @@ public class GestionUsuario{
                     if (WindowUtils.inputBoolean("¿Está seguro de que desea modificar el usuario?")) {
                         Usuario usuario = AdminController.buscarUsuario(tfUsuario.getText());
                         assert usuario != null;
-                        usuario.setNombre(tfUsuario.getText());
-                        usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
-                        usuario.setType(cbTipoUsuario.getSelectedIndex() - 1);
+                        if (checkRegex("^(?=.{3,20}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9_-]+([^._-])$", tfUsuario.getText())) {
+                            usuario.setNombre(tfUsuario.getText());
+                        } else {
+                            throw new DbException("El nombre de usuario no es válido");
+                        }
+                        if (!tfContraseña.getText().equals("")) {
+                            usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
+                        } else {
+                            throw new DbException("La contraseña no puede estar vacía");
+                        }
+                        if (cbTipoUsuario.getSelectedIndex() > 0) {
+                            usuario.setType(cbTipoUsuario.getSelectedIndex() - 1);
+                        } else {
+                            throw new DbException("El tipo de usuario no puede estar vacío");
+                        }
                         AdminController.editUser(usuario);
-                        WindowUtils.showInfoMessage("Usuario modificado correctamente");
                     }
                 } catch (UserNotFoundException | DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
@@ -146,9 +157,17 @@ public class GestionUsuario{
             public void actionPerformed(ActionEvent e) {
                 try {
                     Usuario usuario = new Usuario();
-                    usuario.setNombre(tfUsuario.getText());
-                    usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
-                    usuario.setType(cbTipoUsuario.getSelectedIndex()-1);
+                    if (checkRegex("^(?=.{3,20}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9_-]+([^._-])$", tfUsuario.getText())) {
+                        usuario.setNombre(tfUsuario.getText());
+                    } else {
+                        WindowUtils.showErrorMessage("El nombre de usuario no es válido");
+                    }
+                    if (!tfContraseña.getText().equals("")) {
+                        usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
+                    } else {
+                        WindowUtils.showErrorMessage("La contraseña no puede estar vacía");
+                    }
+                    usuario.setType(cbTipoUsuario.getSelectedIndex() - 1);
                     AdminController.createUser(usuario);
                     WindowUtils.showInfoMessage("Usuario creado correctamente");
                 } catch (DbException ex) {

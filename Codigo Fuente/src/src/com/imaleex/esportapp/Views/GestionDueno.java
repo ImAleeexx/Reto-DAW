@@ -6,6 +6,7 @@ import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Utils.Faker;
+import com.imaleex.esportapp.Utils.Validator;
 import com.imaleex.esportapp.Utils.WindowUtils;
 
 import javax.swing.*;
@@ -121,6 +122,7 @@ public class GestionDueno {
             public void actionPerformed(ActionEvent e) {
                 if (checkDni(tfDNI.getText())) {
                     try {
+
                         if (WindowUtils.inputBoolean("¿Estas seguro de que quieres eliminar el dueno?")) {
                             Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
                             AdminController.eliminarDueno(dueno);
@@ -148,9 +150,21 @@ public class GestionDueno {
                     try {
                         if (WindowUtils.inputBoolean("¿Esta seguro de modificar el dueno?")) {
                             Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
-                            dueno.setNombre(tfDueno.getText());
-                            dueno.setEmail(tfEmail.getText());
-                            dueno.setTelefono(tfTelefono.getText());
+                            if (Validator.checkName(tfDueno.getText())) {
+                                dueno.setNombre(tfDueno.getText());
+                            } else {
+                                throw new DbException("Nombre no valido");
+                            }
+                            if (Validator.checkEmail(tfEmail.getText())) {
+                                dueno.setEmail(tfEmail.getText());
+                            } else {
+                                throw new DbException("Email no valido");
+                            }
+                            if (Validator.checkTel(tfTelefono.getText())) {
+                                dueno.setTelefono(tfTelefono.getText());
+                            } else {
+                                throw new DbException("Telefono no valido");
+                            }
                             System.out.println(dueno);
                             AdminController.updateDueno(dueno);
                             WindowUtils.showInfoMessage("Dueno modificado");
@@ -165,29 +179,41 @@ public class GestionDueno {
         bAnadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (checkDni(tfDNI.getText())) {
-                    try {
-                        Dueno dueno = new Dueno();
+                try {
+                    Dueno dueno = new Dueno();
+                    if (checkDni(tfDNI.getText())) {
                         dueno.setDni(tfDNI.getText());
-                        dueno.setNombre(tfDueno.getText());
-                        dueno.setEmail(tfEmail.getText());
-                        dueno.setTelefono(tfTelefono.getText());
-                        dueno = (Dueno) AdminController.insertPersona(dueno);
-                        System.out.println(dueno.getId());
-                        AdminController.insertarDueno(dueno);
-                        WindowUtils.showInfoMessage("Dueno añadido");
-                        tfDNI.setText("");
-                        tfDueno.setText("");
-                        tfEmail.setText("");
-                        tfTelefono.setText("");
-                        jpEscondido.setVisible(false);
-                        bAnadir.setVisible(true);
-                        tfDNI.setBackground(Color.white);
-                    } catch (DbException ex) {
-                        WindowUtils.showErrorMessage(ex.getMessage());
+                    } else {
+                        throw new DbException("DNI no valido");
                     }
-                } else {
-                    WindowUtils.showErrorMessage("DNI no valido");
+                    if (Validator.checkName(tfDueno.getText())) {
+                        dueno.setNombre(tfDueno.getText());
+                    } else {
+                        throw new DbException("Nombre no valido");
+                    }
+                    if (Validator.checkEmail(tfEmail.getText())) {
+                        dueno.setEmail(tfEmail.getText());
+                    } else {
+                        throw new DbException("Email no valido");
+                    }
+                    if (Validator.checkTel(tfTelefono.getText())) {
+                        dueno.setTelefono(tfTelefono.getText());
+                    } else {
+                        throw new DbException("Telefono no valido");
+                    }
+                    dueno = (Dueno) AdminController.insertPersona(dueno);
+                    System.out.println(dueno.getId());
+                    AdminController.insertarDueno(dueno);
+                    WindowUtils.showInfoMessage("Dueno añadido");
+                    tfDNI.setText("");
+                    tfDueno.setText("");
+                    tfEmail.setText("");
+                    tfTelefono.setText("");
+                    jpEscondido.setVisible(false);
+                    bAnadir.setVisible(true);
+                    tfDNI.setBackground(Color.white);
+                } catch (DbException ex) {
+                    WindowUtils.showErrorMessage(ex.getMessage());
                 }
             }
         });

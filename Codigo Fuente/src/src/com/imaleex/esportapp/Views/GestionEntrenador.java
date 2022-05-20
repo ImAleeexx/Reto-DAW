@@ -5,6 +5,7 @@ import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
+import com.imaleex.esportapp.Utils.Validator;
 import com.imaleex.esportapp.Utils.WindowUtils;
 
 import javax.swing.*;
@@ -144,10 +145,21 @@ public class GestionEntrenador {
                         if (WindowUtils.inputBoolean("¿Esta seguro de modificar el entrenador?")) {
                             Entrenador entrenador = AdminController.buscarEntrenadorDni(tfDNI.getText());
                             entrenador.setDni(tfDNI.getText());
-                            entrenador.setNombre(tfEntrenador.getText());
-                            entrenador.setSueldo(Double.parseDouble(tfSueldo.getText()));
-                            entrenador.setTelefono(tfTelefono.getText());
-                            System.out.println(entrenador);
+                            if (Validator.checkName(tfEntrenador.getText())) {
+                                entrenador.setNombre(tfEntrenador.getText());
+                            } else {
+                                throw new DataNotFoundException("Nombre no valido");
+                            }
+                            if (Double.parseDouble(tfSueldo.getText()) > 14000) {
+                                entrenador.setSueldo(Double.parseDouble(tfSueldo.getText()));
+                            } else {
+                                throw new DataNotFoundException("Sueldo no valido. Debe ser mayor de 14000");
+                            }
+                            if (Validator.checkTel(tfTelefono.getText())) {
+                                entrenador.setTelefono(tfTelefono.getText());
+                            } else {
+                                throw new DataNotFoundException("Telefono no valido");
+                            }
                             AdminController.updateEntrenador(entrenador);
                             WindowUtils.showInfoMessage("Entrenador modificado");
                         }
@@ -164,10 +176,22 @@ public class GestionEntrenador {
                     try {
                         Entrenador entrenador = new Entrenador();
                         entrenador.setDni(tfDNI.getText());
-                        entrenador.setNombre(tfEntrenador.getText());
-                        entrenador.setSueldo(Double.parseDouble(tfSueldo.getText()));
-                        entrenador.setTelefono(tfTelefono.getText());
-                        entrenador = (Entrenador) AdminController.insertPersona(entrenador);
+                        if (Validator.checkName(tfEntrenador.getText())) {
+                            entrenador.setNombre(tfEntrenador.getText());
+                        } else {
+                            throw new DbException("Nombre no valido");
+                        }
+                        if (Double.parseDouble(tfSueldo.getText()) > 14000) {
+                            entrenador.setSueldo(Double.parseDouble(tfSueldo.getText()));
+                        } else {
+                            throw new DbException("Sueldo no valido. Debe ser mayor de 14000");
+                        }
+                        if (Validator.checkTel(tfTelefono.getText())) {
+                            entrenador.setTelefono(tfTelefono.getText());
+                        } else {
+                            throw new DbException("Telefono no valido");
+                        }
+                        entrenador = (Entrenador) AdminController.insertarPersona(entrenador);
                         System.out.println(entrenador.getId());
                         AdminController.insertEntrenador(entrenador);
                         WindowUtils.showInfoMessage("Entrenador añadido");

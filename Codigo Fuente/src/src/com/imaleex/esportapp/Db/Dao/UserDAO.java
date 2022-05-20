@@ -103,6 +103,8 @@ public class UserDAO {
             int id = stmt.executeUpdate();
             user.setId(id);
             return user;
+
+
         }   catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al crear el usuario");
