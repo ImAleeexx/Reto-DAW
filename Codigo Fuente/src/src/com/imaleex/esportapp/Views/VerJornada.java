@@ -1,6 +1,7 @@
 package com.imaleex.esportapp.Views;
 
 import com.imaleex.esportapp.Controllers.AdminController;
+import com.imaleex.esportapp.Controllers.UserController;
 import com.imaleex.esportapp.Db.Dao.PartidoDAO;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
@@ -14,7 +15,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class VerJornada extends JFrame {
 
@@ -26,9 +30,10 @@ public class VerJornada extends JFrame {
     // el modelo de tabla, aquí van a estar los datos.
     private final DefaultTableModel model;
     private final VerJornada verJornada;
-    private int[] idPartidos;
     private final JComboBox<Jornada> cbJornada;
+    private int[] idPartidos;
     private Jornada jornada;
+    private ArrayList<Jornada> jornadas;
 
     // constructor del frame que contruye toda la ventana...
     public VerJornada() {
@@ -86,29 +91,8 @@ public class VerJornada extends JFrame {
         getContentPane().add(buscar);
         buscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                //Search in the database jornada 1
-                model.setRowCount(0);
                 jornada = (Jornada) cbJornada.getSelectedItem();
-                ArrayList<Partido> partidos = new ArrayList<Partido>();
-                try {
-                    assert jornada != null;
-                    partidos = PartidoDAO.listaPartidosByJornada(jornada);
-                } catch (DbException e) {
-                    WindowUtils.showErrorMessage( e.getMessage());
-                }
-                idPartidos = new int[partidos.size()];
-                for (int i = 0; i < partidos.size(); i++) {
-
-                    Partido partido = partidos.get(i);
-                    Equipo equipoLocal = partido.getLocal();
-                    Equipo equipoVisitante = partido.getVisitante();
-                    String marcadorLocal = String.valueOf(partido.getMarcadorLocal()).equals("null") ? "-" : String.valueOf(partido.getMarcadorLocal());
-                    String marcadorVisitante = String.valueOf(partido.getMarcadorVisitante()).equals("null") ? "-" : String.valueOf(partido.getMarcadorVisitante());
-                    Object[] aux = new Object[]{equipoLocal.getNombre(), marcadorLocal, marcadorVisitante, equipoVisitante.getNombre()};
-                    idPartidos[i] = partido.getId();
-                    model.addRow(aux);
-
-                }
+                llenarTabla(jornada);
             }
         });
 
@@ -134,7 +118,7 @@ public class VerJornada extends JFrame {
                 dispose();
                 if (Main.user.checkAdmin()) {
                     AdminView.main();
-                }else{
+                } else {
                     UserView.main();
                 }
             }
@@ -142,7 +126,6 @@ public class VerJornada extends JFrame {
 
 
     }
-
 
     // función principal
     public static void main() {
@@ -159,15 +142,21 @@ public class VerJornada extends JFrame {
         });
     }
 
-    public void cargarJornada() {
+    private void llenarTabla(Jornada jornada) {
+        //Search in the database jornada 1
         model.setRowCount(0);
 
         ArrayList<Partido> partidos = new ArrayList<Partido>();
         try {
-            partidos = PartidoDAO.listaPartidosByJornada(jornada);
+            assert this.jornada != null;
+            partidos = UserController.listaPartidosByJornada(jornada);
         } catch (DbException e) {
-            throw new RuntimeException(e);
+            WindowUtils.showErrorMessage(e.getMessage());
         }
+        loadValues(partidos);
+    }
+
+    private void loadValues(ArrayList<Partido> partidos) {
         idPartidos = new int[partidos.size()];
         for (int i = 0; i < partidos.size(); i++) {
 
@@ -183,13 +172,44 @@ public class VerJornada extends JFrame {
         }
     }
 
+    public void cargarJornada() {
+        model.setRowCount(0);
+
+        ArrayList<Partido> partidos = new ArrayList<Partido>();
+        try {
+            partidos = PartidoDAO.listaPartidosByJornada(jornada);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+        loadValues(partidos);
+    }
+
+
+    private Jornada getNearestJornada() {
+        final long now = System.currentTimeMillis() /1000;
+        ZoneId zoneId = ZoneId.systemDefault();
+        Jornada nearestJornada = Collections.min(jornadas, new Comparator<Jornada>() {
+            public int compare(Jornada j1, Jornada j2) {
+                long diff1 = Math.abs(j1.getFecha().atStartOfDay(zoneId).toEpochSecond() - now);
+                long diff2 = Math.abs(j2.getFecha().atStartOfDay(zoneId).toEpochSecond() - now);
+                return Long.compare(diff1, diff2);
+            }
+        });
+        System.out.println(nearestJornada.getFecha());
+        return nearestJornada;
+    }
+
     private void llenarCBJornadas() {
         try {
-            ArrayList<Jornada> jornadas = AdminController.getJornadas();
+            jornadas = AdminController.getJornadas();
             cbJornada.removeAllItems();
+
             for (Jornada jornada : jornadas) {
                 cbJornada.addItem(jornada);
             }
+            Jornada nearestJornada = getNearestJornada();
+            cbJornada.setSelectedItem(nearestJornada);
+            llenarTabla(nearestJornada);
         } catch (DbException e) {
             throw new RuntimeException(e);
         }

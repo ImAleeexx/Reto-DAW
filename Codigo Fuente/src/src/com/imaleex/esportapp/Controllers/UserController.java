@@ -4,6 +4,7 @@ import com.imaleex.esportapp.Db.Dao.EquipoDAO;
 import com.imaleex.esportapp.Db.Dao.PartidoDAO;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Equipo;
+import com.imaleex.esportapp.Models.Jornada;
 import com.imaleex.esportapp.Models.Partido;
 
 import java.util.ArrayList;
@@ -57,5 +58,9 @@ public class UserController {
 
     private static ArrayList<Equipo> listaEquipos() throws DbException {
         return EquipoDAO.listEquipos();
+    }
+
+    public static ArrayList<Partido> listaPartidosByJornada(Jornada jornada) throws DbException {
+        return PartidoDAO.listaPartidosByJornada(jornada);
     }
 }

@@ -19,6 +19,10 @@ public class Login {
     private JButton bExit;
 
     public Login() {
+        bLogin.setOpaque(true);
+        bLogin.setBorderPainted(false);
+        bExit.setOpaque(true);
+        bExit.setBorderPainted(false);
         bLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
