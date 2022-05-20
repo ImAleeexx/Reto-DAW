@@ -46,6 +46,8 @@ public class GestionJugador {
     private JButton bEliminar;
     private JButton bModificar;
     private JPanel jpJugador;
+    private JLabel lBuscar;
+    private JComboBox cbBuscar;
 
     private ArrayList<Equipo> equipos;
 

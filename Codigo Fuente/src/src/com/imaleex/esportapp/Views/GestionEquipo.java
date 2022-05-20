@@ -41,6 +41,8 @@ public class GestionEquipo {
     private JComboBox<Entrenador> cbEntrenadorAsistente;
     private JComboBox<Dueno> cbDueno;
     private JMenuItem jmiEntrenador;
+    private JComboBox cbBuscar;
+    private JLabel lBuscar;
 
     private Equipo equipo;
     private ArrayList<Entrenador> entrenadores;

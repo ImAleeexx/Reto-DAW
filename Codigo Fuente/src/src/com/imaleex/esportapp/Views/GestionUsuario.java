@@ -38,6 +38,8 @@ public class GestionUsuario {
     private JButton bBuscar;
     private JPanel jpEscondido;
     private JMenuItem jmiEntrenador;
+    private JLabel lBuscar;
+    private JComboBox cbBuscar;
 
 
     public GestionUsuario() {

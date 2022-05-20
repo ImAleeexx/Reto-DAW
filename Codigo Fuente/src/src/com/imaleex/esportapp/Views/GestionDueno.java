@@ -45,6 +45,8 @@ public class GestionDueno {
     private JLabel lTelefono;
     private JTextField tfTelefono;
     private JMenuItem jmiEntrenador;
+    private JLabel lBuscar;
+    private JComboBox cbBuscar;
 
 
     public GestionDueno() {

@@ -18,6 +18,8 @@ public class AdminView {
     private JMenuItem jmiDueno;
     private JMenuItem jmiUsuario;
     private JMenuItem jmiEntrenador;
+    private JButton bGenerarCalendario;
+    private JButton bGenerarJugadores;
 
 
     public AdminView() {

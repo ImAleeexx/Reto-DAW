@@ -40,6 +40,8 @@ public class GestionEntrenador {
     private JButton bModificar;
     private JPanel jpEntrenador;
     private JMenuItem jmiEntrenador;
+    private JLabel lBuscar;
+    private JComboBox cbBuscar;
 
 
     public GestionEntrenador() {
