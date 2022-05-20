@@ -65,7 +65,9 @@ public class EquipoDAO {
     public static Equipo searchEquipoByDueno(Dueno dueno) throws DbException {
         String sql = "SELECT * FROM equipos  WHERE dueno = ? LIMIT 1";
         Equipo equipo = new Equipo();
-
+        if (dueno == null) {
+            return null;
+        }
         try {
             //Instanciamos la conexion y creamos el statement
             Connection con = Db.getConnection(1);
@@ -101,11 +103,14 @@ public class EquipoDAO {
     public static Equipo searchEquipoByEntrenador(Entrenador entrenador) throws DbException {
         String sql = "SELECT * FROM equipos  WHERE entrenador = ? OR asistente = ? LIMIT 1";
         Equipo equipo = new Equipo();
-
+        if (entrenador == null) {
+            return null;
+        }
         try {
             //Instanciamos la conexion y creamos el statement
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+
             stmt.setInt(1, entrenador.getId());
             stmt.setInt(2, entrenador.getId());
 

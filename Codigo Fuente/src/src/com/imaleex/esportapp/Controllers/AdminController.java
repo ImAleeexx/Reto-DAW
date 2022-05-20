@@ -215,13 +215,16 @@ public class AdminController extends UserController {
     }
 
     private static void checkDuplicatesEquipo(Equipo equipo) throws DbException {
-        if (EquipoDAO.searchEquipoByDueno(equipo.getDueno()) != null) {
+        Equipo equipoDueno = EquipoDAO.searchEquipoByDueno(equipo.getDueno());
+        Equipo equipoEntrenador = EquipoDAO.searchEquipoByEntrenador(equipo.getEntrenador());
+        Equipo equipoAsistente = EquipoDAO.searchEquipoByEntrenador(equipo.getEntrenadorAsistente());
+        if (equipoDueno != null && equipoDueno.getId() != equipo.getId()) {
             throw new DbException("Ya existe un equipo con ese dueno");
         }
-        if (EquipoDAO.searchEquipoByEntrenador(equipo.getEntrenador()) != null) {
+        if (equipoEntrenador != null && equipoEntrenador.getId() != equipo.getId()) {
             throw new DbException("Ya existe un equipo con ese entrenador");
         }
-        if (EquipoDAO.searchEquipoByEntrenador(equipo.getEntrenadorAsistente()) != null) {
+        if (equipoAsistente != null && equipoAsistente.getId() != equipo.getId()) {
             throw new DbException("Ya existe un equipo con ese entrenador asistente");
         }
     }
