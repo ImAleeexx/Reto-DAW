@@ -39,15 +39,6 @@ public class AdminController extends UserController {
         return PersonaDAO.createPersona(persona);
     }
 
-    public static void deletePersona(Persona persona) throws DbException {
-        assert Main.user.getType() == 1;
-        PersonaDAO.deletePersona(persona);
-    }
-
-    public static void updatePersona(Persona persona) throws DbException {
-        assert Main.user.getType() == 1;
-        PersonaDAO.updatePersona(persona);
-    }
 
 
     //Jugador
@@ -272,7 +263,7 @@ public class AdminController extends UserController {
         Collections.shuffle(listaEquipos);
 
         for (int i = 0; i < listaEquipos.size(); i++) {
-            if (i <= 4) {
+            if (i <= listaEquipos.size() - 1) {
                 listaEquipos1.add(listaEquipos.get(i));
             } else {
                 listaEquipos2.add(listaEquipos.get(i));

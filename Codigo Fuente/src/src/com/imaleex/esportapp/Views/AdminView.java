@@ -1,7 +1,9 @@
 package com.imaleex.esportapp.Views;
 
 import com.imaleex.esportapp.Controllers.AdminController;
+import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
+import com.imaleex.esportapp.Utils.WindowUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -92,6 +94,42 @@ public class AdminView {
                 JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
                 frame.dispose();
                 VerClasificacion.main();
+            }
+        });
+        bGenerarCalendario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (WindowUtils.inputBoolean("¿Está seguro de que desea generar el calendario?")) {
+                    AdminController.generateMatchCalendar();
+                    }
+                } catch (DbException ex) {
+                    WindowUtils.showErrorMessage(ex.getMessage());
+                }
+            }
+        });
+        bGenerarJugadores.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Generar jugadores Random
+            }
+        });
+        bGenerarEntrenadores.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Generar entrenadores Random
+            }
+        });
+        bGenerarDuenos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Generar duenos Random
+            }
+        });
+        bGenerarEquipos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Generar equipos Random
             }
         });
     }
