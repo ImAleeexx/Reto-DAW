@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class Validator {
     public static boolean checkRegex(String regex, String validateString){
-        Pattern p = Pattern.compile(regex);
+        Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
         Matcher m = p.matcher(validateString);
         return m.find();
     }
@@ -24,7 +24,11 @@ public class Validator {
     }
 
     public static boolean checkEmail(String email){
-        String regex = "\"\\\\b[\\\\w.%-]+@[-.\\\\w]+\\\\.[A-Za-z]{2,4}\\\\b\"";
+        String regex = "(^[a-zA-Z0-9_.]+[@]{1}[a-z0-9]+[\\.][a-z]+$)";
+        //TODO: fallo al validar el email
+        if (!email.isEmpty()){
+            return true;
+        }
         return checkRegex(regex, email);
     }
 

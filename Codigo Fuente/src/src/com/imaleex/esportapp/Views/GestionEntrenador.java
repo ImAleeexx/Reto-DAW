@@ -4,6 +4,7 @@ import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
+import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
 import com.imaleex.esportapp.Utils.Validator;
 import com.imaleex.esportapp.Utils.WindowUtils;
@@ -41,12 +42,13 @@ public class GestionEntrenador {
     private JPanel jpEntrenador;
     private JMenuItem jmiEntrenador;
     private JLabel lBuscar;
-    private JComboBox cbBuscar;
+    private JComboBox<Entrenador> cbBuscar;
 
 
     public GestionEntrenador() {
         tfUsuario.setText(Main.user.getNombre());
         jpEscondido.setVisible(false);
+        loadSearchCb();
 
         jmSalir.addActionListener(new ActionListener() {
             @Override
@@ -130,6 +132,7 @@ public class GestionEntrenador {
                             jpEscondido.setVisible(false);
                             bAnadir.setVisible(true);
                             tfDNI.setBackground(Color.white);
+                            loadSearchCb();
                         }
                     } catch (DbException | DataNotFoundException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
@@ -164,6 +167,7 @@ public class GestionEntrenador {
                             }
                             AdminController.updateEntrenador(entrenador);
                             WindowUtils.showInfoMessage("Entrenador modificado");
+                            loadSearchCb();
                         }
                     } catch (DataNotFoundException | DbException ex) {
                         throw new RuntimeException(ex);
@@ -194,7 +198,6 @@ public class GestionEntrenador {
                             throw new DbException("Telefono no valido");
                         }
                         entrenador = (Entrenador) AdminController.insertarPersona(entrenador);
-                        System.out.println(entrenador.getId());
                         AdminController.insertEntrenador(entrenador);
                         WindowUtils.showInfoMessage("Entrenador añadido");
                         tfDNI.setText("");
@@ -204,6 +207,7 @@ public class GestionEntrenador {
                         jpEscondido.setVisible(false);
                         bAnadir.setVisible(true);
                         tfDNI.setBackground(Color.white);
+                        loadSearchCb();
                     } catch (DbException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
                     }
@@ -212,6 +216,28 @@ public class GestionEntrenador {
                 }
             }
         });
+        cbBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Entrenador entrenador = (Entrenador) cbBuscar.getSelectedItem();
+                if ((entrenador != null ? entrenador.getNombre() : null) != null) {
+                    tfDNI.setText(entrenador.getDni());
+                    bBuscar.doClick();
+                }
+            }
+        });
+    }
+
+    private void loadSearchCb() {
+        try {
+            cbBuscar.removeAllItems();
+            cbBuscar.addItem(new Entrenador());
+            AdminController.listaEntrenadores().forEach(entrenador -> {
+                cbBuscar.addItem(entrenador);
+            });
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void main() {

@@ -11,10 +11,7 @@ import com.imaleex.esportapp.Utils.WindowUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 import static com.imaleex.esportapp.Utils.Validator.checkDni;
 
@@ -46,12 +43,13 @@ public class GestionDueno {
     private JTextField tfTelefono;
     private JMenuItem jmiEntrenador;
     private JLabel lBuscar;
-    private JComboBox cbBuscar;
+    private JComboBox<Dueno> cbBuscar;
 
 
     public GestionDueno() {
         tfUsuario.setText(Main.user.getNombre());
         jpEscondido.setVisible(false);
+        loadSearchCb();
 
         jmSalir.addActionListener(new ActionListener() {
             @Override
@@ -137,6 +135,7 @@ public class GestionDueno {
                             bAnadir.setVisible(true);
                             tfDNI.setBackground(Color.white);
                         }
+                        loadSearchCb();
                     } catch (DbException | DataNotFoundException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
                     }
@@ -171,6 +170,7 @@ public class GestionDueno {
                             AdminController.updateDueno(dueno);
                             WindowUtils.showInfoMessage("Dueno modificado");
                         }
+                        loadSearchCb();
                     } catch (DataNotFoundException | DbException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -214,6 +214,7 @@ public class GestionDueno {
                     jpEscondido.setVisible(false);
                     bAnadir.setVisible(true);
                     tfDNI.setBackground(Color.white);
+                    loadSearchCb();
                 } catch (DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
                 }
@@ -233,8 +234,29 @@ public class GestionDueno {
 
             }
         });
+        cbBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Dueno dueno = (Dueno) cbBuscar.getSelectedItem();
+                if ((dueno != null ? dueno.getNombre() : null) != null) {
+                    tfDNI.setText(dueno.getDni());
+                    bBuscar.doClick();
+                }
+            }
+        });
     }
 
+    private void loadSearchCb() {
+        try {
+            cbBuscar.removeAllItems();
+            cbBuscar.addItem(new Dueno());
+            AdminController.listDuenos().forEach(dueno -> {
+                cbBuscar.addItem(dueno);
+            });
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void main() {
         JFrame frame = new JFrame("GestionDueno");

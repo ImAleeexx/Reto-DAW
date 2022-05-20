@@ -6,7 +6,9 @@ import com.imaleex.esportapp.Exceptions.UserNotFoundException;
 import com.imaleex.esportapp.Models.Users.Usuario;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * @author Alex Cortes
@@ -111,6 +113,20 @@ public class UserDAO {
         }
     }
 
-    //Listar los usuarios
+    public static ArrayList<Usuario> listUsers() {
+        String sql = "SELECT * FROM usuarios";
+        ArrayList<Usuario> users = new ArrayList<>();
+        try {
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                users.add(new Usuario(rs.getInt("id"), rs.getString("nombre"), rs.getString("password"), rs.getInt("type")));
+            }
+        } catch (SQLException | DbException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 
 }

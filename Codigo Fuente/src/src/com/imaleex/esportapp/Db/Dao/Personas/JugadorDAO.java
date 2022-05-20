@@ -36,7 +36,7 @@ public class JugadorDAO {
                 persona.setTelefono(rs.getString("telefono"));
                 persona.setNickname(rs.getString("nickname"));
                 persona.setSueldo(rs.getDouble("sueldo"));
-                //TODO Falta meter datos de equipo y rol
+
                 try {
                     Equipo equipo = new Equipo();
                     equipo.setId(rs.getInt("id_equipo"));
@@ -96,7 +96,6 @@ public class JugadorDAO {
         String sql = "UPDATE jugadores SET nickname = ?, sueldo = ?, id_equipo = ?, rol = ? WHERE id = ?";
         try {
             //Instanciamos la conexion y creamos el statement
-            //TODO Valores nulos en insert y update
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, jugador.getNickname());

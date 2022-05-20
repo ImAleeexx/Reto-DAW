@@ -184,7 +184,7 @@ public class GestionEquipo {
                                 equipo.setDueno((Dueno) cbDueno.getSelectedItem());
                             } else equipo.setDueno(null);
 
-                            EquipoDAO.updateEquipo(equipo);
+                            AdminController.updateEquipo(equipo);
                             WindowUtils.showInfoMessage("Equipo modificado");
                         }
                     } catch (DataNotFoundException | DbException ex) {
@@ -216,7 +216,7 @@ public class GestionEquipo {
                         if (cbDueno.getSelectedIndex() != 0) {
                             equipo.setDueno((Dueno) cbDueno.getSelectedItem());
                         }
-                        EquipoDAO.insertEquipo(equipo);
+                        AdminController.insertEquipo(equipo);
                         WindowUtils.showInfoMessage("Equipo añadido");
                         tfEquipo.setText("");
                         cbEntrenador.setSelectedIndex(0);

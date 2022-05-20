@@ -96,15 +96,17 @@ public class AdminController extends UserController {
         assert Main.user.getType() == 1;
         return DuenoDAO.listDuenos();
     }
+
     public static void updateDueno(Dueno dueno) throws DbException {
         assert Main.user.getType() == 1;
-         DuenoDAO.updateDueno(dueno);
+        DuenoDAO.updateDueno(dueno);
     }
 
     public static void insertarDueno(Dueno dueno) throws DbException {
         assert Main.user.getType() == 1;
         DuenoDAO.insertDueno(dueno);
     }
+
     public static void eliminarDueno(Dueno dueno) throws DbException {
         assert Main.user.getType() == 1;
         DuenoDAO.deleteDueno(dueno);
@@ -119,7 +121,7 @@ public class AdminController extends UserController {
 
     public static void deleteUserByName(String username) throws DbException {
         assert Main.user.getType() == 1;
-         UserDAO.deleteUserByName(username);
+        UserDAO.deleteUserByName(username);
     }
 
     public static void editUser(Usuario user) throws DbException {
@@ -130,6 +132,11 @@ public class AdminController extends UserController {
     public static void createUser(Usuario user) throws DbException {
         assert Main.user.getType() == 1;
         UserDAO.createUser(user);
+    }
+
+    public static ArrayList<Usuario> listUsers() throws DbException {
+        assert Main.user.getType() == 1;
+        return UserDAO.listUsers();
     }
     //Entrenadores
 
@@ -152,7 +159,8 @@ public class AdminController extends UserController {
         assert Main.user.getType() == 1;
         EntrenadorDAO.updateEntrenador(entrenador);
     }
-    public  static  void  insertEntrenador(Entrenador entrenador) throws DbException {
+
+    public static void insertEntrenador(Entrenador entrenador) throws DbException {
         assert Main.user.getType() == 1;
         EntrenadorDAO.insertEntrenador(entrenador);
     }
@@ -177,7 +185,21 @@ public class AdminController extends UserController {
             throw new RuntimeException(e);
         }
     }
-    //Equipos
+
+    public static void insertEquipo(Equipo equipo) throws DbException {
+        assert Main.user.getType() == 1;
+        EquipoDAO.insertEquipo(equipo);
+    }
+
+    public static void updateEquipo(Equipo equipo) throws DbException {
+        assert Main.user.getType() == 1;
+        EquipoDAO.updateEquipo(equipo);
+    }
+
+    public static ArrayList<Equipo> listaEquipos() {
+        assert Main.user.getType() == 1;
+        return EquipoDAO.listEquipos();
+    }
 
     //Persona
 
@@ -194,22 +216,15 @@ public class AdminController extends UserController {
         return JornadaDAO.getJornadas();
     }
 
-    public static ArrayList<Equipo> listaEquipos() {
-        assert Main.user.getType() == 1;
-        return EquipoDAO.listEquipos();
-    }
-
-
+    //Partidos
     public static void actualizarMarcador(Partido partido) throws DbException {
         assert Main.user.getType() == 1;
         PartidoDAO.updatePartido(partido);
     }
 
 
-
-
     //Generacion partidos
-    public static void generateMatchCalendar(){
+    public static void generateMatchCalendar() {
         assert Main.user.getType() == 1;
 
         ArrayList<Equipo> listaEquipos = EquipoDAO.listEquipos();
@@ -227,7 +242,7 @@ public class AdminController extends UserController {
         }
         //Reverseamos la lista 2
         Collections.reverse(listaEquipos2);
-        int numJornadas = (listaEquipos.size() -1);
+        int numJornadas = (listaEquipos.size() - 1);
         int numPartidos = listaEquipos.size() / 2;
         ArrayList<Partido> listaPartidos = new ArrayList<Partido>();
         //Loop por cada jornada
@@ -243,10 +258,10 @@ public class AdminController extends UserController {
             for (int j = 0; j < numPartidos; j++) {
                 Equipo equipo1 = listaEquipos1.get(j);
                 Equipo equipo2 = listaEquipos2.get(j);
-                if (equipo1.getJugadores().size() <= 2 ) {
+                if (equipo1.getJugadores().size() <= 2) {
                     throw new RuntimeException("Error en la generacion de partidos, el equipo " + equipo1.getNombre() + " no tiene suficientes jugadores");
                 }
-                if (equipo2.getJugadores().size() <= 2 ) {
+                if (equipo2.getJugadores().size() <= 2) {
                     throw new RuntimeException("Error en la generacion de partidos, el equipo " + equipo2.getNombre() + " no tiene suficientes jugadores");
                 }
                 LocalTime time = LocalTime.of((16) + j, 0);
