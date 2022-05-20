@@ -41,7 +41,7 @@ public class GestionEquipo {
     private JComboBox<Entrenador> cbEntrenadorAsistente;
     private JComboBox<Dueno> cbDueno;
     private JMenuItem jmiEntrenador;
-    private JComboBox cbBuscar;
+    private JComboBox<Equipo> cbBuscar;
     private JLabel lBuscar;
 
     private Equipo equipo;
@@ -248,7 +248,7 @@ public class GestionEquipo {
     private void loadSearchCb() {
         try {
             cbBuscar.removeAllItems();
-            cbBuscar.addItem(new Dueno());
+            cbBuscar.addItem(new Equipo());
             AdminController.listaEquipos().forEach(equipo -> {
                 cbBuscar.addItem(equipo);
             });

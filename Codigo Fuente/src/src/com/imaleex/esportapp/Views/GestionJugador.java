@@ -5,6 +5,7 @@ import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Equipo;
+import com.imaleex.esportapp.Models.Personas.Entrenador;
 import com.imaleex.esportapp.Models.Personas.Jugador;
 import com.imaleex.esportapp.Models.Personas.Rol;
 import com.imaleex.esportapp.Utils.Validator;
@@ -47,7 +48,7 @@ public class GestionJugador {
     private JButton bModificar;
     private JPanel jpJugador;
     private JLabel lBuscar;
-    private JComboBox cbBuscar;
+    private JComboBox<Jugador> cbBuscar;
 
     private ArrayList<Equipo> equipos;
 
@@ -55,6 +56,7 @@ public class GestionJugador {
     public GestionJugador() {
         tfUsuario.setText(Main.user.getNombre());
         llenarCb();
+        loadSearchCb();
 
         jmSalir.addActionListener(new ActionListener() {
             @Override
@@ -160,11 +162,13 @@ public class GestionJugador {
                     }
                     if (cbEquipo.getSelectedIndex() != 0) {
                         jugador.setEquipo((Equipo) cbEquipo.getSelectedItem());
+                        System.out.println("Siz " + jugador.getEquipo().getJugadores().size());
                     }
                     jugador = (Jugador) AdminController.insertPersona(jugador);
                     if (jugador != null) {
                         AdminController.insertjugador(jugador);
                         WindowUtils.showInfoMessage("Jugador añadido correctamente");
+                        loadSearchCb();
                     }
                 } catch (DataNotFoundException | DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
@@ -183,6 +187,7 @@ public class GestionJugador {
                         Jugador jugador = AdminController.buscarJugador(tfDNI.getText());
                         AdminController.deleteJugador(jugador);
                         WindowUtils.showInfoMessage("Jugador eliminado correctamente");
+                        loadSearchCb();
                     }
                 } catch (DataNotFoundException | DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
@@ -225,6 +230,7 @@ public class GestionJugador {
                         }
                         AdminController.updatejugador(jugador);
                         WindowUtils.showInfoMessage("Jugador modificado correctamente");
+                        loadSearchCb();
 
                     }
                 } catch (DataNotFoundException | DbException ex) {
@@ -232,9 +238,30 @@ public class GestionJugador {
                 }
             }
         });
+
+        cbBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Jugador jugador = (Jugador) cbBuscar.getSelectedItem();
+                if ((jugador != null ? jugador.getNombre() : null) != null) {
+                    tfDNI.setText(jugador.getDni());
+                    bBuscar.doClick();
+                }
+            }
+        });
     }
 
-
+    private void loadSearchCb() {
+        try {
+            cbBuscar.removeAllItems();
+            cbBuscar.addItem(new Jugador());
+            AdminController.listaJugadores().forEach(jugador -> {
+                cbBuscar.addItem(jugador);
+            });
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void main() {
         JFrame frame = new JFrame("GestionJugador");
         frame.setContentPane(new GestionJugador().jpJugador);

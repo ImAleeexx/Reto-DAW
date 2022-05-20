@@ -8,7 +8,9 @@ import com.imaleex.esportapp.Models.Personas.Jugador;
 import com.imaleex.esportapp.Models.Personas.Rol;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * @author Alex Cortes
@@ -67,13 +69,13 @@ public class JugadorDAO {
             stmt.setString(2, jugador.getNickname());
             stmt.setDouble(3, jugador.getSueldo());
             try {
-
-                if (jugador.getEquipo().getJugadores().size() >= 6) {
+                if (jugador.getEquipo().getJugadores().size() < 6) {
                     stmt.setObject(4, jugador.getEquipo().getId(), java.sql.Types.INTEGER);
                 } else {
                     throw new DbException("El equipo tiene demasiados jugadores");
                 }
             } catch (NullPointerException e) {
+                System.out.println("El jugador no tiene equipo");
                 stmt.setNull(4, java.sql.Types.INTEGER);
             }
             try {
@@ -155,5 +157,37 @@ public class JugadorDAO {
         }
     }
 
+    public static ArrayList<Jugador> listaJugadores() throws DbException {
+        String sql = "SELECT p.dni, p.nombre, p.telefono, j.* FROM jugadores j, personas p  WHERE p.id = j.id";
+        ArrayList<Jugador> jugadores = new ArrayList<>();
+        try {
+            //Instanciamos la conexion y creamos el statement
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Jugador jugador = new Jugador();
+                jugador.setId(rs.getInt("id"));
+                jugador.setNombre(rs.getString("nombre"));
+                jugador.setDni(rs.getString("dni"));
+                jugador.setTelefono(rs.getString("telefono"));
+                jugador.setNickname(rs.getString("nickname"));
+                jugador.setSueldo(rs.getDouble("sueldo"));
+                try {
+                jugador.setRol(Rol.valueOf(rs.getString("rol")));
+                } catch (NullPointerException e) {}
+                try {
+                Equipo equipo = new Equipo();
+                equipo.setId(rs.getInt("id_equipo"));
+                jugador.setEquipo(equipo);
+                } catch (NullPointerException e) {}
+                jugadores.add(jugador);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DbException("Error al listar los jugadores");
+        }
+        return jugadores;
+    }
 }
 

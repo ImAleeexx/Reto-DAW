@@ -180,7 +180,7 @@ public class AdminController extends UserController {
     public static void loadJugadoresToEquipo(Equipo equipo) {
         assert Main.user.getType() == 1;
         try {
-            EquipoDAO.getJugadoresByEquipo(equipo);
+            equipo.setJugadores(EquipoDAO.getJugadoresByEquipo(equipo));
         } catch (DbException e) {
             throw new RuntimeException(e);
         }
@@ -298,4 +298,8 @@ public class AdminController extends UserController {
     }
 
 
+    public static ArrayList<Jugador> listaJugadores() throws DbException {
+        assert Main.user.getType() == 1;
+        return JugadorDAO.listaJugadores();
+    }
 }

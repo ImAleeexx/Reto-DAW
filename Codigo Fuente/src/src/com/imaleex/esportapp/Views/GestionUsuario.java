@@ -4,6 +4,7 @@ import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
 import com.imaleex.esportapp.Main;
+import com.imaleex.esportapp.Models.Personas.Jugador;
 import com.imaleex.esportapp.Models.Users.Usuario;
 import com.imaleex.esportapp.Utils.CryptoUtils;
 import com.imaleex.esportapp.Utils.WindowUtils;
@@ -39,7 +40,7 @@ public class GestionUsuario {
     private JPanel jpEscondido;
     private JMenuItem jmiEntrenador;
     private JLabel lBuscar;
-    private JComboBox cbBuscar;
+    private JComboBox<Object> cbBuscar;
 
 
     public GestionUsuario() {
@@ -48,6 +49,7 @@ public class GestionUsuario {
         cbTipoUsuario.addItem("Normal");
         cbTipoUsuario.addItem("Administrador");
         jpEscondido.setVisible(false);
+        loadSearchCb();
 
         jmiDueno.addActionListener(new ActionListener() {
             @Override
@@ -118,6 +120,7 @@ public class GestionUsuario {
                     if (WindowUtils.inputBoolean("¿Está seguro de que desea eliminar el usuario?")) {
                         AdminController.deleteUserByName(tfUsuario.getText());
                         WindowUtils.showInfoMessage("Usuario eliminado correctamente");
+                        loadSearchCb();
                     }
                 } catch (DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
@@ -148,6 +151,8 @@ public class GestionUsuario {
                             throw new DbException("El tipo de usuario no puede estar vacío");
                         }
                         AdminController.editUser(usuario);
+                        WindowUtils.showInfoMessage("Usuario modificado correctamente");
+                        loadSearchCb();
                     }
                 } catch (UserNotFoundException | DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
@@ -172,13 +177,35 @@ public class GestionUsuario {
                     usuario.setType(cbTipoUsuario.getSelectedIndex() - 1);
                     AdminController.createUser(usuario);
                     WindowUtils.showInfoMessage("Usuario creado correctamente");
+                    loadSearchCb();
                 } catch (DbException ex) {
                     throw new RuntimeException(ex);
                 }
             }
         });
+        cbBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Usuario usuario = (Usuario) cbBuscar.getSelectedItem();
+                if ((usuario != null ? usuario.getNombre() : null) != null) {
+                    tfUsuario.setText(usuario.getNombre());
+                    bBuscar.doClick();
+                }
+            }
+        });
     }
 
+    private void loadSearchCb() {
+        try {
+            cbBuscar.removeAllItems();
+            cbBuscar.addItem(new Usuario());
+            AdminController.listUsers().forEach(usuario -> {
+                cbBuscar.addItem(usuario);
+            });
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void main() {
         JFrame frame = new JFrame("GestionUsuario");
         frame.setContentPane(new GestionUsuario().jpAdmin);

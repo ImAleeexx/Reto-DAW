@@ -153,7 +153,7 @@ public class EquipoDAO {
     }
 
 
-    public static void getJugadoresByEquipo(Equipo equipo) throws DbException {
+    public static ArrayList<Jugador> getJugadoresByEquipo(Equipo equipo) throws DbException {
         String sql = "SELECT p.dni, p.nombre, p.telefono, j.* FROM jugadores j, personas p  WHERE j.id_equipo = ? AND p.id = j.id";
         try {
             //Instanciamos la conexion y creamos el statement
@@ -162,8 +162,9 @@ public class EquipoDAO {
             stmt.setInt(1, equipo.getId());
             //Ejecutamos el statement
             ResultSet rs = stmt.executeQuery();
+            ArrayList<Jugador> jugadores = new ArrayList<>();
+
             if (rs.next()) {
-                equipo.setJugadores(new ArrayList<Jugador>());
                 do {
                     Jugador jugador = new Jugador();
                     jugador.setId(rs.getInt("id"));
@@ -171,13 +172,14 @@ public class EquipoDAO {
                     jugador.setDni(rs.getString("dni"));
                     jugador.setTelefono(rs.getString("telefono"));
                     jugador.setNickname(rs.getString("nickname"));
-                    jugador.setEquipo(new Equipo());
-                    jugador.getEquipo().setId(rs.getInt("id_equipo"));
-                    jugador.setRol(Rol.valueOf(rs.getString("rol")));
-                    equipo.addJugador(jugador);
+                    try {
+                        jugador.setRol(Rol.valueOf(rs.getString("rol")));
+                    } catch (NullPointerException e) {  }
+                    jugador.setEquipo(equipo);
+                    jugadores.add(jugador);
                 } while (rs.next());
             }
-
+            return jugadores;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al obtener los jugadores del equipo");
