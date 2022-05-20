@@ -82,6 +82,7 @@ public class IntroduccionResultados extends JDialog {
         IntroduccionResultados dialog = new IntroduccionResultados(idPartido, vj);
         dialog.pack();
         dialog.setVisible(true);
+        dialog.setLocationRelativeTo(null);
 
     }
 }

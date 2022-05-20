@@ -1,7 +1,9 @@
 package com.imaleex.esportapp.Views;
 
+import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Db.Dao.PartidoDAO;
 import com.imaleex.esportapp.Exceptions.DbException;
+import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Jornada;
 import com.imaleex.esportapp.Models.Partido;
@@ -21,13 +23,13 @@ public class VerJornada extends JFrame {
 
     // la tabla
     private final JTable table;
-
-    private VerJornada verJornada;
     // el modelo de tabla, aquí van a estar los datos.
     private final DefaultTableModel model;
-
+    private final VerJornada verJornada;
     private int[] idPartidos;
-    private  TextField tfJornada;
+    private final JComboBox<Jornada> cbJornada;
+    private Jornada jornada;
+
     // constructor del frame que contruye toda la ventana...
     public VerJornada() {
         //título
@@ -54,7 +56,7 @@ public class VerJornada extends JFrame {
         // nombres de columna
         model = new DefaultTableModel(null, columnNames);
         // creo la tabla con el modelo de datos creado
-        table = new JTable(model){
+        table = new JTable(model) {
             // para que no se pueda editar la tabla
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -76,28 +78,23 @@ public class VerJornada extends JFrame {
 
         // código del botón
         JButton buscar = new JButton("Buscar Jornada");
-        tfJornada = new TextField();
-        tfJornada.setBounds(200, 249, 50, 23);
+        cbJornada = new JComboBox();
+        llenarCBJornadas();
+        cbJornada.setBounds(150, 249, 150, 23);
         buscar.setBounds(10, 249, 150, 23);
-        getContentPane().add(tfJornada);
+        getContentPane().add(cbJornada);
         getContentPane().add(buscar);
-
         buscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 //Search in the database jornada 1
                 model.setRowCount(0);
-
+                jornada = (Jornada) cbJornada.getSelectedItem();
                 ArrayList<Partido> partidos = new ArrayList<Partido>();
-                Jornada jornada = new Jornada();
                 try {
-                    jornada.setId(Integer.parseInt(tfJornada.getText()));
-                } catch (NumberFormatException e) {
-                    WindowUtils.showErrorMessage("Introduzca un número");
-                }
-                try {
+                    assert jornada != null;
                     partidos = PartidoDAO.listaPartidosByJornada(jornada);
                 } catch (DbException e) {
-                    throw new RuntimeException(e);
+                    WindowUtils.showErrorMessage( e.getMessage());
                 }
                 idPartidos = new int[partidos.size()];
                 for (int i = 0; i < partidos.size(); i++) {
@@ -107,7 +104,7 @@ public class VerJornada extends JFrame {
                     Equipo equipoVisitante = partido.getVisitante();
                     String marcadorLocal = String.valueOf(partido.getMarcadorLocal()).equals("null") ? "-" : String.valueOf(partido.getMarcadorLocal());
                     String marcadorVisitante = String.valueOf(partido.getMarcadorVisitante()).equals("null") ? "-" : String.valueOf(partido.getMarcadorVisitante());
-                    Object[] aux = new Object[]{equipoLocal.getNombre(),marcadorLocal, marcadorVisitante, equipoVisitante.getNombre()};
+                    Object[] aux = new Object[]{equipoLocal.getNombre(), marcadorLocal, marcadorVisitante, equipoVisitante.getNombre()};
                     idPartidos[i] = partido.getId();
                     model.addRow(aux);
 
@@ -116,48 +113,36 @@ public class VerJornada extends JFrame {
         });
 
         JButton boton_Modificar = new JButton("Modificar");
-        boton_Modificar.setBounds(270, 249, 100, 23);
+        boton_Modificar.setBounds(330, 249, 100, 23);
 
         getContentPane().add(boton_Modificar);
-        JButton boton_Guardar = new JButton("Guardar");
-        boton_Guardar.setBounds(370, 249, 100, 23);
-        getContentPane().add(boton_Guardar);
-        boton_Guardar.setVisible(false);
+        if (!Main.user.checkAdmin()) {
+            boton_Modificar.setVisible(false);
+        }
         boton_Modificar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                IntroduccionResultados.main(idPartidos[table.getSelectedRow()],  verJornada);
+                IntroduccionResultados.main(idPartidos[table.getSelectedRow()], verJornada);
             }
         });
+
+        JButton boton_volver = new JButton("Volver");
+        boton_volver.setBounds(430, 249, 100, 23);
+
+        getContentPane().add(boton_volver);
+        boton_volver.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                dispose();
+                if (Main.user.checkAdmin()) {
+                    AdminView.main();
+                }else{
+                    UserView.main();
+                }
+            }
+        });
+
+
     }
-    public void  cargarJornada( ){
-        model.setRowCount(0);
 
-        ArrayList<Partido> partidos = new ArrayList<Partido>();
-        Jornada jornada = new Jornada();
-        try {
-            jornada.setId(Integer.parseInt(tfJornada.getText()));
-        } catch (NumberFormatException e) {
-            WindowUtils.showErrorMessage("Introduzca un número");
-        }
-        try {
-            partidos = PartidoDAO.listaPartidosByJornada(jornada);
-        } catch (DbException e) {
-            throw new RuntimeException(e);
-        }
-        idPartidos = new int[partidos.size()];
-        for (int i = 0; i < partidos.size(); i++) {
-
-            Partido partido = partidos.get(i);
-            Equipo equipoLocal = partido.getLocal();
-            Equipo equipoVisitante = partido.getVisitante();
-            String marcadorLocal = String.valueOf(partido.getMarcadorLocal()).equals("null") ? "-" : String.valueOf(partido.getMarcadorLocal());
-            String marcadorVisitante = String.valueOf(partido.getMarcadorVisitante()).equals("null") ? "-" : String.valueOf(partido.getMarcadorVisitante());
-            Object[] aux = new Object[]{equipoLocal.getNombre(),marcadorLocal, marcadorVisitante, equipoVisitante.getNombre()};
-            idPartidos[i] = partido.getId();
-            model.addRow(aux);
-
-        }
-    }
 
     // función principal
     public static void main() {
@@ -172,5 +157,41 @@ public class VerJornada extends JFrame {
                 }
             }
         });
+    }
+
+    public void cargarJornada() {
+        model.setRowCount(0);
+
+        ArrayList<Partido> partidos = new ArrayList<Partido>();
+        try {
+            partidos = PartidoDAO.listaPartidosByJornada(jornada);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+        idPartidos = new int[partidos.size()];
+        for (int i = 0; i < partidos.size(); i++) {
+
+            Partido partido = partidos.get(i);
+            Equipo equipoLocal = partido.getLocal();
+            Equipo equipoVisitante = partido.getVisitante();
+            String marcadorLocal = String.valueOf(partido.getMarcadorLocal()).equals("null") ? "-" : String.valueOf(partido.getMarcadorLocal());
+            String marcadorVisitante = String.valueOf(partido.getMarcadorVisitante()).equals("null") ? "-" : String.valueOf(partido.getMarcadorVisitante());
+            Object[] aux = new Object[]{equipoLocal.getNombre(), marcadorLocal, marcadorVisitante, equipoVisitante.getNombre()};
+            idPartidos[i] = partido.getId();
+            model.addRow(aux);
+
+        }
+    }
+
+    private void llenarCBJornadas() {
+        try {
+            ArrayList<Jornada> jornadas = AdminController.getJornadas();
+            cbJornada.removeAllItems();
+            for (Jornada jornada : jornadas) {
+                cbJornada.addItem(jornada);
+            }
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

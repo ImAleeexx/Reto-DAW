@@ -1,6 +1,7 @@
 package com.imaleex.esportapp.Controllers;
 
 import com.imaleex.esportapp.Db.Dao.EquipoDAO;
+import com.imaleex.esportapp.Db.Dao.JornadaDAO;
 import com.imaleex.esportapp.Db.Dao.PartidoDAO;
 import com.imaleex.esportapp.Db.Dao.Personas.DuenoDAO;
 import com.imaleex.esportapp.Db.Dao.Personas.EntrenadorDAO;
@@ -12,6 +13,7 @@ import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
 import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Equipo;
+import com.imaleex.esportapp.Models.Jornada;
 import com.imaleex.esportapp.Models.Partido;
 import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
@@ -19,6 +21,9 @@ import com.imaleex.esportapp.Models.Personas.Jugador;
 import com.imaleex.esportapp.Models.Personas.Persona;
 import com.imaleex.esportapp.Models.Users.Usuario;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -181,7 +186,13 @@ public class AdminController extends UserController {
         PersonaDAO.createPersona(persona);
         return persona;
     }
+    //Jornadas
 
+
+    public static ArrayList<Jornada> getJornadas() throws DbException {
+        assert Main.user.getType() == 1;
+        return JornadaDAO.getJornadas();
+    }
 
     public static ArrayList<Equipo> listaEquipos() {
         assert Main.user.getType() == 1;
@@ -194,5 +205,76 @@ public class AdminController extends UserController {
         PartidoDAO.updatePartido(partido);
     }
 
+
+
+
+    //Generacion partidos
+    public static void generateMatchCalendar(){
+        assert Main.user.getType() == 1;
+
+        ArrayList<Equipo> listaEquipos = EquipoDAO.listEquipos();
+        ArrayList<Equipo> listaEquipos1 = new ArrayList<Equipo>();
+        ArrayList<Equipo> listaEquipos2 = new ArrayList<Equipo>();
+
+        Collections.shuffle(listaEquipos);
+
+        for (int i = 0; i < listaEquipos.size(); i++) {
+            if (i <= 4) {
+                listaEquipos1.add(listaEquipos.get(i));
+            } else {
+                listaEquipos2.add(listaEquipos.get(i));
+            }
+        }
+        //Reverseamos la lista 2
+        Collections.reverse(listaEquipos2);
+        int numJornadas = (listaEquipos.size() -1);
+        int numPartidos = listaEquipos.size() / 2;
+        ArrayList<Partido> listaPartidos = new ArrayList<Partido>();
+        //Loop por cada jornada
+        for (int i = 0; i < numJornadas; i++) {
+            Jornada jornada = new Jornada();
+            jornada.setFecha(LocalDate.now().plusWeeks(i).with(DayOfWeek.SATURDAY));
+            try {
+                jornada = JornadaDAO.insertJornada(jornada);
+            } catch (DbException e) {
+                throw new RuntimeException(e);
+            }
+            //Loop por cada partido de la jornada
+            for (int j = 0; j < numPartidos; j++) {
+                Equipo equipo1 = listaEquipos1.get(j);
+                Equipo equipo2 = listaEquipos2.get(j);
+                LocalTime time = LocalTime.of((16) + j, 0);
+                Partido partido = new Partido();
+                partido.setLocal(equipo1);
+                partido.setVisitante(equipo2);
+                partido.setMarcadorLocal(-1);
+                partido.setMarcadorVisitante(-1);
+                partido.setJornada(jornada);
+                partido.setHora(time);
+                listaPartidos.add(partido);
+            }
+            Equipo equipoMoverLista1 = listaEquipos1.get(listaEquipos1.size() - 1);
+            Equipo equipoMoverLista2 = listaEquipos2.get(0);
+
+            //Rotamos con orientacion de agujas del reloj
+            listaEquipos1.remove(listaEquipos1.size() - 1);
+            listaEquipos2.add(equipoMoverLista1);
+
+            listaEquipos2.remove(0);
+            listaEquipos1.add(1, equipoMoverLista2);
+        }
+
+        //Insertamos los partidos en la base de datos
+        for (int i = 0; i < listaPartidos.size(); i++) {
+            try {
+                PartidoDAO.insertPartido(listaPartidos.get(i));
+            } catch (DbException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+
+    }
 
 }

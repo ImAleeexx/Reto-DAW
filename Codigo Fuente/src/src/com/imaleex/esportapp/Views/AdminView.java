@@ -11,7 +11,7 @@ public class AdminView {
     private JPanel jpAdmin;
     private JMenuItem jmUltimaJornada;
     private JMenuItem jmClasificacion;
-    private JMenu jmSalir;
+    private JMenuItem jmSalir;
     private JMenu jmGestion;
     private JMenuItem jmiJugador;
     private JMenuItem jmiEquipo;
@@ -26,7 +26,7 @@ public class AdminView {
         jmSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(1);
+                System.exit(0);
             }
         });
         jmiUsuario.addActionListener(new ActionListener() {
