@@ -1,8 +1,6 @@
 package com.imaleex.esportapp.Views;
 
 import com.imaleex.esportapp.Controllers.AdminController;
-import com.imaleex.esportapp.Db.Dao.Personas.DuenoDAO;
-import com.imaleex.esportapp.Db.Dao.Personas.PersonaDAO;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
@@ -61,7 +59,7 @@ public class GestionDueno {
         jmiUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpDueno);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpDueno);
                 frame.dispose();
                 GestionUsuario.main();
             }
@@ -69,7 +67,7 @@ public class GestionDueno {
         jmiEquipo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpDueno);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpDueno);
                 frame.dispose();
                 GestionEquipo.main();
             }
@@ -77,7 +75,7 @@ public class GestionDueno {
         jmiEntrenador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpDueno);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpDueno);
                 frame.dispose();
                 GestionEntrenador.main();
             }
@@ -86,7 +84,7 @@ public class GestionDueno {
         jmiJugador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpDueno);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpDueno);
                 frame.dispose();
                 GestionJugador.main();
             }
@@ -100,13 +98,13 @@ public class GestionDueno {
                 bAnadir.setVisible(false);
                 try {
                     if (checkDni(tfDNI.getText())) {
-                    Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
+                        Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
 
-                    tfDNI.setBackground(Color.GREEN);
-                    tfDueno.setText(dueno.getNombre());
-                    tfEmail.setText(dueno.getEmail());
-                    tfTelefono.setText(dueno.getTelefono());
-                }else{
+                        tfDNI.setBackground(Color.GREEN);
+                        tfDueno.setText(dueno.getNombre());
+                        tfEmail.setText(dueno.getEmail());
+                        tfTelefono.setText(dueno.getTelefono());
+                    } else {
                         throw new DataNotFoundException("DNI no valido");
                     }
                 } catch (DataNotFoundException ex) {
@@ -122,41 +120,47 @@ public class GestionDueno {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (checkDni(tfDNI.getText())) {
-                try {
-                    Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
-                    AdminController.eliminarDueno(dueno);
-                    WindowUtils.showInfoMessage("Dueno eliminado");
-                    tfDNI.setText("");
-                    tfDueno.setText("");
-                    tfEmail.setText("");
-                    tfTelefono.setText("");
-                    jpEscondido.setVisible(false);
-                    bAnadir.setVisible(true);
-                    tfDNI.setBackground(Color.white);
-                } catch (DbException | DataNotFoundException ex) {
-                    WindowUtils.showErrorMessage(ex.getMessage());
-                }
-            }else{
+                    try {
+                        if (WindowUtils.inputBoolean("¿Estas seguro de que quieres eliminar el dueno?")) {
+                            Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
+                            AdminController.eliminarDueno(dueno);
+                            WindowUtils.showInfoMessage("Dueno eliminado");
+                            tfDNI.setText("");
+                            tfDueno.setText("");
+                            tfEmail.setText("");
+                            tfTelefono.setText("");
+                            jpEscondido.setVisible(false);
+                            bAnadir.setVisible(true);
+                            tfDNI.setBackground(Color.white);
+                        }
+                    } catch (DbException | DataNotFoundException ex) {
+                        WindowUtils.showErrorMessage(ex.getMessage());
+                    }
+                } else {
                     WindowUtils.showErrorMessage("DNI no valido");
                 }
-        }});
+            }
+        });
         bModificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (checkDni(tfDNI.getText())) {
                     try {
-                        Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
-                        dueno.setNombre(tfDueno.getText());
-                        dueno.setEmail(tfEmail.getText());
-                        dueno.setTelefono(tfTelefono.getText());
-                        System.out.println(dueno);
-                        AdminController.updateDueno(dueno);
-                        WindowUtils.showInfoMessage("Dueno modificado");
+                        if (WindowUtils.inputBoolean("¿Esta seguro de modificar el dueno?")) {
+                            Dueno dueno = AdminController.buscarDueno(tfDNI.getText());
+                            dueno.setNombre(tfDueno.getText());
+                            dueno.setEmail(tfEmail.getText());
+                            dueno.setTelefono(tfTelefono.getText());
+                            System.out.println(dueno);
+                            AdminController.updateDueno(dueno);
+                            WindowUtils.showInfoMessage("Dueno modificado");
+                        }
                     } catch (DataNotFoundException | DbException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
-        }});
+            }
+        });
 
         bAnadir.addActionListener(new ActionListener() {
             @Override
@@ -182,7 +186,7 @@ public class GestionDueno {
                     } catch (DbException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
                     }
-                }else{
+                } else {
                     WindowUtils.showErrorMessage("DNI no valido");
                 }
             }
@@ -197,7 +201,6 @@ public class GestionDueno {
                     tfEmail.setText(Faker.firstName() + "@" + Faker.lastName() + ".com");
                     tfTelefono.setText(Faker.getPhoneNumber());
                 }
-
 
 
             }

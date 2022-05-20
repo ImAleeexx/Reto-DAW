@@ -23,7 +23,7 @@ public class GestionUsuario{
     private JMenuItem jmSalir;
     private JLabel lNombre;
     private JTextField tfUsuario;
-    private JTextField tfContraseña;
+    private JPasswordField tfContraseña;
     private JLabel lContrasena;
     private JLabel lTipoUsuario;
     private JComboBox<String> cbTipoUsuario;
@@ -113,10 +113,12 @@ public class GestionUsuario{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    AdminController.deleteUserByName(tfUsuario.getText());
-                    WindowUtils.showInfoMessage("Usuario eliminado correctamente");
+                    if(WindowUtils.inputBoolean("¿Está seguro de que desea eliminar el usuario?")) {
+                        AdminController.deleteUserByName(tfUsuario.getText());
+                        WindowUtils.showInfoMessage("Usuario eliminado correctamente");
+                    }
                 } catch ( DbException ex) {
-                    throw new RuntimeException(ex);
+                    WindowUtils.showErrorMessage(ex.getMessage());
                 }
             }
         });
@@ -125,17 +127,17 @@ public class GestionUsuario{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Usuario usuario = AdminController.buscarUsuario(tfUsuario.getText());
-                    assert usuario != null;
-                    usuario.setNombre(tfUsuario.getText());
-                    usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
-                    usuario.setType(cbTipoUsuario.getSelectedIndex()-1);
-                    AdminController.editUser(usuario);
-                    WindowUtils.showInfoMessage("Usuario modificado correctamente");
-                } catch (UserNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                } catch (DbException ex) {
-                    throw new RuntimeException(ex);
+                    if (WindowUtils.inputBoolean("¿Está seguro de que desea modificar el usuario?")) {
+                        Usuario usuario = AdminController.buscarUsuario(tfUsuario.getText());
+                        assert usuario != null;
+                        usuario.setNombre(tfUsuario.getText());
+                        usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
+                        usuario.setType(cbTipoUsuario.getSelectedIndex() - 1);
+                        AdminController.editUser(usuario);
+                        WindowUtils.showInfoMessage("Usuario modificado correctamente");
+                    }
+                } catch (UserNotFoundException | DbException ex) {
+                    WindowUtils.showErrorMessage(ex.getMessage());
                 }
             }
         });

@@ -8,6 +8,7 @@ import com.imaleex.esportapp.Models.Partido;
 import com.imaleex.esportapp.Utils.DaoUtils;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -119,32 +120,50 @@ public class PartidoDAO {
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, jornada.getId());
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Partido partido = new Partido();
-                partido.setId(rs.getInt("id"));
-                Equipo local = new Equipo();
-                local.setId(rs.getInt("id_local"));
-                partido.setLocal(local);
-                Equipo visitante = new Equipo();
-                visitante.setId(rs.getInt("id_visitante"));
-                partido.setVisitante(visitante);
-                partido.setHora(rs.getTime("hora").toLocalTime());
-                if (DaoUtils.checkNullableInteger(rs, "resultado_local")) {
-                    partido.setMarcadorLocal(rs.getInt("resultado_local"));
-                }
-                if (DaoUtils.checkNullableInteger(rs, "resultado_visitante")) {
-                    partido.setMarcadorVisitante(rs.getInt("resultado_visitante"));
-                }
-                Jornada jornada2 = new Jornada();
-                jornada2.setId(rs.getInt("id_jornada"));
-                partido.setJornada(jornada2);
-                partidos.add(partido);
-            }
+            loadListaPartidos(partidos, stmt);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return partidos;
+    }
+
+
+    public static ArrayList<Partido> listaPartidosJugados() throws DbException {
+        ArrayList<Partido> partidos = new ArrayList<>();
+        String sql = "SELECT * FROM partidos WHERE resultado_local IS NOT NULL AND resultado_visitante IS NOT NULL";
+        try {
+            Connection con = Db.getConnection(1);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            loadListaPartidos(partidos, stmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return partidos;
+    }
+
+    private static void loadListaPartidos(ArrayList<Partido> partidos, PreparedStatement stmt) throws SQLException {
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Partido partido = new Partido();
+            partido.setId(rs.getInt("id"));
+            Equipo local = new Equipo();
+            local.setId(rs.getInt("id_local"));
+            partido.setLocal(local);
+            Equipo visitante = new Equipo();
+            visitante.setId(rs.getInt("id_visitante"));
+            partido.setVisitante(visitante);
+            partido.setHora(rs.getTime("hora").toLocalTime());
+            if (DaoUtils.checkNullableInteger(rs, "resultado_local")) {
+                partido.setMarcadorLocal(rs.getInt("resultado_local"));
+            }
+            if (DaoUtils.checkNullableInteger(rs, "resultado_visitante")) {
+                partido.setMarcadorVisitante(rs.getInt("resultado_visitante"));
+            }
+            Jornada jornada = new Jornada();
+            jornada.setId(rs.getInt("id_jornada"));
+            partido.setJornada(jornada);
+            partidos.add(partido);
+        }
     }
 
 }

@@ -63,7 +63,7 @@ public class GestionJugador {
         jmiUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpJugador);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpJugador);
                 frame.dispose();
                 GestionUsuario.main();
             }
@@ -71,7 +71,7 @@ public class GestionJugador {
         jmiDueno.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpJugador);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpJugador);
                 frame.dispose();
                 GestionDueno.main();
             }
@@ -79,7 +79,7 @@ public class GestionJugador {
         jmiEquipo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpJugador);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpJugador);
                 frame.dispose();
                 GestionEquipo.main();
             }
@@ -87,7 +87,7 @@ public class GestionJugador {
         jmiEntrenador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpJugador);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpJugador);
                 frame.dispose();
                 GestionEntrenador.main();
             }
@@ -140,7 +140,7 @@ public class GestionJugador {
                     if (!Validator.checkTel(tfTelefono.getText())) {
                         throw new DataNotFoundException("Telefono incorrecto");
                     }
-                    if (!Validator.checkRegex("^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$" ,tfNickname.getText())) {
+                    if (!Validator.checkRegex("^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$", tfNickname.getText())) {
                         throw new DataNotFoundException("Nickname incorrecto");
                     }
                     if (!Validator.checkDouble(tfSueldo.getText())) {
@@ -173,12 +173,15 @@ public class GestionJugador {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (!Validator.checkDni(tfDNI.getText())) {
-                        throw new DataNotFoundException("DNI incorrecto");
+                    if (WindowUtils.inputBoolean("¿Está seguro de que desea eliminar el jugador?")) {
+
+                        if (!Validator.checkDni(tfDNI.getText())) {
+                            throw new DataNotFoundException("DNI incorrecto");
+                        }
+                        Jugador jugador = AdminController.buscarJugador(tfDNI.getText());
+                        AdminController.deleteJugador(jugador);
+                        WindowUtils.showInfoMessage("Jugador eliminado correctamente");
                     }
-                    Jugador jugador = AdminController.buscarJugador(tfDNI.getText());
-                    AdminController.deleteJugador(jugador);
-                    WindowUtils.showInfoMessage("Jugador eliminado correctamente");
                 } catch (DataNotFoundException | DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
                 }
@@ -189,36 +192,39 @@ public class GestionJugador {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Jugador jugador = AdminController.buscarJugador(tfDNI.getText());
-                    if (!Validator.checkDni(tfDNI.getText())) {
-                        throw new DataNotFoundException("DNI incorrecto");
-                    }
-                    if (!Validator.checkName(tfJugador.getText())) {
-                        throw new DataNotFoundException("Nombre incorrecto");
-                    }
-                    if (!Validator.checkTel(tfTelefono.getText())) {
-                        throw new DataNotFoundException("Telefono incorrecto");
-                    }
-                    if (!Validator.checkRegex("^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$" ,tfNickname.getText())) {
-                        throw new DataNotFoundException("Nickname incorrecto");
-                    }
-                    if (!Validator.checkDouble(tfSueldo.getText())) {
-                        throw new DataNotFoundException("Sueldo incorrecto");
-                    }
+                    if (WindowUtils.inputBoolean("¿Está seguro de que desea modificar el jugador?")) {
+                        Jugador jugador = AdminController.buscarJugador(tfDNI.getText());
+                        if (!Validator.checkDni(tfDNI.getText())) {
+                            throw new DataNotFoundException("DNI incorrecto");
+                        }
+                        if (!Validator.checkName(tfJugador.getText())) {
+                            throw new DataNotFoundException("Nombre incorrecto");
+                        }
+                        if (!Validator.checkTel(tfTelefono.getText())) {
+                            throw new DataNotFoundException("Telefono incorrecto");
+                        }
+                        if (!Validator.checkRegex("^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$", tfNickname.getText())) {
+                            throw new DataNotFoundException("Nickname incorrecto");
+                        }
+                        if (!Validator.checkDouble(tfSueldo.getText())) {
+                            throw new DataNotFoundException("Sueldo incorrecto");
+                        }
 
-                    jugador.setDni(tfDNI.getText());
-                    jugador.setNombre(tfJugador.getText());
-                    jugador.setTelefono(tfTelefono.getText());
-                    jugador.setNickname(tfNickname.getText());
-                    jugador.setSueldo(Double.parseDouble(tfSueldo.getText()));
-                    if (cbRol.getSelectedIndex() != 0) {
-                        jugador.setRol(Rol.getRol((String) cbRol.getSelectedItem()));
+                        jugador.setDni(tfDNI.getText());
+                        jugador.setNombre(tfJugador.getText());
+                        jugador.setTelefono(tfTelefono.getText());
+                        jugador.setNickname(tfNickname.getText());
+                        jugador.setSueldo(Double.parseDouble(tfSueldo.getText()));
+                        if (cbRol.getSelectedIndex() != 0) {
+                            jugador.setRol(Rol.getRol((String) cbRol.getSelectedItem()));
+                        }
+                        if (cbEquipo.getSelectedIndex() != 0) {
+                            jugador.setEquipo((Equipo) cbEquipo.getSelectedItem());
+                        }
+                        AdminController.updatejugador(jugador);
+                        WindowUtils.showInfoMessage("Jugador modificado correctamente");
+
                     }
-                    if (cbEquipo.getSelectedIndex() != 0) {
-                        jugador.setEquipo((Equipo) cbEquipo.getSelectedItem());
-                    }
-                    AdminController.updatejugador(jugador);
-                    WindowUtils.showInfoMessage("Jugador modificado correctamente");
                 } catch (DataNotFoundException | DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
                 }
