@@ -18,8 +18,6 @@ public class AdminView {
     private JMenuItem jmiDueno;
     private JMenuItem jmiUsuario;
     private JMenuItem jmiEntrenador;
-    private JButton bJornada;
-    private JButton bClasificacion;
 
 
     public AdminView() {
@@ -73,7 +71,7 @@ public class AdminView {
             }
         });
 
-        bJornada.addActionListener(new ActionListener() {
+        jmUltimaJornada.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
@@ -81,7 +79,7 @@ public class AdminView {
                 VerJornada.main();
             }
         });
-        bClasificacion.addActionListener(new ActionListener() {
+        jmClasificacion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);

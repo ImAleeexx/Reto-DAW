@@ -2,14 +2,13 @@ package com.imaleex.esportapp.Views;
 
 import com.imaleex.esportapp.Controllers.UserController;
 import com.imaleex.esportapp.Exceptions.DbException;
+import com.imaleex.esportapp.Main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.Comparator;
 
 public class VerClasificacion extends JFrame {
 
@@ -50,14 +49,21 @@ public class VerClasificacion extends JFrame {
         // creo la tabla con el modelo de datos creado
         table = new JTable(model);
 
+        table.getColumnModel().getColumn(0).setPreferredWidth(10);
+        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(2).setPreferredWidth(20);
+        table.getColumnModel().getColumn(3).setPreferredWidth(20);
+        table.getColumnModel().getColumn(4).setPreferredWidth(20);
+        table.getColumnModel().getColumn(5).setPreferredWidth(20);
+
+
         // se pone la tabla en el scroll
         scrollPane.setViewportView(table);
 
         // código del botón
-        JButton btnAadirLnea = new JButton("Meter contenido");
+        JButton bMostrar = new JButton("Meter contenido");
+        JButton bAtras = new JButton("Volver");
 
-        btnAadirLnea.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
                 Object[][] partidos;
                 try {
                     partidos = UserController.generateClasificacion();
@@ -66,19 +72,26 @@ public class VerClasificacion extends JFrame {
                 }
 
                 for (int i = 0; i < partidos.length; i++) {
-                    Object[] aux = new Object[]{i+1, partidos[i][0], partidos[i][4], partidos[i][1],partidos[i][2],partidos[i][3]};
+                    Object[] aux = new Object[]{i + 1, partidos[i][0], partidos[i][4], partidos[i][1], partidos[i][2], partidos[i][3]};
                     model.addRow(aux);
 
+                }
+
+        bAtras.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                dispose();
+                if(Main.user.checkAdmin()){
+                AdminView.main();}
+                else{
+                    UserView.main();
                 }
             }
         });
 
-
         // dimensiones y posición del botón
-        btnAadirLnea.setBounds(10, 249, 267, 23);
+        bAtras.setBounds(300, 249, 267, 23);
         // pongo el botón en la ventana
-        getContentPane().add(btnAadirLnea);
-
+        getContentPane().add(bAtras);
     }
 
     // función principal
@@ -88,6 +101,7 @@ public class VerClasificacion extends JFrame {
                 try {
                     VerClasificacion frame = new VerClasificacion();
                     frame.setVisible(true);
+                    frame.setLocationRelativeTo(null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

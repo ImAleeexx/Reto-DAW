@@ -26,7 +26,17 @@ public class UserView {
         jmUltimaJornada.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("hola");
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpUsuario);
+                frame.dispose();
+                VerJornada.main();
+            }
+        });
+        jmClasificacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpUsuario);
+                frame.dispose();
+                VerClasificacion.main();
             }
         });
     }
