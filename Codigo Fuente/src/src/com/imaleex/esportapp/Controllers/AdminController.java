@@ -196,7 +196,7 @@ public class AdminController extends UserController {
         EquipoDAO.updateEquipo(equipo);
     }
 
-    public static ArrayList<Equipo> listaEquipos() {
+    public static ArrayList<Equipo> listaEquipos() throws DbException {
         assert Main.user.getType() == 1;
         return EquipoDAO.listEquipos();
     }
@@ -224,9 +224,8 @@ public class AdminController extends UserController {
 
 
     //Generacion partidos
-    public static void generateMatchCalendar() {
+    public static void generateMatchCalendar() throws DbException {
         assert Main.user.getType() == 1;
-
         ArrayList<Equipo> listaEquipos = EquipoDAO.listEquipos();
         ArrayList<Equipo> listaEquipos1 = new ArrayList<Equipo>();
         ArrayList<Equipo> listaEquipos2 = new ArrayList<Equipo>();

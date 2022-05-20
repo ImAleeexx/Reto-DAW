@@ -245,18 +245,21 @@ public class GestionJugador {
     }
 
     public void llenarCb() {
-
-        cbEquipo.removeAllItems();
-        equipos = AdminController.listaEquipos();
-        cbEquipo.addItem(new Equipo());
-        for (Equipo equipo : equipos) {
-            cbEquipo.addItem(equipo);
-        }
-        cbRol.removeAllItems();
-        cbRol.addItem("");
-        Rol[] roles = Rol.values();
-        for (Rol rol : roles) {
-            cbRol.addItem(rol.getNombre());
+        try {
+            cbEquipo.removeAllItems();
+            equipos = AdminController.listaEquipos();
+            cbEquipo.addItem(new Equipo());
+            for (Equipo equipo : equipos) {
+                cbEquipo.addItem(equipo);
+            }
+            cbRol.removeAllItems();
+            cbRol.addItem("");
+            Rol[] roles = Rol.values();
+            for (Rol rol : roles) {
+                cbRol.addItem(rol.getNombre());
+            }
+        }catch (DbException ex) {
+            WindowUtils.showErrorMessage(ex.getMessage());
         }
     }
 

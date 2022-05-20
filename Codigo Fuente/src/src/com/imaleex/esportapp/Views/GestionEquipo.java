@@ -52,8 +52,10 @@ public class GestionEquipo {
 
     public GestionEquipo() {
         tfUsuario.setText(Main.user.getNombre());
+
         try {
             llenarCB();
+            loadSearchCb();
         } catch (DataNotFoundException | DbException e) {
             WindowUtils.showErrorMessage(e.getMessage());
         }
@@ -146,6 +148,7 @@ public class GestionEquipo {
                             cbEntrenador.setSelectedIndex(0);
                             cbEntrenadorAsistente.setSelectedIndex(0);
                             cbDueno.setSelectedIndex(0);
+                            loadSearchCb();
                         }
                     } catch (DataNotFoundException | DbException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
@@ -186,6 +189,7 @@ public class GestionEquipo {
 
                             AdminController.updateEquipo(equipo);
                             WindowUtils.showInfoMessage("Equipo modificado");
+                            loadSearchCb();
                         }
                     } catch (DataNotFoundException | DbException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
@@ -222,12 +226,35 @@ public class GestionEquipo {
                         cbEntrenador.setSelectedIndex(0);
                         cbEntrenadorAsistente.setSelectedIndex(0);
                         cbDueno.setSelectedIndex(0);
+                        loadSearchCb();
                     } catch (DbException | DataNotFoundException ex) {
                         WindowUtils.showErrorMessage(ex.getMessage());
                     }
                 }
             }
         });
+        cbBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Equipo equipo = (Equipo) cbBuscar.getSelectedItem();
+                if ((equipo != null ? equipo.getNombre() : null) != null) {
+                    tfEquipo.setText(equipo.getNombre());
+                    bBuscar.doClick();
+                }
+            }
+        });
+    }
+
+    private void loadSearchCb() {
+        try {
+            cbBuscar.removeAllItems();
+            cbBuscar.addItem(new Dueno());
+            AdminController.listaEquipos().forEach(equipo -> {
+                cbBuscar.addItem(equipo);
+            });
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void main() {

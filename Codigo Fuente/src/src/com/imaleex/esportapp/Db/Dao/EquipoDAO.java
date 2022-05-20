@@ -184,7 +184,7 @@ public class EquipoDAO {
         }
     }
 
-    public static ArrayList<Equipo> listEquipos() {
+    public static ArrayList<Equipo> listEquipos() throws DbException {
         String sql = "SELECT * FROM equipos";
         ArrayList<Equipo> equipos = new ArrayList<Equipo>();
         try {
@@ -201,8 +201,8 @@ public class EquipoDAO {
                 } while (rs.next());
             }
 
-        } catch (SQLException | DbException e) {
-            e.printStackTrace();
+        } catch (SQLException  e) {
+            throw  new DbException("Error al obtener los equipos");
         }
         return equipos;
     }
