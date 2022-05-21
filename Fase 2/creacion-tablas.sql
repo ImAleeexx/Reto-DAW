@@ -6,8 +6,8 @@ drop table Miembro cascade constraints;
 drop table Dueno cascade constraints;
 drop table Entrenador cascade constraints;
 drop table Jugador cascade constraints;
-drop table Usuario cascade constraints;
-drop table Administrador cascade constraints;
+drop table Perfil cascade constraints;
+
 
 create table Calendario(
 ID      INT PRIMARY KEY,
@@ -16,7 +16,6 @@ Nombre  varchar2(50)
 
 create table Jornada(
 ID                  INT PRIMARY KEY,
-Nombre              varchar2(50),
 Fecha               date,
 ID_Calendario       INT,
 CONSTRAINT ID_Cal_FK foreign key (ID_Calendario)
@@ -27,7 +26,7 @@ create table Equipo(
 ID                      INT PRIMARY KEY,
 Nombre                  varchar2(50),
 Pagina_Web              varchar2(50),
-Puntos                  INT,
+Patrocinador            varchar2(50),
 ID_Calendario           INT,
 CONSTRAINT ID_Calendario_FK foreign key (ID_Calendario)
 references Calendario (ID)
@@ -35,7 +34,6 @@ references Calendario (ID)
 
 create table Partido(
 ID                      INT PRIMARY KEY,
-Nombre                  varchar2(50),
 ID_local                INT,
 ID_visitante            INT,
 Hora                    TIMESTAMP,
@@ -50,50 +48,46 @@ CONSTRAINT visitante_equipo_FK foreign key (ID_visitante)
 references Equipo (ID)
 );
 
-create table Personas(
-ID                  INT PRIMARY KEY,
-Nombre              varchar2(20),
-Nick                VARCHAR2(15),
-Sueldo              NUMBER,
-ID_Equipo           INT,
+create table Miembro(
+ID               INT PRIMARY KEY,
+DNI              VARCHAR2(8),
+Nombre           VARCHAR2(30),
+Telefono         INT,
+Anios_pro		 INT,
+ID_Equipo        INT,
 CONSTRAINT ID_Equipo1_FK foreign key (ID_Equipo)
 references Equipo (ID)
 );
 
-create table Dueino(
-IDD                  INT PRIMARY KEY,
-Anios_Dueino        INT,
-CONSTRAINT ID_Persona1_FK foreign key (IDD)
-references Personas (ID)
+create table Dueno(
+ID_D                  INT PRIMARY KEY,
+CONSTRAINT ID_Persona1_FK foreign key (ID_D)
+references Miembro (ID)
 );
 
 create table Entrenador(
-IDE                  INT PRIMARY KEY,
-mail                VARCHAR2(25),
-CONSTRAINT ID_Persona2_FK foreign key (IDE)
-references Personas (ID)
+ID_E                  INT PRIMARY KEY,
+Sueldo 				 INT,
+CONSTRAINT ID_Persona2_FK foreign key (ID_E)
+references Miembro (ID)
 );
 
-create table Asistente(
-IDA                  INT PRIMARY KEY,
-Anios_Asistente     INT,
-CONSTRAINT ID_Persona3_FK foreign key (IDA)
-references Personas (ID)
-);
 
 create table Jugador(
-IDJ                  INT PRIMARY KEY,
+ID_J                  INT PRIMARY KEY,
+Nickname			varchar2(60),
 Rol                 varchar2(60),
-CONSTRAINT ID_Persona4_FK foreign key (IDJ)
-references Personas (ID)
+Sueldo				INT,
+CONSTRAINT ID_Persona4_FK foreign key (ID_J)
+references Miembro (ID)
 );
 
-create table Usuarios(
+create table Perfil(
 ID                  INT PRIMARY KEY,
-Nombre              varchar2(20),
+Ususario              varchar2(20),
 Contrasena         varchar2(30),
-tipo                varchar2(20),
+Tipo                varchar2(20),
 constraint tipe_ck check
-(tipo in('Adminstrador','Usuario'))
+(Tipo in('Adminstrador','Usuario'))
 );
 
