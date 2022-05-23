@@ -132,31 +132,6 @@ public class EntrenadorDAO {
         }
     }
 
-    //Buscar un entrenador por su nombre
-    public static Entrenador searchEntrendorByNombre(String nombre) throws DbException {
-        Entrenador entrenador = new Entrenador();
-        String sql = "SELECT * FROM entrenadores WHERE nombre = ?";
-        try {
-            //Instanciamos la conexion y creamos el statement
-            Connection con = Db.getConnection(1);
-            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, nombre);
-            //Ejecutamos el statement
-            java.sql.ResultSet rs = stmt.executeQuery();
-            //Recorremos el resultado
-            if (rs.next()) {
-                entrenador.setId(rs.getInt("id"));
-                entrenador.setNombre(rs.getString("nombre"));
-                entrenador.setSueldo(rs.getDouble("sueldo"));
-            } else {
-                throw new DataNotFoundException("El entrenador no existe");
-            }
-        } catch (SQLException | DataNotFoundException e) {
-            e.printStackTrace();
-            throw new DbException("Error al buscar el entrenador");
-        }
-        return entrenador;
-    }
 
     public static Entrenador searchEntrenadorByDni(String dni) throws DbException {
         Entrenador entrenador = new Entrenador();

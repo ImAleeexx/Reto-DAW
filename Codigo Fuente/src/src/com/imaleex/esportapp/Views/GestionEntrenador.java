@@ -4,7 +4,6 @@ import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
-import com.imaleex.esportapp.Models.Personas.Dueno;
 import com.imaleex.esportapp.Models.Personas.Entrenador;
 import com.imaleex.esportapp.Utils.Validator;
 import com.imaleex.esportapp.Utils.WindowUtils;
@@ -257,8 +256,8 @@ public class GestionEntrenador {
         }
     }
 
-    private void phaseTwoDisables(){
-        if (AdminController.checkLeagueStarted()){
+    private void phaseTwoDisables() {
+        if (AdminController.checkLeagueStarted()) {
             bAnadir.setVisible(false);
             bModificar.setVisible(false);
             bEliminar.setVisible(false);

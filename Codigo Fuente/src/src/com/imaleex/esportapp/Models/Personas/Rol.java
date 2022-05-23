@@ -4,11 +4,11 @@ package com.imaleex.esportapp.Models.Personas;
  * @author Alex Cortes
  */
 public enum Rol {
-    IGL ("In Game Leader"),
-    AWPER ("AWP Player"),
-    ENTRY_FRAGGER ("Entry Fragger"),
-    SUPPORT ("Support"),
-    LURKER ("Lurker");
+    IGL("In Game Leader"),
+    AWPER("AWP Player"),
+    ENTRY_FRAGGER("Entry Fragger"),
+    SUPPORT("Support"),
+    LURKER("Lurker");
 
     private final String nombre;
 

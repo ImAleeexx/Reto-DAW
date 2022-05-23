@@ -40,7 +40,6 @@ public class AdminController extends UserController {
     }
 
 
-
     //Jugador
     public static Jugador buscarJugador(String dni) throws DataNotFoundException {
         assert Main.user.getType() == 1;
@@ -81,7 +80,7 @@ public class AdminController extends UserController {
     public static Double sueldoTotalJugadores() throws DbException {
         assert Main.user.getType() == 1;
         ArrayList<Jugador> jugadores = listaJugadores();
-        Double sueldoTotal = 0.0;
+        double sueldoTotal = 0.0;
         for (Jugador jugador : jugadores) {
             sueldoTotal += jugador.getSueldo();
         }
@@ -257,13 +256,13 @@ public class AdminController extends UserController {
 
 
         ArrayList<Equipo> listaEquipos = EquipoDAO.listEquipos();
-        ArrayList<Equipo> listaEquipos1 = new ArrayList<Equipo>();
-        ArrayList<Equipo> listaEquipos2 = new ArrayList<Equipo>();
+        ArrayList<Equipo> listaEquipos1 = new ArrayList<>();
+        ArrayList<Equipo> listaEquipos2 = new ArrayList<>();
 
         Collections.shuffle(listaEquipos);
 
         for (int i = 0; i < listaEquipos.size(); i++) {
-            if (i <= (listaEquipos.size() /2) - 1) {
+            if (i <= (listaEquipos.size() / 2) - 1) {
                 listaEquipos1.add(listaEquipos.get(i));
             } else {
                 listaEquipos2.add(listaEquipos.get(i));
@@ -273,7 +272,7 @@ public class AdminController extends UserController {
         Collections.reverse(listaEquipos2);
         int numJornadas = (listaEquipos.size() - 1);
         int numPartidos = listaEquipos.size() / 2;
-        ArrayList<Partido> listaPartidos = new ArrayList<Partido>();
+        ArrayList<Partido> listaPartidos = new ArrayList<>();
         //Loop por cada jornada
         for (int i = 0; i < numJornadas; i++) {
             Jornada jornada = new Jornada();
@@ -319,9 +318,9 @@ public class AdminController extends UserController {
         }
 
         //Insertamos los partidos en la base de datos
-        for (int i = 0; i < listaPartidos.size(); i++) {
+        for (Partido listaPartido : listaPartidos) {
             try {
-                PartidoDAO.insertPartido(listaPartidos.get(i));
+                PartidoDAO.insertPartido(listaPartido);
             } catch (DbException e) {
                 throw new RuntimeException(e);
             }
@@ -331,7 +330,7 @@ public class AdminController extends UserController {
 
     }
 
-    public static boolean checkLeagueStarted(){
+    public static boolean checkLeagueStarted() {
         try {
             return JornadaDAO.getJornadas().size() > 0;
         } catch (DbException e) {

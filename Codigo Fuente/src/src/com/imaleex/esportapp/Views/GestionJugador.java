@@ -5,7 +5,6 @@ import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Main;
 import com.imaleex.esportapp.Models.Equipo;
-import com.imaleex.esportapp.Models.Personas.Entrenador;
 import com.imaleex.esportapp.Models.Personas.Jugador;
 import com.imaleex.esportapp.Models.Personas.Rol;
 import com.imaleex.esportapp.Utils.Validator;
@@ -164,7 +163,7 @@ public class GestionJugador {
                     if (!Validator.checkRegex("^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$", tfNickname.getText())) {
                         throw new DataNotFoundException("Nickname incorrecto");
                     }
-                    if (!Validator.checkDouble(tfSueldo.getText())) {
+                    if (Validator.checkDouble(tfSueldo.getText())) {
                         throw new DataNotFoundException("Sueldo incorrecto");
                     }
 
@@ -174,18 +173,18 @@ public class GestionJugador {
                     jugador.setTelefono(tfTelefono.getText());
                     jugador.setNickname(tfNickname.getText());
                     jugador.setSueldo(Double.parseDouble(tfSueldo.getText()));
-                    if (cbRol.getSelectedIndex() != 0) {
-                        jugador.setRol(Rol.getRol(cbRol.getSelectedItem().toString()));
-                    }
+                    try {
+                        if (cbRol.getSelectedIndex() != 0) {
+                            jugador.setRol(Rol.getRol(cbRol.getSelectedItem().toString()));
+                        }
+                    } catch (NullPointerException ex){}
                     if (cbEquipo.getSelectedIndex() != 0) {
                         jugador.setEquipo((Equipo) cbEquipo.getSelectedItem());
                     }
                     jugador = (Jugador) AdminController.insertPersona(jugador);
-                    if (jugador != null) {
                         AdminController.insertjugador(jugador);
                         WindowUtils.showInfoMessage("Jugador añadido correctamente");
                         loadSearchCb();
-                    }
                 } catch (DataNotFoundException | DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
                 }
@@ -229,7 +228,7 @@ public class GestionJugador {
                         if (!Validator.checkRegex("^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$", tfNickname.getText())) {
                             throw new DataNotFoundException("Nickname incorrecto");
                         }
-                        if (!Validator.checkDouble(tfSueldo.getText())) {
+                        if (Validator.checkDouble(tfSueldo.getText())) {
                             throw new DataNotFoundException("Sueldo incorrecto");
                         }
 
@@ -279,8 +278,8 @@ public class GestionJugador {
         }
     }
 
-    private void phaseTwoDisables(){
-        if (AdminController.checkLeagueStarted()){
+    private void phaseTwoDisables() {
+        if (AdminController.checkLeagueStarted()) {
             bAnadir.setVisible(false);
             bModificar.setVisible(false);
             bEliminar.setVisible(false);
@@ -317,7 +316,7 @@ public class GestionJugador {
             for (Rol rol : roles) {
                 cbRol.addItem(rol.getNombre());
             }
-        }catch (DbException ex) {
+        } catch (DbException ex) {
             WindowUtils.showErrorMessage(ex.getMessage());
         }
     }

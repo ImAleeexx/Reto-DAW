@@ -2,7 +2,6 @@ package com.imaleex.esportapp.Models;
 
 import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
-import com.imaleex.esportapp.Models.Personas.Persona;
 
 import java.time.LocalTime;
 

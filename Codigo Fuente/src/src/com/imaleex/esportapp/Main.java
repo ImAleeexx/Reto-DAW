@@ -1,8 +1,5 @@
 package com.imaleex.esportapp;
 
-import com.imaleex.esportapp.Controllers.AdminController;
-import com.imaleex.esportapp.Db.Dao.EquipoDAO;
-import com.imaleex.esportapp.Db.Dao.JornadaDAO;
 import com.imaleex.esportapp.Db.Db;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
@@ -13,17 +10,13 @@ import com.imaleex.esportapp.Views.Login;
 import com.imaleex.esportapp.Views.UserView;
 
 import javax.swing.*;
-import java.io.Console;
 
 import static com.imaleex.esportapp.Db.Dao.UserDAO.searchUsername;
 
 public class Main {
 
-    public static Db db;
     public static Usuario user;
     private static JFrame login;
-    private static JFrame adminV;
-    private static JFrame userV;
 
     public static void main(String[] args) {
         initDbConnection();
@@ -41,7 +34,7 @@ public class Main {
                 throw new DbException("No se encontró la contraseña de la base de datos en la variable de entorno DB_PASSWORD");
             }
             Db.setDbParams("esports", password, "esports", "server.imaleex.com");
-            db = Db.getInstance(1);
+            Db db = Db.getInstance(1);
             System.out.println("Conectado a la base de datos");
         } catch (DbException e) {
             e.printStackTrace();
@@ -51,12 +44,10 @@ public class Main {
     }
 
 
-
-
     /*---------------------------------------------------------------------------------------------------------------------*/
     /* Login */
     public static boolean login(String username, String password) {
-        Usuario usuario = null;
+        Usuario usuario;
         try {
             usuario = searchUsername(username);
             if (usuario != null) {

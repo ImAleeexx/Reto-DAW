@@ -18,6 +18,7 @@ public class IntroduccionResultados extends JDialog {
     private JLabel lVisitante;
     private Partido partido;
     private final VerJornada vj;
+
     public IntroduccionResultados(int idPartido, VerJornada vj) {
         try {
             partido = AdminController.buscarPartidoId(idPartido);
@@ -64,10 +65,10 @@ public class IntroduccionResultados extends JDialog {
             partido.setMarcadorLocal(Integer.parseInt(tfMarcadorLocal.getText()));
             partido.setMarcadorVisitante(Integer.parseInt(tfMarcadorVisitante.getText()));
             AdminController.actualizarMarcador(partido);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             WindowUtils.showErrorMessage("Los marcadores deben ser números");
         } catch (DbException e) {
-           WindowUtils.showErrorMessage(e.getMessage());
+            WindowUtils.showErrorMessage(e.getMessage());
         }
         vj.cargarJornada();
         dispose();

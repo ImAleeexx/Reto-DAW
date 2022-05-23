@@ -30,7 +30,7 @@ public class PersonaDAO {
             // ejecutamos la consulta y guardamos el id en una variable
             int insertedId = stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next() ) {
+            if (rs.next()) {
                 persona.setId(rs.getInt(1));
             }
             return persona;

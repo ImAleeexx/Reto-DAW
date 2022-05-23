@@ -44,7 +44,6 @@ public class GestionEquipo {
     private JComboBox<Equipo> cbBuscar;
     private JLabel lBuscar;
 
-    private Equipo equipo;
     private ArrayList<Entrenador> entrenadores;
     private ArrayList<Dueno> duenos;
 
@@ -57,7 +56,7 @@ public class GestionEquipo {
             llenarCB();
             loadSearchCb();
             phaseTwoDisables();
-        } catch (DataNotFoundException | DbException e) {
+        } catch (DbException e) {
             WindowUtils.showErrorMessage(e.getMessage());
         }
         jmSalir.addActionListener(new ActionListener() {
@@ -69,7 +68,7 @@ public class GestionEquipo {
         jmiUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEquipo);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpEquipo);
                 frame.dispose();
                 GestionUsuario.main();
             }
@@ -77,7 +76,7 @@ public class GestionEquipo {
         jmiDueno.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEquipo);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpEquipo);
                 frame.dispose();
                 GestionDueno.main();
             }
@@ -85,7 +84,7 @@ public class GestionEquipo {
         jmiEntrenador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEquipo);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpEquipo);
                 frame.dispose();
                 GestionEntrenador.main();
             }
@@ -93,7 +92,7 @@ public class GestionEquipo {
         jmiJugador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame)SwingUtilities.getRoot(jpEquipo);
+                JFrame frame = (JFrame) SwingUtilities.getRoot(jpEquipo);
                 frame.dispose();
                 GestionJugador.main();
             }
@@ -274,8 +273,8 @@ public class GestionEquipo {
         }
     }
 
-    private void phaseTwoDisables(){
-        if (AdminController.checkLeagueStarted()){
+    private void phaseTwoDisables() {
+        if (AdminController.checkLeagueStarted()) {
             bAnadir.setVisible(false);
             bModificar.setVisible(false);
             bEliminar.setVisible(false);
@@ -285,6 +284,7 @@ public class GestionEquipo {
             cbDueno.setEnabled(false);
         }
     }
+
     public static void main() {
         JFrame frame = new JFrame("GestionEquipo");
         frame.setContentPane(new GestionEquipo().jpEquipo);
@@ -294,7 +294,7 @@ public class GestionEquipo {
         frame.setVisible(true);
     }
 
-    private void llenarCB() throws DataNotFoundException, DbException {
+    private void llenarCB() throws  DbException {
 
         //Llenar comboBox de entrenadores y asistentes
         cbEntrenador.removeAllItems();

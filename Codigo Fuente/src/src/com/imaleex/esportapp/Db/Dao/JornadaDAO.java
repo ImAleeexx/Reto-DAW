@@ -3,18 +3,12 @@ package com.imaleex.esportapp.Db.Dao;
 import com.imaleex.esportapp.Db.Db;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
-import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Jornada;
-import com.imaleex.esportapp.Models.Partido;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class JornadaDAO {
     public static Jornada searchJornada(int id) throws DataNotFoundException {
@@ -52,7 +46,7 @@ public class JornadaDAO {
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             try {
-            stmt.setDate(1, java.sql.Date.valueOf(jornada.getFecha()));
+                stmt.setDate(1, java.sql.Date.valueOf(jornada.getFecha()));
             } catch (NullPointerException e) {
                 stmt.setNull(1, java.sql.Types.DATE);
             }
@@ -63,7 +57,7 @@ public class JornadaDAO {
             }
             //Recuperamos el id generado
             ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next() ) {
+            if (rs.next()) {
                 jornada.setId(rs.getInt(1));
             }
         } catch (SQLException e) {
@@ -118,7 +112,7 @@ public class JornadaDAO {
             Connection con = Db.getConnection(1);
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             //Ejecutamos el statement
-            int rows = stmt.executeUpdate();
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -143,14 +137,11 @@ public class JornadaDAO {
                 jornada.setFecha(rs.getDate("fecha").toLocalDate());
                 jornadas.add(jornada);
             }
-        } catch (DbException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
         }
         return jornadas;
     }
-
-
-
 
 
 }

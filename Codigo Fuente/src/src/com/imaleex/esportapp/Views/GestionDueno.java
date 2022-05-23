@@ -11,7 +11,10 @@ import com.imaleex.esportapp.Utils.WindowUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import static com.imaleex.esportapp.Utils.Validator.checkDni;
 
@@ -274,8 +277,8 @@ public class GestionDueno {
     }
 
 
-    private void phaseTwoDisables(){
-        if (AdminController.checkLeagueStarted()){
+    private void phaseTwoDisables() {
+        if (AdminController.checkLeagueStarted()) {
             bAnadir.setVisible(false);
             bModificar.setVisible(false);
             bEliminar.setVisible(false);
@@ -285,6 +288,7 @@ public class GestionDueno {
             tfDueno.setEditable(false);
         }
     }
+
     public static void main() {
         JFrame frame = new JFrame("GestionDueno");
         frame.setContentPane(new GestionDueno().jpDueno);

@@ -7,7 +7,7 @@ import com.imaleex.esportapp.Models.Equipo;
 /**
  * @author Alex Cortes
  */
-public class Jugador extends Persona{
+public class Jugador extends Persona {
     private String nickname;
     private Rol rol;
     private double sueldo;
@@ -26,7 +26,7 @@ public class Jugador extends Persona{
         super();
     }
 
-    public Jugador(int id){
+    public Jugador(int id) {
         super(id);
     }
 

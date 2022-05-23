@@ -173,13 +173,15 @@ public class JugadorDAO {
                 jugador.setNickname(rs.getString("nickname"));
                 jugador.setSueldo(rs.getDouble("sueldo"));
                 try {
-                jugador.setRol(Rol.valueOf(rs.getString("rol")));
-                } catch (NullPointerException e) {}
+                    jugador.setRol(Rol.valueOf(rs.getString("rol")));
+                } catch (NullPointerException e) {
+                }
                 try {
-                Equipo equipo = new Equipo();
-                equipo.setId(rs.getInt("id_equipo"));
-                jugador.setEquipo(equipo);
-                } catch (NullPointerException e) {}
+                    Equipo equipo = new Equipo();
+                    equipo.setId(rs.getInt("id_equipo"));
+                    jugador.setEquipo(equipo);
+                } catch (NullPointerException e) {
+                }
                 jugadores.add(jugador);
             }
         } catch (SQLException e) {
