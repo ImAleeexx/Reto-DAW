@@ -66,7 +66,7 @@ Reto final en el cual hay que hacer una aplicacion que gestiona un liga de E-Spo
     - [x] Diagramas de Secuencias
 - [x] Fase 3 
     - [x] Codificación de clases sobre el modelo
-- [ ] Fase 4
+- [x] Fase 4
 - [ ] Fase 5
 
 
