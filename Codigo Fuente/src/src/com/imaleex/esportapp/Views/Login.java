@@ -41,6 +41,11 @@ public class Login {
         return jpPrincipal;
     }
 
+    /**
+     * Metodo que comprueba que los datos introducidos por el usuario son correctos
+     * @param username Nombre de usuario
+     * @param password Contraseña
+     */
     public void comprobaciones(String username, String password) {
         if (!username.isEmpty() && !password.isEmpty()) {
             if (Main.login(username, password)) {

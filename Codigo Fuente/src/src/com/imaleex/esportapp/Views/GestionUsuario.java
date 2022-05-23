@@ -210,7 +210,9 @@ public class GestionUsuario {
             }
         });
     }
-
+    /**
+     * Metodo que carga los usuarios en el combobox de busqueda
+     */
     private void loadSearchCb() {
         try {
             cbBuscar.removeAllItems();

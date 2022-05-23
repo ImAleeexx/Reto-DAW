@@ -265,7 +265,9 @@ public class GestionJugador {
             }
         });
     }
-
+    /**
+     * Metodo que llena el combobox de busqueda
+     */
     private void loadSearchCb() {
         try {
             cbBuscar.removeAllItems();
@@ -278,6 +280,9 @@ public class GestionJugador {
         }
     }
 
+    /**
+     * Metodo que comprueba si la fase 1 esta cerrada para desactivar los botones
+     */
     private void phaseTwoDisables() {
         if (AdminController.checkLeagueStarted()) {
             bAnadir.setVisible(false);
@@ -293,6 +298,7 @@ public class GestionJugador {
         }
     }
 
+
     public static void main() {
         JFrame frame = new JFrame("GestionJugador");
         frame.setContentPane(new GestionJugador().jpJugador);
@@ -302,6 +308,9 @@ public class GestionJugador {
         frame.setVisible(true);
     }
 
+    /**
+     * Metodo que llena los combobox de los equipos y los roles
+     */
     public void llenarCb() {
         try {
             cbEquipo.removeAllItems();
@@ -320,7 +329,10 @@ public class GestionJugador {
             WindowUtils.showErrorMessage(ex.getMessage());
         }
     }
-
+    /**
+     * Metodo que busca un equipo por su id en la lista local de equipos
+     * @param id    id del equipo a buscar
+     */
     public Equipo searchEquipoOnList(int id) {
         for (Equipo equipo : equipos) {
             if (equipo.getId() == id) {

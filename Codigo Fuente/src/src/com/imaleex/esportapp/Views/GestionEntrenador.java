@@ -243,7 +243,9 @@ public class GestionEntrenador {
             }
         });
     }
-
+    /**
+     * Metodo que carga los combobox de busqueda
+     */
     private void loadSearchCb() {
         try {
             cbBuscar.removeAllItems();
@@ -255,7 +257,9 @@ public class GestionEntrenador {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Metodo que comprueba si la fase 1 esta cerrada para desactivar los botones
+     */
     private void phaseTwoDisables() {
         if (AdminController.checkLeagueStarted()) {
             bAnadir.setVisible(false);

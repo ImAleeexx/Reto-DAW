@@ -135,6 +135,9 @@ public class AdminView {
     }
 
 
+    /**
+     * Metodo que comprueba si la fase 1 esta cerrada para desactivar los botones
+     */
     private void phaseTwoDisables() {
         if (AdminController.checkLeagueStarted()) {
             bGenerarCalendario.setVisible(false);

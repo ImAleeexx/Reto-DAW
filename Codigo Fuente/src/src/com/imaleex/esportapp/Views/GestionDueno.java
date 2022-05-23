@@ -276,7 +276,9 @@ public class GestionDueno {
         }
     }
 
-
+    /**
+     * Metodo que comprueba si la fase 1 esta cerrada para desactivar los botones
+     */
     private void phaseTwoDisables() {
         if (AdminController.checkLeagueStarted()) {
             bAnadir.setVisible(false);

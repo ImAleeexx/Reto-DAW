@@ -5,15 +5,28 @@ import java.util.regex.Pattern;
 
 /**
  * @author Alex Cortes
+ * @author Aritz Castillo
  */
 
 public class Validator {
+
+    /**
+     * Metodo para validar una cadena de texto con una expresion regular
+     * @param regex regex a validar
+     * @param validateString string a validar
+     * @return true si el string cumple con el regex
+     */
     public static boolean checkRegex(String regex, String validateString) {
         Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
         Matcher m = p.matcher(validateString);
         return m.find();
     }
 
+    /**
+     * Metodo para validar una cadena de texto si es un double
+     * @param doubleString string a validar
+     * @return true si el string es un double
+     */
     public static boolean checkDouble(String doubleString) {
         try {
             Double.parseDouble(doubleString);
@@ -23,6 +36,11 @@ public class Validator {
         }
     }
 
+    /**
+     * Metodo para validar una cadena de texto si es un email
+     * @param email email a validar
+     * @return  true si el email es valido
+     */
     public static boolean checkEmail(String email) {
         String regex = "(^[a-zA-Z0-9_.]+[@]{1}[a-z0-9]+[\\.][a-z]+$)";
         //TODO: fallo al validar el email
@@ -32,21 +50,31 @@ public class Validator {
         return checkRegex(regex, email);
     }
 
+    /**
+     * Metodo para validar una cadena de texto si es una telefono
+     * @param tel tel a validar
+     * @return true si el tel es valido
+     */
     public static boolean checkTel(String tel) {
         String regex = "^((6|7)[ -]*([0-9][ -]*){8})$";
         return checkRegex(regex, tel);
     }
 
-    public static boolean checkCp(String cp) {
-        String regex = "^([0-9][ -]*){5}$";
-        return checkRegex(regex, cp);
-    }
-
+    /**
+     * Metodo para validar una cadena de texto si es una nomnbre valido
+     * @param name nombre a validar
+     * @return true si el nombre es valido
+     */
     public static boolean checkName(String name) {
         String regex = "^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$";
         return checkRegex(regex, name);
     }
 
+    /**
+     * Metodo para validar una cadena de texto si es un dni valido
+     * @param dni dni a validar
+     * @return true si el dni es valido
+     */
     public static boolean checkDni(String dni) {
         try {
             int dniInt = Integer.parseInt(dni.substring(0, dni.length() - 1));
@@ -60,23 +88,6 @@ public class Validator {
     }
 
 
-    public static boolean checkSegSoc(String segSocial) {
-        try {
-            if (segSocial.length() != 12) {
-                return false;
-            }
-            int countryPart = Integer.parseInt(segSocial.substring(0, 2));
-            if (countryPart > 53) {
-                return false;
-            }
-            int numberWithCountry = Integer.parseInt(segSocial.substring(0, 10));
-            int controlPart = Integer.parseInt(segSocial.substring(10, 12));
-            int moduleSs = numberWithCountry % 97;
-            return moduleSs == controlPart;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
 
 }

@@ -174,6 +174,9 @@ public class VerJornada extends JFrame {
         }
     }
 
+    /**
+     * Metodo que carga la jornada seleccionada en la ventana
+     */
     public void cargarJornada() {
         model.setRowCount(0);
 
@@ -186,7 +189,10 @@ public class VerJornada extends JFrame {
         loadValues(partidos);
     }
 
-
+    /**
+     * Metodo que calcula la jornada mas reciente
+     * @return jornada mas reciente
+     */
     private Jornada getNearestJornada() {
         if (jornadas.size() < 1) {
             WindowUtils.showErrorMessage("No hay jornadas creadas");

@@ -260,7 +260,9 @@ public class GestionEquipo {
             }
         });
     }
-
+    /**
+     * Metodo que llena el comboBox de busqueda
+     */
     private void loadSearchCb() {
         try {
             cbBuscar.removeAllItems();
@@ -272,7 +274,9 @@ public class GestionEquipo {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Metodo que comprueba si la fase 1 esta cerrada para desactivar los botones
+     */
     private void phaseTwoDisables() {
         if (AdminController.checkLeagueStarted()) {
             bAnadir.setVisible(false);
@@ -293,7 +297,9 @@ public class GestionEquipo {
         frame.pack();
         frame.setVisible(true);
     }
-
+    /**
+     * Metodo llena los comboBox de entrenador y dueno
+     */
     private void llenarCB() throws  DbException {
 
         //Llenar comboBox de entrenadores y asistentes
@@ -318,6 +324,11 @@ public class GestionEquipo {
 
     }
 
+    /**
+     * Metodo que busca en la lista de entrenadores local de la clase por el id
+     * @param id id del entrenador
+     * @return entrenador con el id
+     */
     private Entrenador searchEntrenadorOnList(int id) {
         for (Entrenador entrenador : entrenadores) {
             if (entrenador.getId() == id) {
@@ -327,6 +338,11 @@ public class GestionEquipo {
         return null;
     }
 
+    /**
+     * Metodo que busca en la lista de duenos local de la clase por el id
+     * @param id id del dueno
+     * @return dueno con el id
+     */
     private Dueno searchDuenoOnList(int id) {
         for (Dueno dueno : duenos) {
             if (dueno.getId() == id) {
