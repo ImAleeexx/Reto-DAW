@@ -16,6 +16,11 @@ import static com.imaleex.esportapp.Utils.WindowUtils.showErrorMessage;
  */
 public class CryptoUtils {
 
+    /**
+     * Hasea la contraseña en formato PBKDF2WithHmacSHA256 con salt y 1000 iteraciones codificadas en Base64
+     * @param input contraseña a hashear
+     * @return contraseña hasheada
+     */
     public static String hashFunc(String input) {
         try {
             String salt = saltGenerator();
@@ -36,6 +41,10 @@ public class CryptoUtils {
         return null;
     }
 
+    /**
+     * Genera un salt aleatorio de 7 bytes codificado en Base64
+     * @return salt aleatorio de 7 bytes
+     */
     public static String saltGenerator() {
         Random rd = new Random();
         byte[] arr = new byte[7];
@@ -44,6 +53,12 @@ public class CryptoUtils {
         return Base64.getEncoder().withoutPadding().encodeToString(arr);
     }
 
+    /**
+     * Compara la contraseña introducida con la hasheada del metodo @link{hashFunc}
+     * @param input contraseña introducida
+     * @param storedData contraseña hasheada
+     * @return true si las contraseñas coinciden, false si no
+     */
     public static boolean checkHash(String input, String storedData) {
 
         try {

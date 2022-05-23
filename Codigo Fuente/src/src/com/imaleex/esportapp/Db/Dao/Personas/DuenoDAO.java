@@ -16,6 +16,12 @@ import java.util.ArrayList;
  */
 public class DuenoDAO {
 
+    /**
+     * Busca un dueno por su dni
+     * @param dni
+     * @return Dueno encontrado
+     * @throws DataNotFoundException
+     */
     //Buscar un dueno por su dni
     public static Dueno searchDueno(String dni) throws DataNotFoundException {
 
@@ -40,6 +46,12 @@ public class DuenoDAO {
         return persona;
     }
 
+
+    /**
+     * Busca todos los duenos
+     * @return Lista de todos los duenos
+     * @throws DbException si hay un error en la conexion o en la consulta
+     */
     public static ArrayList<Dueno> listDuenos() throws DbException {
         String sql = "SELECT p.dni, p.nombre, p.telefono, d.* FROM duenos d, personas p  WHERE p.id = d.id";
         ArrayList<Dueno> duenos = new ArrayList<>();
@@ -70,6 +82,12 @@ public class DuenoDAO {
     }
 
 
+    /**
+     * Busca un dueno por su id
+     * @param id  id del dueno
+     * @return
+     * @throws DataNotFoundException
+     */
     public static Dueno searchDuenoById(int id) throws DataNotFoundException {
 
         String sql = "SELECT p.dni, p.nombre, p.telefono, d.* FROM duenos d, personas p  WHERE p.id = ? AND p.id = d.id";
@@ -93,6 +111,13 @@ public class DuenoDAO {
         return persona;
     }
 
+    /**
+     * Carga un objeto de tipo Dueno con los datos de un ResultSet
+     * @param persona
+     * @param rs
+     * @throws SQLException
+     * @throws DataNotFoundException
+     */
     private static void loadElement(Dueno persona, ResultSet rs) throws SQLException, DataNotFoundException {
         if (rs.next()) {
             persona.setId(rs.getInt("id"));
@@ -105,6 +130,11 @@ public class DuenoDAO {
         }
     }
 
+    /**
+     * Inserta un dueno en la base de datos
+     * @param dueno
+     * @throws DbException Si hay algun error en la conexion o en la consulta
+     */
     public static void insertDueno(Dueno dueno) throws DbException {
         String sql = "INSERT INTO duenos (id, email) VALUES (?, ?)";
         try {
@@ -122,6 +152,11 @@ public class DuenoDAO {
         }
     }
 
+    /**
+     * Actualiza un dueno en la base de datos
+     * @param dueno
+     * @throws DbException Si hay algun error en la conexion o en la consulta
+     */
     public static void updateDueno(Dueno dueno) throws DbException {
         String sql = "UPDATE duenos SET email = ? WHERE id = ?";
         try {
@@ -141,6 +176,11 @@ public class DuenoDAO {
     }
 
     //method to delete a jugador
+    /**
+     * Elimina un dueno de la base de datos
+     * @param dueno
+     * @throws DbException Si hay algun error en la conexion o en la consulta
+     */
     public static void deleteDueno(Dueno dueno) throws DbException {
         String sql = "DELETE FROM duenos WHERE id = ?";
         try {

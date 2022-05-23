@@ -10,12 +10,19 @@ import com.imaleex.esportapp.Models.Personas.Rol;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
  * @author Alex Cortes
  */
 public class JugadorDAO {
+    /**
+     * Busca un jugador por su id
+     * @param dni dni del jugador
+     * @return jugador con el dni buscado
+     * @throws DataNotFoundException si no se encuentra el jugador
+     */
     public static Jugador searchJugador(String dni) throws DataNotFoundException {
 
         String sql = "SELECT p.dni, p.nombre, p.telefono, j.* FROM jugadores j, personas p  WHERE p.dni = ? AND p.id = j.id";
@@ -59,12 +66,17 @@ public class JugadorDAO {
         return persona;
     }
 
+    /**
+     * Inserta un jugador en la base de datos
+     * @param jugador jugador a insertar
+     * @throws DbException si hay un error en la conexion
+     */
     public static void insertJugador(Jugador jugador) throws DbException {
         String sql = "INSERT INTO jugadores (id, nickname, sueldo, id_equipo, rol) VALUES (?, ?, ?, ?, ?)";
         try {
             //Instanciamos la conexion y creamos el statement
             Connection con = Db.getConnection(1);
-            java.sql.PreparedStatement stmt = con.prepareStatement(sql);
+            java.sql.PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, jugador.getId());
             stmt.setString(2, jugador.getNickname());
             stmt.setDouble(3, jugador.getSueldo());
@@ -93,6 +105,11 @@ public class JugadorDAO {
         }
     }
 
+    /**
+     * Actualiza un jugador en la base de datos
+     * @param jugador jugador a actualizar
+     * @throws DbException si hay un error en la conexion o el jugador no existe
+     */
     public static void updateJugador(Jugador jugador) throws DbException {
         String sql = "UPDATE jugadores SET nickname = ?, sueldo = ?, id_equipo = ?, rol = ? WHERE id = ?";
         try {
@@ -136,6 +153,11 @@ public class JugadorDAO {
     }
 
     //method to delete a jugador
+    /**
+     * Elimina un jugador de la base de datos
+     * @param jugador jugador a eliminar
+     * @throws DbException si hay un error en la conexion o el jugador no existe
+     */
     public static void deleteJugador(Jugador jugador) throws DbException {
         String sql = "DELETE FROM jugadores WHERE id = ?";
         try {
@@ -156,6 +178,11 @@ public class JugadorDAO {
         }
     }
 
+    /**
+     * Obtiene todos los jugadores de la base de datos
+     * @return una lista con todos los jugadores de la base de datos
+     * @throws DbException si hay un error en la conexion
+     */
     public static ArrayList<Jugador> listaJugadores() throws DbException {
         String sql = "SELECT p.dni, p.nombre, p.telefono, j.* FROM jugadores j, personas p  WHERE p.id = j.id";
         ArrayList<Jugador> jugadores = new ArrayList<>();

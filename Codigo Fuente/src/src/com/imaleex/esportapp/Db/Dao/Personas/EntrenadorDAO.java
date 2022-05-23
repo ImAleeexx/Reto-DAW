@@ -16,6 +16,13 @@ import java.util.ArrayList;
 public class EntrenadorDAO {
 
     //Buscar un entrenador por su dni
+
+    /**
+     * Busca un entrenador por su id
+     * @param id id del entrenador
+     * @return entrenador con el id pasado por parametro
+     * @throws DataNotFoundException si no se encuentra el entrenador
+     */
     public static Entrenador searchEntrenador(int id) throws DataNotFoundException {
 
         String sql = "SELECT p.dni, p.nombre, p.telefono, e.* FROM entrenadores e, personas p  WHERE p.id = ? AND p.id = e.id";
@@ -48,6 +55,12 @@ public class EntrenadorDAO {
     }
 
     //Lista de entrenadores
+
+    /**
+     * Lista todos los entrenadores
+     * @return lista de entrenadores
+     * @throws DbException si hay un error en la conexion o en la consulta
+     */
     public static ArrayList<Entrenador> listEntrenadores() throws DbException {
 
         String sql = "SELECT p.id, p.dni, p.nombre, p.telefono, e.* FROM entrenadores e, personas p  WHERE p.id = e.id";
@@ -80,6 +93,11 @@ public class EntrenadorDAO {
     }
 
 
+    /**
+     * Inserta un entrenador en la base de datos
+     * @param entrenador entrenador a insertar
+     * @throws DbException  si hay un error en la conexion o en la insercion
+     */
     public static void insertEntrenador(Entrenador entrenador) throws DbException {
         String sql = "INSERT INTO entrenadores (id, sueldo) VALUES (?, ?)";
         try {
@@ -96,6 +114,11 @@ public class EntrenadorDAO {
         }
     }
 
+    /**
+     * Actualiza un entrenador en la base de datos
+     * @param entrenador entrenador a actualizar
+     * @throws DbException si hay un error en la conexion o en la actualizacion
+     */
     public static void updateEntrenador(Entrenador entrenador) throws DbException {
         String sql = "UPDATE entrenadores SET sueldo = ? WHERE id = ?";
         try {
@@ -115,6 +138,11 @@ public class EntrenadorDAO {
         }
     }
 
+    /**
+     * Borra un entrenador de la base de datos
+     * @param entrenador entrenador a eliminar
+     * @throws DbException si hay un error en la conexion o en la eliminacion
+     */
     //method to delete a entrenador
     public static void deleteEntrenador(Entrenador entrenador) throws DbException {
         String sql = "DELETE FROM entrenadores WHERE id = ?";
@@ -133,6 +161,12 @@ public class EntrenadorDAO {
     }
 
 
+    /**
+     * Busca un entrenador en la base de datos
+     * @param dni dni del entrenador
+     * @return entrenador con el dni pasado por parametro
+     * @throws DbException si hay un error en la conexion o en la busqueda
+     */
     public static Entrenador searchEntrenadorByDni(String dni) throws DbException {
         Entrenador entrenador = new Entrenador();
         String sql = "SELECT p.dni, p.nombre, p.telefono, e.* FROM entrenadores e, personas p  WHERE p.dni = ? and e.id = p.id";

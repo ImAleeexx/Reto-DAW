@@ -15,6 +15,12 @@ import java.sql.SQLException;
 public class PersonaDAO {
 
 
+    /**
+     * Inserta una persona en la base de datos
+     * @param persona Persona a insertar en la base de datos
+     * @return Devuelve objeto persona con el id de la persona insertada
+     * @throws DbException Si no se ha podido insertar la persona
+     */
     //Crea una persona en la base de datos
     public static Persona createPersona(Persona persona) throws DbException {
 
@@ -40,6 +46,11 @@ public class PersonaDAO {
         }
     }
 
+    /**
+     * Actualiza una persona en la base de datos
+     * @param persona Persona a actualizar en la base de datos
+     * @throws DbException Si no se ha podido actualizar la persona o no existe
+     */
     //Actualiza una persona en la base de datos
     public static void updatePersona(Persona persona) throws DbException {
 
@@ -64,6 +75,12 @@ public class PersonaDAO {
     }
 
     //Borra una persona en la base de datos
+
+    /**
+     * Borra una persona en la base de datos
+     * @param persona Persona a borrar en la base de datos
+     * @throws DbException Si no se ha podido borrar la persona o no existe
+     */
     public static void deletePersona(Persona persona) throws DbException {
 
         String sql = "DELETE FROM personas WHERE id = ?";

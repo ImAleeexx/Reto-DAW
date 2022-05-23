@@ -23,6 +23,13 @@ public class EquipoDAO {
 
 
     //Metodo para buscar un equipo
+
+    /**
+     * Metodo para buscar un equipo por su nombre
+     * @param nombreEquipo nombre del equipo
+     * @return Equipo con el nombre dado
+     * @throws DataNotFoundException si no se encuentra el equipo
+     */
     public static Equipo searchEquipo(String nombreEquipo) throws DataNotFoundException {
 
         String sql = "SELECT * FROM equipos  WHERE nombre LIKE ? LIMIT 1";
@@ -62,6 +69,12 @@ public class EquipoDAO {
         return equipo;
     }
 
+    /**
+     * Metodo para buscar un equipo por su dueno
+     * @param dueno dueno del equipo
+     * @return equipo del dueno
+     * @throws DbException si hay un error en la base de datos o en la conexion
+     */
     public static Equipo searchEquipoByDueno(Dueno dueno) throws DbException {
         String sql = "SELECT * FROM equipos  WHERE dueno = ? LIMIT 1";
         Equipo equipo = new Equipo();
@@ -100,6 +113,12 @@ public class EquipoDAO {
         return equipo;
     }
 
+    /**
+     * Metodo para buscar un equipo por su entrenador
+     * @param entrenador entrenador del equipo
+     * @return equipo del entrenador
+     * @throws DbException si hay un error en la base de datos o en la conexion
+     */
     public static Equipo searchEquipoByEntrenador(Entrenador entrenador) throws DbException {
         String sql = "SELECT * FROM equipos  WHERE entrenador = ? OR asistente = ? LIMIT 1";
         Equipo equipo = new Equipo();
@@ -140,6 +159,12 @@ public class EquipoDAO {
         return equipo;
     }
 
+    /**
+     * Metodo para insertar un equipo en la base de datos
+     * @param equipo equipo a insertar
+     * @return el equipo insertado con el id asignado
+     * @throws DbException si hay un error en la base de datos o en la conexion
+     */
     public static Equipo insertEquipo(Equipo equipo) throws DbException {
         String sql = "INSERT INTO equipos (nombre, entrenador, asistente, dueno) VALUES (?, ?, ?, ?)";
         try {
@@ -180,6 +205,11 @@ public class EquipoDAO {
     }
 
 
+    /**
+     * Metodo para actualizar un equipo en la base de datos
+     * @param equipo Equipo a actualizar
+     * @throws DbException si hay un error en la base de datos o en la conexion
+     */
     public static void updateEquipo(Equipo equipo) throws DbException {
         String sql = "UPDATE equipos SET nombre = ?, entrenador = ?, asistente = ?, dueno = ? WHERE id = ?";
         try {
@@ -214,6 +244,11 @@ public class EquipoDAO {
         }
     }
 
+    /**
+     * Metodo para eliminar un equipo de la base de datos
+     * @param equipo Equipo a eliminar
+     * @throws DbException si hay un error en la base de datos o en la conexion o si el equipo no existe
+     */
     public static void deleteEquipo(Equipo equipo) throws DbException {
         String sql = "DELETE FROM equipos WHERE id = ?";
         try {
@@ -232,6 +267,12 @@ public class EquipoDAO {
     }
 
 
+    /**
+     * Metodo para obtener un equipo de la base de datos
+     * @param equipo Equipo al que se le quieren obtener los jugadores
+     * @return  Lista de jugadores del equipo
+     * @throws DbException si hay un error en la base de datos o en la conexion
+     */
     public static ArrayList<Jugador> getJugadoresByEquipo(Equipo equipo) throws DbException {
         String sql = "SELECT p.dni, p.nombre, p.telefono, j.* FROM jugadores j, personas p  WHERE j.id_equipo = ? AND p.id = j.id";
         try {
@@ -266,6 +307,11 @@ public class EquipoDAO {
         }
     }
 
+    /**
+     * Metodo para obtener una lista de equipos de la base de datos
+     * @return Lista de todos los equipos
+     * @throws DbException si hay un error en la base de datos o en la conexion
+     */
     public static ArrayList<Equipo> listEquipos() throws DbException {
         String sql = "SELECT * FROM equipos";
         ArrayList<Equipo> equipos = new ArrayList<>();
@@ -290,6 +336,12 @@ public class EquipoDAO {
     }
 
 
+    /**
+     * Metodo para obtener un equipo de la base de datos
+     * @param id id del equipo
+     * @return Equipo con el id pasado por parametro
+     * @throws DataNotFoundException si no se encuentra el equipo o hay un error en la base de datos o en la conexion
+     */
     public static Equipo searchEquipoById(Integer id) throws DataNotFoundException {
         String sql = "SELECT * FROM equipos WHERE id = ?";
         Equipo equipo = null;
@@ -313,6 +365,12 @@ public class EquipoDAO {
         return equipo;
     }
 
+    /**
+     * Metodo para cargar un objeto de la base de datos
+     * @param equipo Equipo a cargar
+     * @param rs ResultSet con los datos del equipo
+     * @throws SQLException
+     */
     private static void loadObject(Equipo equipo, ResultSet rs) throws SQLException {
         equipo.setId(rs.getInt("id"));
         equipo.setNombre(rs.getString("nombre"));
@@ -328,6 +386,10 @@ public class EquipoDAO {
     }
 
 
+    /**
+     * Metodo para crear equipos aleatorios
+     * @param numEquipos numero de equipos a crear
+     */
     public static void generateRandomTeams(int numEquipos) {
         for (int i = 0; i < numEquipos; i++) {
             Equipo equipo = new Equipo();
