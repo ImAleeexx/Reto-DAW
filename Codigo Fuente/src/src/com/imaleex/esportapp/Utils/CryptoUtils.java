@@ -16,9 +16,9 @@ import static com.imaleex.esportapp.Utils.WindowUtils.showErrorMessage;
  */
 public class CryptoUtils {
 
-    public static String hashFunc(String input){
+    public static String hashFunc(String input) {
         try {
-            String  salt = saltGenerator();
+            String salt = saltGenerator();
             int iterations = 1000;
             KeySpec spec = new PBEKeySpec(
                     input.toCharArray(),
@@ -29,14 +29,14 @@ public class CryptoUtils {
 
             SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 
-            return iterations+":"+salt+":"+Base64.getEncoder().withoutPadding().encodeToString(f.generateSecret(spec).getEncoded());
+            return iterations + ":" + salt + ":" + Base64.getEncoder().withoutPadding().encodeToString(f.generateSecret(spec).getEncoded());
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
-        return  null;
+        return null;
     }
 
-    public static String saltGenerator(){
+    public static String saltGenerator() {
         Random rd = new Random();
         byte[] arr = new byte[7];
         rd.nextBytes(arr);
@@ -44,7 +44,7 @@ public class CryptoUtils {
         return Base64.getEncoder().withoutPadding().encodeToString(arr);
     }
 
-    public static boolean checkHash(String input, String storedData){
+    public static boolean checkHash(String input, String storedData) {
 
         try {
             String[] parts = storedData.split(":");
@@ -59,7 +59,7 @@ public class CryptoUtils {
             byte[] testHash = skf.generateSecret(spec).getEncoded();
 
             int diff = hash.length ^ testHash.length;
-            for(int i = 0; i < hash.length && i < testHash.length; i++) {
+            for (int i = 0; i < hash.length && i < testHash.length; i++) {
                 diff |= hash[i] ^ testHash[i];
             }
 

@@ -1,9 +1,7 @@
 package com.imaleex.esportapp.Views;
 
 import com.imaleex.esportapp.Main;
-import com.imaleex.esportapp.Utils.Validator;
 import com.imaleex.esportapp.Utils.WindowUtils;
-import sun.misc.JavaxCryptoSealedObjectAccess;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +13,7 @@ public class Login {
     private JLabel lPassword;
     private JPasswordField pfPassword;
     private JButton bLogin;
-    private  JPanel jpPrincipal;
+    private JPanel jpPrincipal;
     private JButton bExit;
 
     public Login() {
@@ -27,10 +25,8 @@ public class Login {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    comprobaciones(tfUsername.getText(), pfPassword.getText());
-                }catch (Exception ex){
-                    ex.getMessage();
-                }
+                    comprobaciones(tfUsername.getText(), String.valueOf(pfPassword.getPassword()));
+                } catch (NullPointerException ex) {}
             }
         });
         bExit.addActionListener(new ActionListener() {
@@ -41,22 +37,23 @@ public class Login {
         });
     }
 
-    public JPanel getJPanel(){
+    public JPanel getJPanel() {
         return jpPrincipal;
     }
-    public void comprobaciones(String username, String password){
-        if (!username.isEmpty() && !password.isEmpty()){
-            if(Main.login(username,password)){
-             WindowUtils.showInfoMessage("Login correcto");
-             Main.mostrarVentana();
+
+    public void comprobaciones(String username, String password) {
+        if (!username.isEmpty() && !password.isEmpty()) {
+            if (Main.login(username, password)) {
+                WindowUtils.showInfoMessage("Login correcto");
+                Main.mostrarVentana();
+            } else {
+                WindowUtils.showErrorMessage("Login invalido");
             }
-            else {
-                WindowUtils.showErrorMessage("Login invalido");}
-        }else {
+        } else {
             WindowUtils.showErrorMessage("Algun campo esta vacio.");
         }
 
     }
 
-    
-    }
+
+}

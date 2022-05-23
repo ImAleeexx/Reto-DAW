@@ -47,7 +47,6 @@ public class UserDAO {
     }
 
 
-
     //Editar el usuario
 
     public static void editUser(Usuario user) throws DbException {
@@ -81,7 +80,7 @@ public class UserDAO {
         }
     }
 
-    public static  void deleteUserByName(String name) throws DbException {
+    public static void deleteUserByName(String name) throws DbException {
         String sql = "DELETE FROM usuarios WHERE nombre = ?";
         try {
             Connection con = Db.getConnection(1);
@@ -107,13 +106,13 @@ public class UserDAO {
             return user;
 
 
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al crear el usuario");
         }
     }
 
-    public static ArrayList<Usuario> listUsers() {
+    public static ArrayList<Usuario> listUsers() throws DbException {
         String sql = "SELECT * FROM usuarios";
         ArrayList<Usuario> users = new ArrayList<>();
         try {
@@ -123,7 +122,7 @@ public class UserDAO {
             while (rs.next()) {
                 users.add(new Usuario(rs.getInt("id"), rs.getString("nombre"), rs.getString("password"), rs.getInt("type")));
             }
-        } catch (SQLException | DbException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return users;

@@ -10,7 +10,8 @@ public class Entrenador extends Persona {
         super(id, dni, nombre, telefono);
         this.sueldo = sueldo;
     }
-    public Entrenador(){
+
+    public Entrenador() {
         super();
     }
 

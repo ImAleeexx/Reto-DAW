@@ -30,7 +30,7 @@ public class WindowUtils {
         String var = String.valueOf(inputBigInteger("Introduce el numero de cuenta"));
         if (var.length() != 20) {
             showErrorMessage("El numero de cuenta debe de ser un numero de 20 digitos");
-            var = inputString(msgBox, true,  null);
+            var = inputString(msgBox, true, null);
         }
 
         return var;
@@ -40,7 +40,7 @@ public class WindowUtils {
         String var = (String) JOptionPane.showInputDialog(null, msgBox, "Introduce un valor", JOptionPane.QUESTION_MESSAGE, null, null, defaultVal);
 
         if (var == null || var.isEmpty()) {
-            if (forceLoop){
+            if (forceLoop) {
                 var = inputString(msgBox, forceLoop, defaultVal);
                 showErrorMessage("El dato introducido no es valido");
             } else
@@ -51,7 +51,7 @@ public class WindowUtils {
     }
 
     public static int inputInt(String msgBox) {
-        int var = -1;
+        int var;
 
         try {
             var = Integer.parseInt(JOptionPane.showInputDialog(msgBox));
@@ -95,7 +95,7 @@ public class WindowUtils {
 
 
     public static double inputDouble(String msgBox) {
-        double var = -1;
+        double var;
 
         try {
             var = Double.parseDouble(JOptionPane.showInputDialog(msgBox));
@@ -107,7 +107,7 @@ public class WindowUtils {
         return var;
     }
 
-    public static LocalDate parseDateString(String dateString){
+    public static LocalDate parseDateString(String dateString) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return LocalDate.parse(dateString, dateTimeFormatter);
     }

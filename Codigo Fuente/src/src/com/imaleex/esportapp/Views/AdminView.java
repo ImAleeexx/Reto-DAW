@@ -101,7 +101,7 @@ public class AdminView {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (WindowUtils.inputBoolean("¿Está seguro de que desea generar el calendario?")) {
-                    AdminController.generateMatchCalendar();
+                        AdminController.generateMatchCalendar();
                     }
                 } catch (DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());
@@ -135,8 +135,8 @@ public class AdminView {
     }
 
 
-    private void phaseTwoDisables(){
-        if (AdminController.checkLeagueStarted()){
+    private void phaseTwoDisables() {
+        if (AdminController.checkLeagueStarted()) {
             bGenerarCalendario.setVisible(false);
             bGenerarJugadores.setVisible(false);
             bGenerarEntrenadores.setVisible(false);

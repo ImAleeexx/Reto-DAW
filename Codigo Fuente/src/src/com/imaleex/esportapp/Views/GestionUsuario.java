@@ -4,7 +4,6 @@ import com.imaleex.esportapp.Controllers.AdminController;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
 import com.imaleex.esportapp.Main;
-import com.imaleex.esportapp.Models.Personas.Jugador;
 import com.imaleex.esportapp.Models.Users.Usuario;
 import com.imaleex.esportapp.Utils.CryptoUtils;
 import com.imaleex.esportapp.Utils.WindowUtils;
@@ -157,8 +156,8 @@ public class GestionUsuario {
                         } else {
                             throw new DbException("El nombre de usuario no es válido");
                         }
-                        if (!tfContraseña.getText().equals("")) {
-                            usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
+                        if (!String.valueOf(tfContraseña.getPassword()).equals("")) {
+                            usuario.setClave(CryptoUtils.hashFunc(String.valueOf(tfContraseña.getPassword())));
                         } else {
                             throw new DbException("La contraseña no puede estar vacía");
                         }
@@ -186,8 +185,8 @@ public class GestionUsuario {
                     } else {
                         WindowUtils.showErrorMessage("El nombre de usuario no es válido");
                     }
-                    if (!tfContraseña.getText().equals("")) {
-                        usuario.setClave(CryptoUtils.hashFunc(tfContraseña.getText()));
+                    if (!String.valueOf(tfContraseña.getPassword()).equals("")) {
+                        usuario.setClave(CryptoUtils.hashFunc(String.valueOf(tfContraseña.getPassword())));
                     } else {
                         WindowUtils.showErrorMessage("La contraseña no puede estar vacía");
                     }
@@ -223,6 +222,7 @@ public class GestionUsuario {
             throw new RuntimeException(e);
         }
     }
+
     public static void main() {
         JFrame frame = new JFrame("GestionUsuario");
         frame.setContentPane(new GestionUsuario().jpAdmin);

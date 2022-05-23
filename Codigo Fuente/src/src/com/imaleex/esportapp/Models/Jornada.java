@@ -17,7 +17,7 @@ public class Jornada {
         this.fecha = fecha;
     }
 
-    public Jornada(){
+    public Jornada() {
 
     }
 

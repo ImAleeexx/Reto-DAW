@@ -3,7 +3,7 @@ package com.imaleex.esportapp.Models.Personas;
 /**
  * @author Alex Cortes
  */
-public class Dueno extends Persona{
+public class Dueno extends Persona {
     private String email;
 
     public Dueno(int id, String dni, String nombre, String telefono, String email) {
@@ -15,7 +15,7 @@ public class Dueno extends Persona{
         super();
     }
 
-    public Dueno(int id){
+    public Dueno(int id) {
         super(id);
     }
 

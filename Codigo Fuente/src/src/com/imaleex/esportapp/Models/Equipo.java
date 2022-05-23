@@ -109,10 +109,6 @@ public class Equipo {
         this.jugadores = jugadores;
     }
 
-    //add jugador to arraylist
-    public void addJugador(Jugador jugador) {
-        this.jugadores.add(jugador);
-    }
 
 
     @Override

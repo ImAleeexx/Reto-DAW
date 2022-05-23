@@ -83,7 +83,7 @@ public class VerJornada extends JFrame {
 
         // código del botón
         JButton buscar = new JButton("Buscar Jornada");
-        cbJornada = new JComboBox();
+        cbJornada = new JComboBox<>();
         llenarCBJornadas();
         cbJornada.setBounds(150, 249, 150, 23);
         buscar.setBounds(10, 249, 150, 23);
@@ -146,7 +146,7 @@ public class VerJornada extends JFrame {
         //Search in the database jornada 1
         model.setRowCount(0);
 
-        ArrayList<Partido> partidos = new ArrayList<Partido>();
+        ArrayList<Partido> partidos = new ArrayList<>();
         try {
             assert this.jornada != null;
             partidos = UserController.listaPartidosByJornada(jornada);
@@ -177,7 +177,7 @@ public class VerJornada extends JFrame {
     public void cargarJornada() {
         model.setRowCount(0);
 
-        ArrayList<Partido> partidos = new ArrayList<Partido>();
+        ArrayList<Partido> partidos;
         try {
             partidos = PartidoDAO.listaPartidosByJornada(jornada);
         } catch (DbException e) {
@@ -192,16 +192,15 @@ public class VerJornada extends JFrame {
             WindowUtils.showErrorMessage("No hay jornadas creadas");
             return null;
         }
-        final long now = System.currentTimeMillis() /1000;
+        final long now = System.currentTimeMillis() / 1000;
         ZoneId zoneId = ZoneId.systemDefault();
-        Jornada nearestJornada = Collections.min(jornadas, new Comparator<Jornada>() {
+        return Collections.min(jornadas, new Comparator<Jornada>() {
             public int compare(Jornada j1, Jornada j2) {
                 long diff1 = Math.abs(j1.getFecha().atStartOfDay(zoneId).toEpochSecond() - now);
                 long diff2 = Math.abs(j2.getFecha().atStartOfDay(zoneId).toEpochSecond() - now);
                 return Long.compare(diff1, diff2);
             }
         });
-        return nearestJornada;
     }
 
     private void llenarCBJornadas() {

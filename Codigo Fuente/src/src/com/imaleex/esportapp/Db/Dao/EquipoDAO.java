@@ -94,7 +94,7 @@ public class EquipoDAO {
             } else {
                 return null;
             }
-    } catch ( SQLException e) {
+        } catch (SQLException e) {
             throw new DbException("Error al buscar el equipo");
         }
         return equipo;
@@ -134,7 +134,7 @@ public class EquipoDAO {
             } else {
                 return null;
             }
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             throw new DbException("Error al buscar el equipo");
         }
         return equipo;
@@ -148,17 +148,17 @@ public class EquipoDAO {
             java.sql.PreparedStatement stmt = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, equipo.getNombre());
             try {
-            stmt.setInt(2, equipo.getEntrenador().getId());
+                stmt.setInt(2, equipo.getEntrenador().getId());
             } catch (NullPointerException e) {
                 stmt.setNull(2, java.sql.Types.INTEGER);
             }
             try {
-            stmt.setInt(3, equipo.getEntrenadorAsistente().getId());
+                stmt.setInt(3, equipo.getEntrenadorAsistente().getId());
             } catch (NullPointerException e) {
                 stmt.setNull(3, java.sql.Types.INTEGER);
             }
             try {
-            stmt.setInt(4, equipo.getDueno().getId());
+                stmt.setInt(4, equipo.getDueno().getId());
             } catch (NullPointerException e) {
                 stmt.setNull(4, java.sql.Types.INTEGER);
             }
@@ -169,7 +169,7 @@ public class EquipoDAO {
             }
             //Actualizamos id
             ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next() ) {
+            if (rs.next()) {
                 equipo.setId(rs.getInt(1));
             }
             return equipo;
@@ -253,7 +253,8 @@ public class EquipoDAO {
                     jugador.setNickname(rs.getString("nickname"));
                     try {
                         jugador.setRol(Rol.valueOf(rs.getString("rol")));
-                    } catch (NullPointerException e) {  }
+                    } catch (NullPointerException e) {
+                    }
                     jugador.setEquipo(equipo);
                     jugadores.add(jugador);
                 } while (rs.next());
@@ -267,7 +268,7 @@ public class EquipoDAO {
 
     public static ArrayList<Equipo> listEquipos() throws DbException {
         String sql = "SELECT * FROM equipos";
-        ArrayList<Equipo> equipos = new ArrayList<Equipo>();
+        ArrayList<Equipo> equipos = new ArrayList<>();
         try {
             //Instanciamos la conexion y creamos el statement
             Connection con = Db.getConnection(1);
@@ -282,8 +283,8 @@ public class EquipoDAO {
                 } while (rs.next());
             }
 
-        } catch (SQLException  e) {
-            throw  new DbException("Error al obtener los equipos");
+        } catch (SQLException e) {
+            throw new DbException("Error al obtener los equipos");
         }
         return equipos;
     }
@@ -315,23 +316,23 @@ public class EquipoDAO {
     private static void loadObject(Equipo equipo, ResultSet rs) throws SQLException {
         equipo.setId(rs.getInt("id"));
         equipo.setNombre(rs.getString("nombre"));
-        if (DaoUtils.checkNullableInteger(rs, "entrenador")){
+        if (DaoUtils.checkNullableInteger(rs, "entrenador")) {
             equipo.setEntrenador(new Entrenador(rs.getInt("entrenador")));
         }
-        if (DaoUtils.checkNullableInteger(rs, "asistente")){
+        if (DaoUtils.checkNullableInteger(rs, "asistente")) {
             equipo.setEntrenador(new Entrenador(rs.getInt("asistente")));
         }
-        if (DaoUtils.checkNullableInteger(rs, "dueno")){
+        if (DaoUtils.checkNullableInteger(rs, "dueno")) {
             equipo.setDueno(new Dueno(rs.getInt("dueno")));
         }
     }
 
 
-    public static void generateRandomTeams(int numEquipos){
+    public static void generateRandomTeams(int numEquipos) {
         for (int i = 0; i < numEquipos; i++) {
             Equipo equipo = new Equipo();
             equipo.setId(i);
-            equipo.setNombre("Equipo "  + Faker.streetName());
+            equipo.setNombre("Equipo " + Faker.streetName());
             try {
                 insertEquipo(equipo);
             } catch (DbException e) {
@@ -339,7 +340,6 @@ public class EquipoDAO {
             }
         }
     }
-
 
 
 }

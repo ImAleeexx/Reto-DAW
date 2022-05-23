@@ -15,7 +15,7 @@ public class DaoUtils {
     }
 
     public static int getRowCount(ResultSet resultSet) {
-        if (resultSet == null){
+        if (resultSet == null) {
             return 0;
         }
         try {

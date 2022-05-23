@@ -10,7 +10,7 @@ public abstract class Persona {
     private String telefono;
 
 
-    public Persona(int id,String dni, String nombre, String telefono) {
+    public Persona(int id, String dni, String nombre, String telefono) {
         this.id = id;
         this.dni = dni;
         this.nombre = nombre;
@@ -23,7 +23,8 @@ public abstract class Persona {
         this.telefono = telefono;
     }
 
-    public Persona(){}
+    public Persona() {
+    }
 
     public Persona(int id) {
         this.id = id;
@@ -61,10 +62,10 @@ public abstract class Persona {
         this.id = id;
     }
 
-    public String toString(){
-        if(getNombre() == null){
+    public String toString() {
+        if (getNombre() == null) {
             return "";
-        } else{
+        } else {
             return getNombre() + " " + getDni();
         }
     }

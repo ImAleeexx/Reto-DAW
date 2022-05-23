@@ -4,8 +4,6 @@ import com.imaleex.esportapp.Db.Db;
 import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Personas.Dueno;
-import com.imaleex.esportapp.Models.Personas.Entrenador;
-import com.imaleex.esportapp.Utils.WindowUtils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -72,8 +70,6 @@ public class DuenoDAO {
     }
 
 
-
-
     public static Dueno searchDuenoById(int id) throws DataNotFoundException {
 
         String sql = "SELECT p.dni, p.nombre, p.telefono, d.* FROM duenos d, personas p  WHERE p.id = ? AND p.id = d.id";
@@ -121,8 +117,8 @@ public class DuenoDAO {
             stmt.executeUpdate();
             //Actualizamos la persona
 
-        } catch (DbException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
         }
     }
 
@@ -139,8 +135,8 @@ public class DuenoDAO {
             //Actualizamos la persona
             PersonaDAO.updatePersona(dueno);
 
-        } catch (DbException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
         }
     }
 
@@ -155,11 +151,10 @@ public class DuenoDAO {
             //Borramos la persona asociada a la id
             stmt.executeUpdate();
             PersonaDAO.deletePersona(dueno);
-        } catch (DbException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
         }
     }
-
 
 
 }

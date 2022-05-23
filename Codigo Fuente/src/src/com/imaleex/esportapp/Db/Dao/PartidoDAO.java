@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class PartidoDAO {
 
-    public static Partido searchPartido(int id)throws DbException {
+    public static Partido searchPartido(int id) throws DbException {
         String sql = "SELECT * FROM partidos  WHERE id LIKE ? ";
         Partido partido = new Partido();
         try {
@@ -24,7 +24,7 @@ public class PartidoDAO {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
-            if(rs.next()){
+            if (rs.next()) {
                 partido.setId(rs.getInt("id"));
                 Equipo equipo1 = new Equipo();
                 equipo1.setId(rs.getInt("id_local"));
@@ -34,12 +34,12 @@ public class PartidoDAO {
                 partido.setVisitante(equipo2);
                 try {
                     partido.setMarcadorLocal(rs.getInt("resultado_local"));
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     partido.setMarcadorLocal(0);
                 }
                 try {
                     partido.setMarcadorVisitante(rs.getInt("resultado_visitante"));
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     partido.setMarcadorVisitante(0);
                 }
                 partido.setHora(rs.getTime("hora").toLocalTime());
@@ -68,7 +68,7 @@ public class PartidoDAO {
                 throw new DbException("Error al insertar el partido");
             }
             ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next() ) {
+            if (rs.next()) {
                 partido.setId(rs.getInt(1));
             }
             return partido;

@@ -49,8 +49,8 @@ public class Usuario {
         this.type = type;
     }
 
-    public boolean checkAdmin(){
-       return this.type ==1;
+    public boolean checkAdmin() {
+        return this.type == 1;
     }
 
     public void setId(int id) {
