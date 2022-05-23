@@ -38,8 +38,10 @@ public class AdminController extends UserController {
 
 
     /**
+     * Metodo que devuelve la persona insertada en la base de datos
      * @param persona persona a insertar
      * @return persona inertada en la base de datos
+     * @throws DbException si no se puede insertar la persona
      */
     public static Persona insertPersona(Persona persona) throws DbException {
         assert Main.user.getType() == 1;
@@ -50,8 +52,10 @@ public class AdminController extends UserController {
     //Jugador
 
     /**
+     * Metdodo que devuelve el jugador encontrado en la base de datos
      * @param dni dni del jugador a buscar
      * @return jugador encontrado
+     * @throws DataNotFoundException si no se encuentra el jugador
      */
     public static Jugador buscarJugador(String dni) throws DataNotFoundException {
         assert Main.user.getType() == 1;
@@ -59,8 +63,10 @@ public class AdminController extends UserController {
     }
 
     /**
+     * Metodo que devuelve el Equipo encontrado en la base de datos
      * @param id id del equipo a buscar
      * @return equipo encontrado
+     * @throws DataNotFoundException si no se encuentra el equipo
      */
     public static Equipo buscarEquipoId(Integer id) throws DataNotFoundException {
         assert Main.user.getType() == 1;
@@ -68,8 +74,9 @@ public class AdminController extends UserController {
     }
 
     /**
+     * Metodo que inserta un jugador en la base de datos
      * @param jugador jugador a insertar
-     *
+     * @throws DbException si no se puede insertar el jugador
      */
     public static void insertjugador(Jugador jugador) throws DbException {
         assert Main.user.getType() == 1;
@@ -80,8 +87,9 @@ public class AdminController extends UserController {
     }
 
     /**
+     * Metodo que actualiza un jugador en la base de datos
      * @param jugador jugador a actualizar
-     *
+     * @throws DbException si no se puede actualizar el jugador
      */
     public static void updatejugador(Jugador jugador) throws DbException {
         assert Main.user.getType() == 1;
@@ -92,8 +100,9 @@ public class AdminController extends UserController {
     }
 
     /**
+     * Metodo que elimina un jugador de la base de datos
      * @param jugador jugador a eliminar
-     *
+     * @throws DbException si no se puede eliminar el jugador
      */
     public static void deleteJugador(Jugador jugador) throws DbException {
         assert Main.user.getType() == 1;
@@ -101,8 +110,10 @@ public class AdminController extends UserController {
     }
 
     /**
+     * Metodo que devuelve un partido encontrado en la base de datos
      * @param idPartido id del partido a buscar
      * @return partido encontrado
+     * @throws DataNotFoundException si no se encuentra el partido
      */
     public static Partido buscarPartidoId(int idPartido) throws DbException {
         assert Main.user.getType() == 1;
@@ -110,8 +121,9 @@ public class AdminController extends UserController {
     }
 
     /**
-     *
+     * Metodo que devuelve el suelto total de los jugadores
      * @return sueldo total de los jugadores
+     * @throws DbException si no se puede obtener el sueldo total
      */
     public static Double sueldoTotalJugadores() throws DbException {
         assert Main.user.getType() == 1;
@@ -128,6 +140,7 @@ public class AdminController extends UserController {
      * Buscar un dueño por su dni en la base de datos
      * @param dni
      * @return dueño encontrado
+     * @throws DataNotFoundException si no se encuentra el dueño
      */
     public static Dueno buscarDueno(String dni) throws DataNotFoundException {
         assert Main.user.getType() == 1;
@@ -138,6 +151,7 @@ public class AdminController extends UserController {
      * Buscar un dueño por su id en la base de datos
      * @param id
      * @return dueño encontrado
+     * @throws DataNotFoundException si no se encuentra el dueño
      */
     public static Dueno buscarDuenoId(int id) throws DataNotFoundException {
         assert Main.user.getType() == 1;
@@ -147,6 +161,7 @@ public class AdminController extends UserController {
     /**
      * Lista de los dueños de la base de datos
      * @return lista de los dueños
+     * @throws DbException si no se puede obtener la lista de los dueños
      */
     public static ArrayList<Dueno> listDuenos() throws DbException {
         assert Main.user.getType() == 1;
@@ -156,6 +171,7 @@ public class AdminController extends UserController {
     /**
      * Actualizar dueño de la base de datos
      * @param dueno
+     * @throws DbException si no se puede actualizar el dueño
      */
     public static void updateDueno(Dueno dueno) throws DbException {
         assert Main.user.getType() == 1;
@@ -165,6 +181,7 @@ public class AdminController extends UserController {
     /**
      * Insertar dueño en la base de datos
      * @param dueno
+     * @throws DbException si no se puede insertar el dueño
      */
     public static void insertarDueno(Dueno dueno) throws DbException {
         assert Main.user.getType() == 1;
@@ -174,6 +191,7 @@ public class AdminController extends UserController {
     /**
      * Eliminar dueño de la base de datos
      * @param dueno
+     * @throws DbException si no se puede eliminar el dueño
      */
     public static void eliminarDueno(Dueno dueno) throws DbException {
         assert Main.user.getType() == 1;
@@ -186,6 +204,7 @@ public class AdminController extends UserController {
      * Buscar usuario por nombre en la base de datos
      * @param username
      * @return usuario encontrado
+     * @throws DataNotFoundException si no se encuentra el usuario
      */
     public static Usuario buscarUsuario(String username) throws UserNotFoundException {
         assert Main.user.getType() == 1;
@@ -195,6 +214,7 @@ public class AdminController extends UserController {
     /**
      * Eliminar a un usuario por nombre en la base de datos
      * @param username
+     * @throws DbException si no se puede eliminar el usuario
      */
     public static void deleteUserByName(String username) throws DbException {
         assert Main.user.getType() == 1;
@@ -204,6 +224,7 @@ public class AdminController extends UserController {
     /**
      * Editar usuario en la base de datos
      * @param user
+     * @throws DbException si no se puede editar el usuario
      */
     public static void editUser(Usuario user) throws DbException {
         assert Main.user.getType() == 1;
@@ -213,6 +234,7 @@ public class AdminController extends UserController {
     /**
      * Insertar usuario en la base de datos
      * @param user
+     * @throws DbException si no se puede insertar el usuario
      */
     public static void createUser(Usuario user) throws DbException {
         assert Main.user.getType() == 1;
@@ -222,6 +244,7 @@ public class AdminController extends UserController {
     /**
      * Lista de los usuarios en la base de datos
      * @return lista de los usuarios
+     * @throws DbException si no se puede obtener la lista de los usuarios
      */
     public static ArrayList<Usuario> listUsers() throws DbException {
         assert Main.user.getType() == 1;
@@ -233,6 +256,8 @@ public class AdminController extends UserController {
      * Buscar entrenador por dni en la base de datos
      * @param dni
      * @return entrenador encontrado
+     * @throws DataNotFoundException si no se encuentra el entrenador
+     * @throws DbException si no se puede obtener el entrenador
      */
     public static Entrenador buscarEntrenadorDni(String dni) throws DataNotFoundException, DbException {
         assert Main.user.getType() == 1;
@@ -243,6 +268,8 @@ public class AdminController extends UserController {
      * Buscar entrenador por Id en la base de datos
      * @param id
      * @return entrenador encontrado
+     * @throws DataNotFoundException si no se encuentra el entrenador
+     * @throws DbException si no se puede obtener el entrenador
      */
     public static Entrenador buscarEntrenadorId(int id) throws DbException, DataNotFoundException {
         assert Main.user.getType() == 1;
@@ -252,6 +279,7 @@ public class AdminController extends UserController {
     /**
      *  Lista de los entrenadores de la base de datos
      * @return lista de los entrenadores
+     * @throws DbException si no se puede obtener la lista de los entrenadores
      */
     public static ArrayList<Entrenador> listaEntrenadores() throws DbException {
         assert Main.user.getType() == 1;
@@ -261,6 +289,7 @@ public class AdminController extends UserController {
     /**
      * Entrenador para actualizarlo en la base de datos
      * @param entrenador
+     * @throws DbException si no se puede actualizar el entrenador
      */
     public static void updateEntrenador(Entrenador entrenador) throws DbException {
         assert Main.user.getType() == 1;
@@ -270,6 +299,7 @@ public class AdminController extends UserController {
     /**
      * Entrenador para insertarlo en la base de datos
      * @param entrenador
+     * @throws DbException si no se puede insertar el entrenador
      */
     public static void insertEntrenador(Entrenador entrenador) throws DbException {
         assert Main.user.getType() == 1;
@@ -279,6 +309,7 @@ public class AdminController extends UserController {
     /**
      * Entrenador para eliminarlo de la base de datos
      * @param entrenador
+     * @throws DbException si no se puede eliminar el entrenador
      */
     public static void deleteEntrenador(Entrenador entrenador) throws DbException {
         assert Main.user.getType() == 1;
@@ -291,6 +322,7 @@ public class AdminController extends UserController {
      *  Nombre de equipo para buscarlo en la base de datos
      * @param equipo
      * @return equipo encontrado
+     * @throws DataNotFoundException si no se encuentra el equipo
      */
     public static Equipo buscarEquipo(String equipo) throws DataNotFoundException {
         assert Main.user.getType() == 1;
@@ -313,6 +345,7 @@ public class AdminController extends UserController {
     /**
      * Insertar el equipo que le pasamos en la base de datos
      * @param equipo
+     * @throws DbException si no se puede insertar el equipo
      */
     public static void insertEquipo(Equipo equipo) throws DbException {
         assert Main.user.getType() == 1;
@@ -323,6 +356,7 @@ public class AdminController extends UserController {
     /**
      * Actualizar el equipo que le pasamos en la base de datos
      * @param equipo
+     * @throws DbException si no se puede actualizar el equipo
      */
     public static void updateEquipo(Equipo equipo) throws DbException {
         assert Main.user.getType() == 1;
@@ -333,6 +367,7 @@ public class AdminController extends UserController {
     /**
      * Equipo para mirar si el dueño, el entrenador o el asistente ya tienen un equipo asignado
      * @param equipo
+     * @throws DbException si no se puede mirar el equipo
      */
     private static void checkDuplicatesEquipo(Equipo equipo) throws DbException {
         Equipo equipoDueno = EquipoDAO.searchEquipoByDueno(equipo.getDueno());
@@ -352,6 +387,7 @@ public class AdminController extends UserController {
     /**
      * Lista los equipos de la base de datos
      * @return lista de equipos
+     * @throws DbException si no se puede listar los equipos
      */
     public static ArrayList<Equipo> listaEquipos() throws DbException {
         assert Main.user.getType() == 1;
@@ -363,6 +399,7 @@ public class AdminController extends UserController {
     /**
      * Insertamos una Persona en la base de datos
      * @param persona
+     * @throws DbException si no se puede insertar la persona
      */
     public static Persona insertarPersona(Persona persona) throws DbException {
         assert Main.user.getType() == 1;
@@ -374,6 +411,7 @@ public class AdminController extends UserController {
     /**
      * Devuelve una lista con las jornadas
      * @return lista de jornadas
+     * @throws DbException si no se puede listar las jornadas
      */
     public static ArrayList<Jornada> getJornadas() throws DbException {
         assert Main.user.getType() == 1;
@@ -384,6 +422,7 @@ public class AdminController extends UserController {
     /**
      * Actualiza el marcador de un partido
      * @param partido
+     * @throws DbException si no se puede actualizar el partido
      */
     public static void actualizarMarcador(Partido partido) throws DbException {
         assert Main.user.getType() == 1;
@@ -394,6 +433,7 @@ public class AdminController extends UserController {
     //Generacion partidos
     /**
      * Generador de los partidos del calendario
+     * @throws DbException si no se puede generar los partidos
      */
     public static void generateMatchCalendar() throws DbException {
         assert Main.user.getType() == 1;
@@ -490,6 +530,7 @@ public class AdminController extends UserController {
     /**
      * Saca una lista de los jugadores
      * @return lista de jugadores
+     * @throws DbException si no se puede obtener la lista de jugadores
      */
     public static ArrayList<Jugador> listaJugadores() throws DbException {
         assert Main.user.getType() == 1;

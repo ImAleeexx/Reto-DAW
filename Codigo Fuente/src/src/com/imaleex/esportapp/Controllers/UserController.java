@@ -21,6 +21,7 @@ public class UserController {
     /**
      * Genera la classificacion de la liga para despues mostrarla en la vista
      * @return Objeto con la clasificacion
+     * @throws DbException error al optener la lista de partidos
      */
     public static Object[][] generateClasificacion() throws DbException {
         ArrayList<Partido> listaPartidos = PartidoDAO.listaPartidosJugados();
@@ -67,6 +68,7 @@ public class UserController {
     /**
      * Lista de los jugadores de la base de datos
      * @return lista de los equipos
+     * @throws DbException error al optener la lista de equipos
      */
     private static ArrayList<Equipo> listaEquipos() throws DbException {
         return EquipoDAO.listEquipos();
@@ -76,6 +78,7 @@ public class UserController {
      * Lista de los partidos de la jornada
      * @param jornada
      * @return lista de los partidos de la jornada
+     * @throws DbException error al optener la lista de partidos
      */
     public static ArrayList<Partido> listaPartidosByJornada(Jornada jornada) throws DbException {
         return PartidoDAO.listaPartidosByJornada(jornada);

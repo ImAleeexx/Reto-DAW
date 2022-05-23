@@ -10,7 +10,11 @@ import com.imaleex.esportapp.Models.Personas.Jugador;
 import java.util.ArrayList;
 
 /**
+ * <h1>Clase Equipo</h1></h1>
+ *
  * @author Alex Cortes
+ * @author Aritz Castillo
+ * @version 1.0
  */
 public class Equipo {
     private int id;
@@ -61,7 +65,7 @@ public class Equipo {
     }
 
     /**
-     * setea el nombre del equipo
+     * Setea el nombre del equipo
      * @param nombre nombre del equipo
      */
     public void setNombre(String nombre) {
@@ -70,7 +74,7 @@ public class Equipo {
 
     /**
      * Devuelve el entrenador del equipo
-     * @return el entrenador del equipo
+     * @return el entrenador del equipo o null si no tiene
      */
     public Entrenador getEntrenador() {
         try {
@@ -87,7 +91,7 @@ public class Equipo {
     }
 
     /**
-     * setea el entrenador del equipo
+     * Setea el entrenador del equipo
      * @param entrenador el entrenador del equipo
      */
     public void setEntrenador(Entrenador entrenador) {
@@ -96,7 +100,7 @@ public class Equipo {
 
     /**
      * Devuelve el entrenador asistente del equipo
-     * @return entrenador asistente del equipo
+     * @return entrenador asistente del equipo o null si no tiene
      */
     public Entrenador getEntrenadorAsistente() {
         try {
@@ -113,7 +117,7 @@ public class Equipo {
     }
 
     /**
-     * setea el entrenador asistente del equipo
+     * Setea el entrenador asistente del equipo
      * @param entrenadorAsistente entrenador asistente del equipo
      */
     public void setEntrenadorAsistente(Entrenador entrenadorAsistente) {
@@ -122,7 +126,7 @@ public class Equipo {
 
     /**
      * Devuelve el dueno del equipo
-     * @return el dueno del equipo
+     * @return el dueno del equipo o null si no tiene
      */
     public Dueno getDueno() {
         try {
@@ -139,7 +143,7 @@ public class Equipo {
     }
 
     /**
-     * setea el dueno del equipo
+     * Setea el dueno del equipo
      * @param dueno el dueno del equipo
      */
     public void setDueno(Dueno dueno) {
@@ -158,7 +162,7 @@ public class Equipo {
     }
 
     /**
-     * setea la lista de jugadores del equipo
+     * Setea la lista de jugadores del equipo
      * @param jugadores lista de jugadores del equipo
      */
     public void setJugadores(ArrayList<Jugador> jugadores) {
