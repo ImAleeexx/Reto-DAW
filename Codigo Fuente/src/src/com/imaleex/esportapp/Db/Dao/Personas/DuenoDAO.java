@@ -18,9 +18,9 @@ public class DuenoDAO {
 
     /**
      * Busca un dueno por su dni
-     * @param dni
+     * @param dni dni del dueno
      * @return Dueno encontrado
-     * @throws DataNotFoundException
+     * @throws DataNotFoundException si no se encuentra el dueno
      */
     //Buscar un dueno por su dni
     public static Dueno searchDueno(String dni) throws DataNotFoundException {
@@ -85,8 +85,8 @@ public class DuenoDAO {
     /**
      * Busca un dueno por su id
      * @param id  id del dueno
-     * @return
-     * @throws DataNotFoundException
+     * @return Dueno encontrado
+     * @throws DataNotFoundException si no se encuentra el dueno
      */
     public static Dueno searchDuenoById(int id) throws DataNotFoundException {
 
@@ -113,10 +113,10 @@ public class DuenoDAO {
 
     /**
      * Carga un objeto de tipo Dueno con los datos de un ResultSet
-     * @param persona
-     * @param rs
-     * @throws SQLException
-     * @throws DataNotFoundException
+     * @param persona objeto a cargar
+     * @param rs ResultSet con los datos
+     * @throws SQLException si hay un error en la consulta
+     * @throws DataNotFoundException si no se encuentra el dueno
      */
     private static void loadElement(Dueno persona, ResultSet rs) throws SQLException, DataNotFoundException {
         if (rs.next()) {
@@ -132,7 +132,7 @@ public class DuenoDAO {
 
     /**
      * Inserta un dueno en la base de datos
-     * @param dueno
+     * @param dueno objeto a insertar
      * @throws DbException Si hay algun error en la conexion o en la consulta
      */
     public static void insertDueno(Dueno dueno) throws DbException {
@@ -154,7 +154,7 @@ public class DuenoDAO {
 
     /**
      * Actualiza un dueno en la base de datos
-     * @param dueno
+     * @param dueno objeto a actualizar
      * @throws DbException Si hay algun error en la conexion o en la consulta
      */
     public static void updateDueno(Dueno dueno) throws DbException {
@@ -178,7 +178,7 @@ public class DuenoDAO {
     //method to delete a jugador
     /**
      * Elimina un dueno de la base de datos
-     * @param dueno
+     * @param dueno objeto a eliminar
      * @throws DbException Si hay algun error en la conexion o en la consulta
      */
     public static void deleteDueno(Dueno dueno) throws DbException {

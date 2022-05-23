@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 /**
- * <h1>DAO de objeto jornada</h1></h1>
+ * <h1>DAO de objeto jornada</h1>
  *
  * @author Alex Cortes
  * @author Aritz Castillo
@@ -53,7 +53,8 @@ public class JornadaDAO {
     /**
      * Metodo insertar una jornada
      * @param jornada jornada a insertar
-     * @throws DataNotFoundException si se da un error al insertar la jornada
+     * @return jornada insertada
+     * @throws DbException si se da un error al insertar la jornada
      */
     public static Jornada insertJornada(Jornada jornada) throws DbException {
         try {
@@ -84,7 +85,7 @@ public class JornadaDAO {
     /**
      * Metodo para actualizar una jornada
      * @param jornada jornada a actualizar
-     * @throws DataNotFoundException si se da un error al actualizar la jornada
+     * @throws DbException si se da un error al actualizar la jornada
      */
     public static void updateJornada(Jornada jornada) throws DbException {
         String sql = "UPDATE jornadas SET fecha = ? WHERE id = ?";
@@ -109,7 +110,7 @@ public class JornadaDAO {
     /**
      * Metodo para eliminar una jornada por su id
      * @param id id de la jornada
-     * @throws DataNotFoundException si se da un error al eliminar la jornada
+     * @throws DbException si se da un error al eliminar la jornada
      */
     public static void deleteJornada(int id) throws DbException {
         String sql = "DELETE FROM jornadas WHERE id = ?";
@@ -132,7 +133,7 @@ public class JornadaDAO {
 
     /**
      * Metodo para eliminar todas las jornadas
-     * @throws DataNotFoundException si se da un error al eliminar todas las jornadas
+     * @throws DbException si se da un error al eliminar todas las jornadas
      */
     public static void deleteAllJornadas() throws DbException {
         String sql = "DELETE FROM jornadas";
@@ -150,7 +151,7 @@ public class JornadaDAO {
     /**
      * Metodo para obtener todas las jornadas
      * @return lista de jornadas
-     * @throws DataNotFoundException si se da un error al obtener la lista de jornadas
+     * @throws DbException si se da un error al obtener la lista de jornadas
      */
     public static ArrayList<Jornada> getJornadas() throws DbException {
         String sql = "SELECT * FROM jornadas";

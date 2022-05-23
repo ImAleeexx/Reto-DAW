@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
- * <h1>Clase Jornada</h1></h1>
+ * <h1>Clase Jornada</h1>
  *
  * @author Alex Cortes
  * @author Aritz Castillo

@@ -10,7 +10,7 @@ import com.imaleex.esportapp.Models.Personas.Jugador;
 import java.util.ArrayList;
 
 /**
- * <h1>Clase Equipo</h1></h1>
+ * <h1>Clase Equipo</h1>
  *
  * @author Alex Cortes
  * @author Aritz Castillo

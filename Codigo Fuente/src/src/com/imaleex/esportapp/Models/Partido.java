@@ -6,7 +6,7 @@ import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import java.time.LocalTime;
 
 /**
- * <h1>Clase Partido</h1></h1>
+ * <h1>Clase Partido</h1>
  *
  * @author Alex Cortes
  * @author Aritz Castillo

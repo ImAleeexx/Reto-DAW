@@ -54,7 +54,7 @@ public class CryptoUtils {
     }
 
     /**
-     * Compara la contraseña introducida con la hasheada del metodo @link{hashFunc}
+     * Compara la contraseña introducida con la hasheada del metodo {@link #hashFunc}
      * @param input contraseña introducida
      * @param storedData contraseña hasheada
      * @return true si las contraseñas coinciden, false si no

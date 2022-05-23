@@ -1,7 +1,7 @@
 package com.imaleex.esportapp.Models.Personas;
 
 /**
- * <h1>Enum de los Roles</h1></h1>
+ * <h1>Enum de los Roles</h1>
  *
  * @author Alex Cortes
  * @author Aritz Castillo

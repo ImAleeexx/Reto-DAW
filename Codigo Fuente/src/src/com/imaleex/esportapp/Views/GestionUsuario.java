@@ -23,7 +23,7 @@ public class GestionUsuario {
     private JMenuItem jmSalir;
     private JLabel lNombre;
     private JTextField tfUsuario;
-    private JPasswordField tfContraseña;
+    private JPasswordField tfContrasena;
     private JLabel lContrasena;
     private JLabel lTipoUsuario;
     private JComboBox<String> cbTipoUsuario;
@@ -156,8 +156,8 @@ public class GestionUsuario {
                         } else {
                             throw new DbException("El nombre de usuario no es válido");
                         }
-                        if (!String.valueOf(tfContraseña.getPassword()).equals("")) {
-                            usuario.setClave(CryptoUtils.hashFunc(String.valueOf(tfContraseña.getPassword())));
+                        if (!String.valueOf(tfContrasena.getPassword()).equals("")) {
+                            usuario.setClave(CryptoUtils.hashFunc(String.valueOf(tfContrasena.getPassword())));
                         } else {
                             throw new DbException("La contraseña no puede estar vacía");
                         }
@@ -185,8 +185,8 @@ public class GestionUsuario {
                     } else {
                         WindowUtils.showErrorMessage("El nombre de usuario no es válido");
                     }
-                    if (!String.valueOf(tfContraseña.getPassword()).equals("")) {
-                        usuario.setClave(CryptoUtils.hashFunc(String.valueOf(tfContraseña.getPassword())));
+                    if (!String.valueOf(tfContrasena.getPassword()).equals("")) {
+                        usuario.setClave(CryptoUtils.hashFunc(String.valueOf(tfContrasena.getPassword())));
                     } else {
                         WindowUtils.showErrorMessage("La contraseña no puede estar vacía");
                     }

@@ -5,7 +5,7 @@ import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Models.Equipo;
 
 /**
- * <h1>Clase Jornada</h1></h1>
+ * <h1>Clase Jornada</h1>
  *
  * @author Alex Cortes
  * @author Aritz Castillo

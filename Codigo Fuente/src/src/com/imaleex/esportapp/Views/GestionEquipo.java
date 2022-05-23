@@ -30,7 +30,7 @@ public class GestionEquipo {
     private JTextField tfEquipo;
     private JLabel lEntrenador;
     private JLabel lAsistente;
-    private JLabel lDueño;
+    private JLabel lDueno;
     private JButton bBuscar;
     private JButton bAnadir;
     private JPanel jpEscondido;
@@ -299,6 +299,7 @@ public class GestionEquipo {
     }
     /**
      * Metodo llena los comboBox de entrenador y dueno
+     * @throws DbException cuando hay un error en la base de datos
      */
     private void llenarCB() throws  DbException {
 

@@ -161,7 +161,7 @@
           <text value="Asistente"/>
         </properties>
       </component>
-      <component id="96798" class="javax.swing.JLabel" binding="lDueño">
+      <component id="96798" class="javax.swing.JLabel" binding="lDueno">
         <constraints>
           <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>

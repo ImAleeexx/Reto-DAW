@@ -1,7 +1,7 @@
 package com.imaleex.esportapp.Models.Personas;
 
 /**
- * <h1>Clase padre Pesrona</h1></h1>
+ * <h1>Clase padre Pesrona</h1>
  *
  * @author Alex Cortes
  * @author Aritz Castillo

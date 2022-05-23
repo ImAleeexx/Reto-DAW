@@ -369,7 +369,7 @@ public class EquipoDAO {
      * Metodo para cargar un objeto de la base de datos
      * @param equipo Equipo a cargar
      * @param rs ResultSet con los datos del equipo
-     * @throws SQLException
+     * @throws SQLException si hay un error en la base de datos o en la conexion
      */
     private static void loadObject(Equipo equipo, ResultSet rs) throws SQLException {
         equipo.setId(rs.getInt("id"));

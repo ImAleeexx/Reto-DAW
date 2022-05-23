@@ -76,7 +76,7 @@ public class UserController {
 
     /**
      * Lista de los partidos de la jornada
-     * @param jornada
+     * @param jornada jornada a buscar
      * @return lista de los partidos de la jornada
      * @throws DbException error al optener la lista de partidos
      */

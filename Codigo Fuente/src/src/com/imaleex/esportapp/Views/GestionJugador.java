@@ -332,6 +332,7 @@ public class GestionJugador {
     /**
      * Metodo que busca un equipo por su id en la lista local de equipos
      * @param id    id del equipo a buscar
+     * @return      devuelve el equipo encontrado
      */
     public Equipo searchEquipoOnList(int id) {
         for (Equipo equipo : equipos) {

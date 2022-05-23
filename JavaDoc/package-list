@@ -1,0 +1,11 @@
+com.imaleex.esportapp
+com.imaleex.esportapp.Controllers
+com.imaleex.esportapp.Db
+com.imaleex.esportapp.Db.Dao
+com.imaleex.esportapp.Db.Dao.Personas
+com.imaleex.esportapp.Exceptions
+com.imaleex.esportapp.Models
+com.imaleex.esportapp.Models.Personas
+com.imaleex.esportapp.Models.Users
+com.imaleex.esportapp.Utils
+com.imaleex.esportapp.Views
