@@ -1,6 +1,7 @@
 package com.imaleex.esportapp.Db.Dao;
 
 import com.imaleex.esportapp.Db.Db;
+import com.imaleex.esportapp.Exceptions.DataNotFoundException;
 import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Models.Equipo;
 import com.imaleex.esportapp.Models.Jornada;
@@ -12,9 +13,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+/**
+ * <h1>DAO de objeto partido</h1></h1>
+ *
+ * @author Alex Cortes
+ * @author Aritz Castillo
+ * @version 1.0
+ */
 public class PartidoDAO {
 
+    /**
+     * Metodo para buscar un partido por su id
+     * @param id id del partido
+     * @return Partido con el id pasado por parametro
+     * @throws DataNotFoundException si no se encuentra el partido
+     */
     public static Partido searchPartido(int id) throws DbException {
         String sql = "SELECT * FROM partidos  WHERE id LIKE ? ";
         Partido partido = new Partido();
@@ -53,6 +66,11 @@ public class PartidoDAO {
         return partido;
     }
 
+    /**
+     * Metodo para insertar un partido
+     * @param partido partido que vamos a insertar
+     * @throws DataNotFoundException si se da un error al insertar el partido
+     */
     public static Partido insertPartido(Partido partido) throws DbException {
         String sql = "INSERT INTO partidos (id_local, id_visitante, hora, resultado_local, resultado_visitante, id_jornada) VALUES (?,?,?,?,?,?)";
         try {
@@ -77,6 +95,11 @@ public class PartidoDAO {
         }
     }
 
+    /**
+     * Metodo para actualizar un partido
+     * @param partido partido que vamos a actualizar
+     * @throws DataNotFoundException si nos da un error al actualizar
+     */
     public static void updatePartido(Partido partido) throws DbException {
         String sql = "UPDATE partidos SET id_local = ?, id_visitante = ?, hora = ?, resultado_local = ?, resultado_visitante = ?, id_jornada = ? WHERE id = ?";
         try {
@@ -97,6 +120,11 @@ public class PartidoDAO {
         }
     }
 
+    /**
+     * Metodo para eliminar un partido
+     * @param partido partido que queremos eliminar
+     * @throws DataNotFoundException si nos da un error al eliminar el partido
+     */
     public static void deletePartido(Partido partido) throws DbException {
         String sql = "DELETE FROM partidos WHERE id = ?";
         try {
@@ -111,6 +139,10 @@ public class PartidoDAO {
         }
     }
 
+    /**
+     * Metodo para eliminar todos los partidos
+     * @throws DataNotFoundException si nnos da un error al eliminar todos los partidos
+     */
     public static void deleteAllPartidos() throws DbException {
         String sql = "DELETE FROM partidos";
         try {
@@ -122,6 +154,12 @@ public class PartidoDAO {
         }
     }
 
+    /**
+     * Metodo para listar todos los partidos de una jornada
+     * @param jornada jornada de la que queremos listar los partidos
+     * @return lista de los partidos de la jornada
+     * @throws DataNotFoundException si no se encuentran los partidos de la jornada
+     */
     public static ArrayList<Partido> listaPartidosByJornada(Jornada jornada) throws DbException {
         ArrayList<Partido> partidos = new ArrayList<>();
         String sql = "SELECT * FROM partidos WHERE id_jornada = ?";
@@ -136,7 +174,11 @@ public class PartidoDAO {
         return partidos;
     }
 
-
+    /**
+     * Metodo para buscar partidos jugados
+     * @return lista con los partidos jugados
+     * @throws DataNotFoundException si no se encuentran los partidos jugados
+     */
     public static ArrayList<Partido> listaPartidosJugados() throws DbException {
         ArrayList<Partido> partidos = new ArrayList<>();
         String sql = "SELECT * FROM partidos WHERE resultado_local IS NOT NULL AND resultado_visitante IS NOT NULL";
@@ -150,6 +192,12 @@ public class PartidoDAO {
         return partidos;
     }
 
+    /**
+     * Metodo para cargar la lista de partidos usados en el metodo @link{listaPartidosJugados} y @link{listaPartidosByJornada}
+     * @param partidos id de la jornada
+     * @param stmt conexion a la base de datos
+     * @throws DataNotFoundException si nos da un error al cargar la lista de partidos
+     */
     private static void loadListaPartidos(ArrayList<Partido> partidos, PreparedStatement stmt) throws SQLException {
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {

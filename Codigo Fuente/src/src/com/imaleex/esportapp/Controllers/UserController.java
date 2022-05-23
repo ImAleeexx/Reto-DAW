@@ -11,9 +11,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
+ * <h1>Controlador del Usuario</h1>
+ *
  * @author Alex Cortes
+ * @author Aritz Castillo
+ * @version 1.0
  */
 public class UserController {
+    /**
+     * Genera la classificacion de la liga para despues mostrarla en la vista
+     * @return Objeto con la clasificacion
+     */
     public static Object[][] generateClasificacion() throws DbException {
         ArrayList<Partido> listaPartidos = PartidoDAO.listaPartidosJugados();
         ArrayList<Equipo> listaEquipos = listaEquipos();
@@ -56,10 +64,19 @@ public class UserController {
         return clasificacion;
     }
 
+    /**
+     * Lista de los jugadores de la base de datos
+     * @return lista de los equipos
+     */
     private static ArrayList<Equipo> listaEquipos() throws DbException {
         return EquipoDAO.listEquipos();
     }
 
+    /**
+     * Lista de los partidos de la jornada
+     * @param jornada
+     * @return lista de los partidos de la jornada
+     */
     public static ArrayList<Partido> listaPartidosByJornada(Jornada jornada) throws DbException {
         return PartidoDAO.listaPartidosByJornada(jornada);
     }
