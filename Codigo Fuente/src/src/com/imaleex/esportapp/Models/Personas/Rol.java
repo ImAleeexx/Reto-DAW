@@ -10,7 +10,7 @@ public enum Rol {
     SUPPORT ("Support"),
     LURKER ("Lurker");
 
-    private String nombre;
+    private final String nombre;
 
     Rol(String nombre) {
         this.nombre = nombre;

@@ -57,11 +57,7 @@ public class Db {
 
     private  boolean dbTestConnection(){
         try {
-            if (!this.connection.isClosed()){
-                return true;
-            } else{
-                return false;
-            }
+            return !this.connection.isClosed();
         } catch (SQLException e) {
 
             e.printStackTrace();

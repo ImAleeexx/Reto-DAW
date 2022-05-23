@@ -17,7 +17,7 @@ public class IntroduccionResultados extends JDialog {
     private JLabel lLocal;
     private JLabel lVisitante;
     private Partido partido;
-    private VerJornada vj;
+    private final VerJornada vj;
     public IntroduccionResultados(int idPartido, VerJornada vj) {
         try {
             partido = AdminController.buscarPartidoId(idPartido);

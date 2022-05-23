@@ -51,7 +51,7 @@ public class Validator {
         try{
             int dniInt = Integer.parseInt(dni.substring(0, dni.length() - 1));
             String dniLetter = dni.substring(dni.length()-1);
-            char dniChars[] = {'T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'};
+            char[] dniChars = {'T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'};
             int moduleDni = dniInt%23;
             return dniLetter.equalsIgnoreCase(String.valueOf(dniChars[moduleDni]));
         } catch (Exception e) {
