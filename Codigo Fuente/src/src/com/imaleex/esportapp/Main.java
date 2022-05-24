@@ -5,6 +5,7 @@ import com.imaleex.esportapp.Exceptions.DbException;
 import com.imaleex.esportapp.Exceptions.UserNotFoundException;
 import com.imaleex.esportapp.Models.Users.Usuario;
 import com.imaleex.esportapp.Utils.CryptoUtils;
+import com.imaleex.esportapp.Utils.WindowUtils;
 import com.imaleex.esportapp.Views.AdminView;
 import com.imaleex.esportapp.Views.Login;
 import com.imaleex.esportapp.Views.UserView;
@@ -37,6 +38,7 @@ public class Main {
             Db db = Db.getInstance(1);
             System.out.println("Conectado a la base de datos");
         } catch (DbException e) {
+            WindowUtils.showErrorMessage(e.getMessage());
             e.printStackTrace();
             System.exit(1);
         }
