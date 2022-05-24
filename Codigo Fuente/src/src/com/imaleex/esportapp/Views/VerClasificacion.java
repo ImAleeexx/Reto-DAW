@@ -43,7 +43,13 @@ public class VerClasificacion extends JFrame {
         DefaultTableModel model = new DefaultTableModel(null, columnNames);
         // creo la tabla con el modelo de datos creado
         // la tabla
-        JTable table = new JTable(model);
+        JTable table = new JTable(model){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         table.getColumnModel().getColumn(0).setPreferredWidth(10);
         table.getColumnModel().getColumn(1).setPreferredWidth(100);

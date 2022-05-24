@@ -80,8 +80,11 @@ public class AdminController extends UserController {
      */
     public static void insertjugador(Jugador jugador) throws DbException {
         assert Main.user.getType() == 1;
-        if (sueldoTotalJugadores() + jugador.getSueldo() > 2000000) {
+        if (sueldoTotalJugadores() + jugador.getSueldo() > 200000) {
             throw new DbException("No se puede insertar el jugador porque sobrepasaría el sueldo máximo");
+        }
+        if (jugador.getSueldo() < 1166) {
+            throw new DbException("El sueldo debe ser mayor que 1.000");
         }
         JugadorDAO.insertJugador(jugador);
     }

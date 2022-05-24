@@ -119,8 +119,8 @@ public class JugadorDAO {
             stmt.setString(1, jugador.getNickname());
             stmt.setDouble(2, jugador.getSueldo());
             try {
-                if (jugador.getEquipo().getJugadores().size() >= 6) {
-                    stmt.setObject(4, jugador.getEquipo().getId(), java.sql.Types.INTEGER);
+                if (jugador.getEquipo().getJugadores().size() < 6) {
+                    stmt.setObject(3, jugador.getEquipo().getId(), java.sql.Types.INTEGER);
                 } else {
                     throw new DbException("El equipo tiene demasiados jugadores");
                 }
@@ -166,12 +166,8 @@ public class JugadorDAO {
             java.sql.PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, jugador.getId());
             //Borramos la persona asociada a la id
-            int rows = stmt.executeUpdate();
-            if (rows > 0) {
-                PersonaDAO.deletePersona(jugador);
-            } else {
-                throw new DbException("No se ha podido borrar el jugador");
-            }
+            stmt.executeUpdate();
+            PersonaDAO.deletePersona(jugador);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DbException("Error al borrar el jugador");
