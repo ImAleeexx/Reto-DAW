@@ -23,7 +23,9 @@
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <borderPainted value="true"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="f6ea7" class="javax.swing.JMenuItem" binding="jmUltimaJornada">
@@ -31,6 +33,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <armed value="false"/>
               <text value="Ultima Jornada"/>
             </properties>
           </component>
@@ -55,7 +58,9 @@
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <popupMenuVisible value="false"/>
               <text value="Gestion"/>
+              <verifyInputWhenFocusTarget value="true"/>
             </properties>
             <border type="none"/>
             <children>
