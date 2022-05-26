@@ -67,7 +67,7 @@ Reto final en el cual hay que hacer una aplicacion que gestiona un liga de E-Spo
 - [x] Fase 3 
     - [x] Codificación de clases sobre el modelo
 - [x] Fase 4
-- [ ] Fase 5
+- [x] Fase 5
 
 
 <p align="right">(<a href="#top">Volver arriba</a>)</p>
