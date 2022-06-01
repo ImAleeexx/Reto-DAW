@@ -172,7 +172,7 @@ public class PartidoDAO {
             loadListaPartidos(partidos, stmt);
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
+        } catch (NullPointerException ignored) {}
         return partidos;
     }
 

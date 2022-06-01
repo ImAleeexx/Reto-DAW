@@ -112,24 +112,28 @@ public class AdminView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Generar jugadores Random
+                Main.generatePlayers();
             }
         });
         bGenerarEntrenadores.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Generar entrenadores Random
+                Main.generateEntrenadores();
             }
         });
         bGenerarDuenos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Generar duenos Random
+                Main.generateDuenos();
             }
         });
         bGenerarEquipos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Generar equipos Random
+                Main.generateTeams();
             }
         });
     }

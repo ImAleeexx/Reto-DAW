@@ -1,5 +1,8 @@
 package com.imaleex.esportapp.Utils;
 
+import com.imaleex.esportapp.Models.Personas.Rol;
+
+import java.text.Normalizer;
 import java.util.Random;
 
 /**
@@ -128,6 +131,39 @@ public class Faker {
     public static int randomPosNumber(int max) {
         Random rand = new Random();
         return rand.nextInt(max);
+    }
+    public static String getUsernameName(String name) {
+        String nameWithoutAccent = Normalizer.normalize(name, Normalizer.Form.NFD);
+        nameWithoutAccent = nameWithoutAccent.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        return nameWithoutAccent.replaceAll(" ", "").toLowerCase();
+    }
+
+    public static String getEmail(String name) {
+
+        return getUsernameName(name)+"@gmail.com";
+    }
+    public static String getRandomUsername(String name) {
+        name = getUsernameName(name);
+        switch (randomPosNumber(3)) {
+            case 0:
+                return name + randomPosNumber(100);
+            case 1:
+                return "xX" + name + randomPosNumber(100) + "Xx";
+            case 2:
+                return  name + "_" + randomPosNumber(100);
+            default:
+                return name;
+        }
+    }
+
+    public static int randomNumberBetween(int min, int max) {
+        Random rand = new Random();
+        return rand.nextInt(max - min + 1) + min;
+    }
+
+    public static Object randomElement(Object[] values) {
+        Random rand = new Random();
+        return values[rand.nextInt(values.length)];
     }
 }
 
