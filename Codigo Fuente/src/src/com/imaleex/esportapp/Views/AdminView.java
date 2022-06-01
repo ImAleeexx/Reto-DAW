@@ -102,6 +102,10 @@ public class AdminView {
                 try {
                     if (WindowUtils.inputBoolean("¿Está seguro de que desea generar el calendario?")) {
                         AdminController.generateMatchCalendar();
+                        WindowUtils.showInfoMessage("Se ha generado el calendario correctamente");
+                        JFrame frame = (JFrame) SwingUtilities.getRoot(jpAdmin);
+                        frame.dispose();
+                        Main.mostrarVentana();
                     }
                 } catch (DbException ex) {
                     WindowUtils.showErrorMessage(ex.getMessage());

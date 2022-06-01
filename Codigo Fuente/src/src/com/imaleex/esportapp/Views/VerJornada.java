@@ -182,6 +182,9 @@ public class VerJornada extends JFrame {
 
         ArrayList<Partido> partidos;
         try {
+            if (this.jornada == null) {
+                jornada = getNearestJornada();
+            }
             partidos = PartidoDAO.listaPartidosByJornada(jornada);
         } catch (DbException e) {
             throw new RuntimeException(e);
